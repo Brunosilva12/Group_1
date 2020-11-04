@@ -53,7 +53,7 @@ font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
 gameOverSound = pygame.mixer.Sound('Gover.wav')
-pygame.mixer.music.load('Final.wav')
+pygame.mixer.Sound('Final.wav')
 
 # Set up images.
 playerImage = pygame.image.load('player.png')
