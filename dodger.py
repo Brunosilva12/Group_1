@@ -56,7 +56,7 @@ gameOverSound = pygame.mixer.Sound('Gover.wav')
 pygame.mixer.Sound('Final.wav')
 
 # Set up images.
-playerImage = pygame.image.load('player.png')
+playerImage = pygame.image.load('baddie.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('mehdi.jpg')
 
