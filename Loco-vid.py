@@ -1,5 +1,5 @@
-#import pygame, random, sys
-#from pygame.locals import *
+import pygame, random, sys
+from pygame.locals import *
 
 WINDOWWIDTH = 600 # Taille de l'écran
 WINDOWHEIGHT = 600
@@ -58,7 +58,7 @@ pygame.mixer.music.load('background.mid')
 # Set up images.
 playerImage = pygame.image.load('player.png')
 playerRect = playerImage.get_rect()
-baddieImage = pygame.image.load('mehdi.jpg')
+baddieImage = pygame.image.load('baddie.jpg')
 
 # Show the "Start" screen.
 windowSurface.fill(BACKGROUNDCOLOR)
