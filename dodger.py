@@ -1,11 +1,13 @@
 import pygame, random, sys
 from pygame.locals import *
 
-WINDOWWIDTH = 600
+WINDOWWIDTH = 600 # Taille de l'écran
 WINDOWHEIGHT = 600
-TEXTCOLOR = (0, 0, 0)
-BACKGROUNDCOLOR = (255, 255, 255)
-FPS = 60
+TEXTCOLOR = (0, 0, 0) # Couleur du text
+BACKGROUNDCOLOR = (255, 255, 255)  # Couleur du fond
+FPS = 60            # Nombre d'image par secondes
+
+# Paramètres des entités
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
@@ -13,11 +15,11 @@ BADDIEMAXSPEED = 8
 ADDNEWBADDIERATE = 6
 PLAYERMOVERATE = 5
 
-def terminate():
+def terminate():  #  Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
-def waitForPlayerToPressKey():
+def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
