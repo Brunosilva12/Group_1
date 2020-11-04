@@ -58,7 +58,7 @@ pygame.mixer.music.load('background.mid')
 # Set up images.
 playerImage = pygame.image.load('player.png')
 playerRect = playerImage.get_rect()
-baddieImage = pygame.image.load('baddie.jpg')
+baddieImage = pygame.image.load('baddie.png')
 
 # Show the "Start" screen.
 windowSurface.fill(BACKGROUNDCOLOR)
