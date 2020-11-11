@@ -4,7 +4,7 @@ from pygame.locals import *
 WINDOWWIDTH = 800 # Taille de l'écran
 WINDOWHEIGHT = 800
 TEXTCOLOR = (255, 255, 255) # Couleur du text
-BACKGROUNDCOLOR = (0, 0, 0)  # Couleur du fond
+BACKGROUND = pygame.image.load('brouillard.jpg') # fond
 FPS = 60            # Nombre d'image par secondes
 
 # Paramètres des entités
@@ -72,7 +72,7 @@ baddieImage = pygame.image.load('virus.png')
 hospImage = pygame.image.load('hosp.png')
 
 # Show the "Start" screen.
-windowSurface.fill(BACKGROUNDCOLOR)
+windowSurface.fill((0, 0, 0))
 drawText('Loco-vid', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -202,7 +202,8 @@ while True:
                 baddies.remove(b)
 
         # Draw the game world on the window.
-        windowSurface.fill(BACKGROUNDCOLOR)
+        windowSurface.fill((0, 0, 0))
+        windowSurface.blit(BACKGROUND, (0, 0))
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
