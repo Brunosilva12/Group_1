@@ -213,7 +213,7 @@ while True:
         windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
         if rel_x < WINDOWHEIGHT:
             windowSurface.blit(BACKGROUND, (0, rel_x))
-        x -= 1
+        x += 1
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
