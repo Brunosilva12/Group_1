@@ -32,8 +32,9 @@ click = False
 def main_menu():
     while True :
         windowSurface.fill((0,0,0))
-        draw_text("Main menu",font,(255,255,255),windowSurface, 20,20)
-
+        menu = pygame.image.load("menu 1.jpg").convert() #importer image
+        draw_text("Main menu",font,(255,255,255),windowSurface, 20,20) #2 facons
+        pygame.display.set_caption("Main menu")#2 facon d'écrire le titre
         mx,my =pygame.mouse.get_pos()
         button1 = pygame.Rect(50,100,200,50)
         button2 = pygame.Rect(50, 200, 200, 50)

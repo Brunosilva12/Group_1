@@ -69,6 +69,7 @@ pygame.display.update()
 waitForPlayerToPressKey()
 
 topScore = 0
+
 while True:
     # Set up the start of the game.
     baddies = []
