@@ -58,7 +58,7 @@ pygame.mixer.music.load('Final.wav')
 # Set up images.
 playerImage = pygame.image.load('baddie.png')
 playerRect = playerImage.get_rect()
-baddieImage = pygame.image.load('virus.png')
+baddieImage = pygame.image.load('hosp.png')
 
 # Show the "Start" screen.
 windowSurface.fill(BACKGROUNDCOLOR)
