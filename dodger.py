@@ -57,7 +57,7 @@ windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
 pygame.mouse.set_visible(False)
 
-BACKGROUND = pygame.image.load('brouillard2.png').convert()# fond
+BACKGROUND = pygame.image.load('fond.png').convert()# fond
 x = 0
 
 # Set up the fonts.
