@@ -57,7 +57,7 @@ windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
 pygame.mouse.set_visible(False)
 
-BACKGROUND = pygame.image.load('brouillard.jpg').convert()# fond
+BACKGROUND = pygame.image.load('brouillard2.png').convert()# fond
 x = 0
 
 # Set up the fonts.
@@ -209,10 +209,10 @@ while True:
         windowSurface.fill((0, 0, 0))
 
         #Background image
-        rel_x = x % BACKGROUND.get_rect().width
-        windowSurface.blit(BACKGROUND, (rel_x - BACKGROUND.get_rect().width, 0))
-        if rel_x < WINDOWWIDTH:
-            windowSurface.blit(BACKGROUND, (rel_x, 0))
+        rel_x = x % BACKGROUND.get_rect().height
+        windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
+        if rel_x < WINDOWHEIGHT:
+            windowSurface.blit(BACKGROUND, (0, rel_x))
         x -= 1
 
         # Draw the score and top score.
