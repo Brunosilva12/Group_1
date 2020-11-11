@@ -1,8 +1,8 @@
 import pygame, random, sys
 from pygame.locals import *
 
-WINDOWWIDTH = 800 # Taille de l'écran
-WINDOWHEIGHT = 800
+WINDOWWIDTH = 600 # Taille de l'écran
+WINDOWHEIGHT = 600
 TEXTCOLOR = (255, 255, 255) # Couleur du text
 FPS = 60            # Nombre d'image par secondes
 
