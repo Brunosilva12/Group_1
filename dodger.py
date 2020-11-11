@@ -4,7 +4,6 @@ from pygame.locals import *
 WINDOWWIDTH = 800 # Taille de l'écran
 WINDOWHEIGHT = 800
 TEXTCOLOR = (255, 255, 255) # Couleur du text
-BACKGROUND = pygame.image.load('brouillard.jpg') # fond
 FPS = 60            # Nombre d'image par secondes
 
 # Paramètres des entités
@@ -58,6 +57,9 @@ windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
 pygame.mouse.set_visible(False)
 
+BACKGROUND = pygame.image.load('brouillard.jpg').convert()# fond
+x = 0
+
 # Set up the fonts.
 font = pygame.font.SysFont(None, 48)
 
@@ -78,6 +80,8 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (
 pygame.display.update()
 waitForPlayerToPressKey()
 
+
+############# START ####################
 topScore = 0
 while True:
     # Set up the start of the game.
@@ -203,7 +207,13 @@ while True:
 
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
-        windowSurface.blit(BACKGROUND, (0, 0))
+
+        #Background image
+        rel_x = x % BACKGROUND.get_rect().width
+        windowSurface.blit(BACKGROUND, (rel_x - BACKGROUND.get_rect().width, 0))
+        if rel_x < WINDOWWIDTH:
+            windowSurface.blit(BACKGROUND, (rel_x, 0))
+        x -= 1
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
