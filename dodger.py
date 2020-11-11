@@ -11,8 +11,8 @@ FPS = 60            # Nombre d'image par secondes
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
-BADDIEMAXSPEED = 8
-ADDNEWBADDIERATE = 6
+BADDIEMAXSPEED = 3
+ADDNEWBADDIERATE = 20
 PLAYERMOVERATE = 5
 
 def terminate():  #  Fermer la fenêtre du jeu
