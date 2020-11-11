@@ -8,12 +8,19 @@ BACKGROUNDCOLOR = (255, 255, 255)  # Couleur du fond
 FPS = 60            # Nombre d'image par secondes
 
 # Paramètres des entités
+HOSPMINSIZE = 40
+HOSPMAXSIZE = 100
+FALLSPEED = 10
+ADDNEWHOSPRATE = 40
+
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
-BADDIEMINSPEED = 1
-BADDIEMAXSPEED = 3
+MINSPEED = 1
+MAXSPEED = 3
 ADDNEWBADDIERATE = 20
+
 PLAYERMOVERATE = 5
+
 
 def terminate():  #  Fermer la fenêtre du jeu
     pygame.quit()
@@ -29,7 +36,10 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                     terminate()
                 return
 
-def playerHasHitBaddie(playerRect, baddies):
+def playerHasHitBaddie(playerRect, baddies, hops):
+    for c in hops :
+        if playerRect.colliderect(c['rect']):
+            return  True
     for b in baddies:
         if playerRect.colliderect(b['rect']):
             return True
@@ -58,7 +68,8 @@ pygame.mixer.music.load('Final.wav')
 # Set up images.
 playerImage = pygame.image.load('baddie.png')
 playerRect = playerImage.get_rect()
-baddieImage = pygame.image.load('hosp.png')
+baddieImage = pygame.image.load('virus.png')
+hospImage = pygame.image.load('hosp.png')
 
 # Show the "Start" screen.
 windowSurface.fill(BACKGROUNDCOLOR)
@@ -71,11 +82,14 @@ topScore = 0
 while True:
     # Set up the start of the game.
     baddies = []
+    hosp = []
     score = 0
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
     moveLeft = moveRight = moveUp = moveDown = False
     reverseCheat = slowCheat = False
     baddieAddCounter = 0
+    hospAddCounter = 0
+
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
@@ -127,13 +141,23 @@ while True:
                 playerRect.centerx = event.pos[0]
                 playerRect.centery = event.pos[1]
         # Add new baddies at the top of the screen, if needed.
+
         if not reverseCheat and not slowCheat:
             baddieAddCounter += 1
+            hospAddCounter += 1
+        if hospAddCounter == ADDNEWHOSPRATE :
+            hospAddCounter = 0
+            hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
+            newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
+                        'speed': random.randint(MINSPEED, MAXSPEED),
+                        'surface':pygame.transform.scale(hospImage, (hospSize, hospSize)),
+                        }
+            hosp.append(newHosp)
         if baddieAddCounter == ADDNEWBADDIERATE:
             baddieAddCounter = 0
             baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
             newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize, baddieSize),
-                        'speed': random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
+                        'speed': random.randint(MINSPEED, MAXSPEED),
                         'surface':pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
                         }
 
@@ -150,6 +174,15 @@ while True:
             playerRect.move_ip(0, PLAYERMOVERATE)
 
         # Move the baddies down.
+        for c in hosp:
+            if not reverseCheat and not slowCheat:
+                c['rect'].move_ip(0, c['speed'])
+            elif reverseCheat:
+                c['rect'].move_ip(0, -5)
+            elif slowCheat:
+                c['rect'].move_ip(0, 1)
+
+        # Move the baddies down.
         for b in baddies:
             if not reverseCheat and not slowCheat:
                 b['rect'].move_ip(0, b['speed'])
@@ -157,6 +190,11 @@ while True:
                 b['rect'].move_ip(0, -5)
             elif slowCheat:
                 b['rect'].move_ip(0, 1)
+
+        # Delete hosp that have fallen past the bottom.
+        for c in hosp[:]:
+            if c['rect'].top > WINDOWHEIGHT:
+                hosp.remove(c)
 
         # Delete baddies that have fallen past the bottom.
         for b in baddies[:]:
@@ -173,6 +211,9 @@ while True:
         # Draw the player's rectangle.
         windowSurface.blit(playerImage, playerRect)
 
+        # Draw each hosp.
+        for c in hosp:
+            windowSurface.blit(c['surface'], c['rect'])
         # Draw each baddie.
         for b in baddies:
             windowSurface.blit(b['surface'], b['rect'])
@@ -180,7 +221,7 @@ while True:
         pygame.display.update()
 
         # Check if any of the baddies have hit the player.
-        if playerHasHitBaddie(playerRect, baddies):
+        if playerHasHitBaddie(playerRect, baddies,hosp):
             if score > topScore:
                 topScore = score # set new top score
             break
