@@ -1,7 +1,7 @@
 import pygame, random, sys
 from pygame.locals import *
 
-WINDOWWIDTH = 600 # Taille de l'écran
+WINDOWWIDTH = 800 # Taille de l'écran
 WINDOWHEIGHT = 600
 TEXTCOLOR = (255, 255, 255) # Couleur du text
 FPS = 60            # Nombre d'image par secondes
@@ -95,6 +95,8 @@ while True:
     hospAddCounter = 0
 
     pygame.mixer.music.play(-1, 0.0)
+    pygame.mixer.music.rewind()  # relancer directement la musique
+
 
     while True: # The game loop runs while the game part is playing.
         score += 1 # Increase score.
