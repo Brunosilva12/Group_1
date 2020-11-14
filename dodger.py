@@ -206,17 +206,17 @@ while True:
             windowSurface.blit(BACKGROUND, (0, rel_x))
         x += 1
 
-        # Draw the score and top score.
-        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
-        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
         # Draw the player's rectangle.
         windowSurface.blit(playerImage, playerRect)
 
-
         # Draw each baddie.
         for b in baddies:
             windowSurface.blit(b['surface'], b['rect'])
+
+        # Draw the score and top score.
+        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
+        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
         pygame.display.update()
 
