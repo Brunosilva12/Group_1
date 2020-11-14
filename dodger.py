@@ -13,15 +13,16 @@ HOSPMINSIZE = 40
 HOSPMAXSIZE = 100
 ADDNEWHOSPRATE = 100
 
-BADDIEMINSIZE = 10
-BADDIEMAXSIZE = 40
-MINSPEED = 1
-MAXSPEED = 3
-ADDNEWBADDIERATE = 20
+
+BADDIESIZE = 35
+ADDNEWBADDIERATE = 40
 
 VACCINMINSIZE = 10
 VACCINMAXSIZE = 40
 ADDNEWVACCINRATE = 50
+
+MINSPEED = 1
+MAXSPEED = 3
 
 PLAYERMOVERATE = 5
 
@@ -107,10 +108,6 @@ while True:
     vaccinAddCounter = 0
     hospAddCounter = 0
 
-    baddieAddCounter += 1
-    vaccinAddCounter += 1
-    hospAddCounter += 1
-
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
 
@@ -154,6 +151,11 @@ while True:
                 playerRect.centery = event.pos[1]
         # Add new baddies at the top of the screen, if needed.
 
+
+        baddieAddCounter += 1
+        vaccinAddCounter += 1
+        hospAddCounter += 1
+
         if hospAddCounter == ADDNEWHOSPRATE:
             hospAddCounter = 0
             hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
@@ -164,7 +166,7 @@ while True:
             hosp.append(newHosp)
         if baddieAddCounter == ADDNEWBADDIERATE:
             baddieAddCounter = 0
-            baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
+            baddieSize = BADDIESIZE
             newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize,
                                              baddieSize),
                          'speed': random.randint(MINSPEED, MAXSPEED),
@@ -176,11 +178,10 @@ while True:
         if vaccinAddCounter == ADDNEWVACCINRATE:
             vaccinAddCounter = 0
             vaccinSize = random.randint(VACCINMINSIZE, VACCINMAXSIZE)
-            newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize,
-                                             vaccinSize),
+            newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize, vaccinSize),
                          'speed': random.randint(MINSPEED, MAXSPEED),
                          'surface': pygame.transform.scale(vaccinImage, (vaccinSize, vaccinSize)),
-                         }
+                        }
 
             vaccin.append(newVaccin)
 
@@ -197,6 +198,7 @@ while True:
         # Move the hospitals down.
         for c in hosp:
             c['rect'].move_ip(0, c['speed'])
+
 
         # Move the baddies down.
         for b in baddies:
@@ -232,8 +234,8 @@ while True:
         x += 1
 
         # Draw the score and top score.
-        drawText('Score: %s' % score, font, windowSurface, 10, 0)
-        drawText('Top Score: %s' % topScore, font, windowSurface, 10, 40)
+        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
+        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
         # Draw the player's rectangle.
         windowSurface.blit(playerImage, playerRect)
