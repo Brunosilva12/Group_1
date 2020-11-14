@@ -3,14 +3,14 @@ import random
 import sys
 from pygame.locals import *
 
-WINDOWWIDTH = 800  # Taille de l'écran
+WINDOWWIDTH = 1000  # Taille de l'écran
 WINDOWHEIGHT = 600
 TEXTCOLOR = (255, 255, 255)  # Couleur du text
 FPS = 60  # Nombre d'image par secondes
 
 # Paramètres des entités
-HOSPMINSIZE = 40
-HOSPMAXSIZE = 100
+HOSPMINSIZE = 100
+HOSPMAXSIZE = 150
 ADDNEWHOSPRATE = 100
 
 
@@ -20,8 +20,7 @@ ADDNEWVIRUSRATE = 40
 VACCINSIZE = 35
 ADDNEWVACCINRATE = 50
 
-MINSPEED = 1
-MAXSPEED = 3
+SPEED = 2
 
 PLAYERMOVERATE = 5
 
@@ -151,7 +150,7 @@ while True:
             hospAddCounter = 0
             hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
             newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
-                       'speed': random.randint(MINSPEED, MAXSPEED),
+                       'speed': SPEED,
                        'surface': pygame.transform.scale(hospImage, (hospSize, hospSize)),
                        }
             baddies.append(newHosp)
@@ -160,7 +159,7 @@ while True:
             virusSize = VIRUSSIZE
             newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virusSize), 0 - virusSize, virusSize,
                                              virusSize),
-                         'speed': random.randint(MINSPEED, MAXSPEED),
+                         'speed': SPEED,
                          'surface': pygame.transform.scale(virusImage, (virusSize, virusSize)),
                          }
 
@@ -170,7 +169,7 @@ while True:
             vaccinAddCounter = 0
             vaccinSize = VACCINSIZE
             newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize, vaccinSize),
-                         'speed': random.randint(MINSPEED, MAXSPEED),
+                         'speed': SPEED,
                          'surface': pygame.transform.scale(vaccinImage, (vaccinSize, vaccinSize)),
                         }
 
