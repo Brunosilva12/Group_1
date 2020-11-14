@@ -18,6 +18,12 @@ MINSPEED = 1
 MAXSPEED = 3
 ADDNEWBADDIERATE = 20
 
+VACCINMINSIZE = 10
+VACCINMAXSIZE = 40
+MINSPEED = 1
+MAXSPEED = 3
+ADDNEWVACCINRATE = 20
+
 PLAYERMOVERATE = 5
 
 
@@ -41,6 +47,9 @@ def playerHasHitBaddie(playerRect, baddies, hops):
             return  True
     for b in baddies:
         if playerRect.colliderect(b['rect']):
+            return True
+    for v in vaccin:
+        if playerRect.colliderect(v['rect']):
             return True
     return False
 
@@ -72,6 +81,7 @@ playerImage = pygame.image.load('baddie.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('virus.png')
 hospImage = pygame.image.load('hosp.png')
+vaccinImage = pygame.image.load('vaccin.png')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
@@ -86,12 +96,14 @@ topScore = 0
 while True:
     # Set up the start of the game.
     baddies = []
+    vaccin = []
     hosp = []
     score = 0
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
     moveLeft = moveRight = moveUp = moveDown = False
     reverseCheat = slowCheat = False
     baddieAddCounter = 0
+    vaccinAddCounter = 0
     hospAddCounter = 0
 
     pygame.mixer.music.play(-1, 0.0)
@@ -150,6 +162,7 @@ while True:
 
         if not reverseCheat and not slowCheat:
             baddieAddCounter += 1
+            vaccinAddCounter += 1
             hospAddCounter += 1
         if hospAddCounter == ADDNEWHOSPRATE :
             hospAddCounter = 0
@@ -169,6 +182,16 @@ while True:
 
             baddies.append(newBaddie)
 
+        if vaccinAddCounter == ADDNEWVACCINRATE:
+            vaccinAddCounter = 0
+            vaccinSize = random.randint(VACCINMINSIZE, VACCINMAXSIZE)
+            newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize, vaccinSize),
+                         'speed': random.randint(MINSPEED, MAXSPEED),
+                         'surface': pygame.transform.scale(vaccinImage, (vaccinSize, vaccinSize)),
+                        }
+
+            vaccin.append(newVaccin)
+
         # Move the player around.
         if moveLeft and playerRect.left > 0:
             playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
@@ -179,7 +202,7 @@ while True:
         if moveDown and playerRect.bottom < WINDOWHEIGHT:
             playerRect.move_ip(0, PLAYERMOVERATE)
 
-        # Move the baddies down.
+        # Move the hospitals down.
         for c in hosp:
             if not reverseCheat and not slowCheat:
                 c['rect'].move_ip(0, c['speed'])
@@ -197,6 +220,15 @@ while True:
             elif slowCheat:
                 b['rect'].move_ip(0, 1)
 
+        # Move the vaccins down
+        for v in vaccin:
+            if not reverseCheat and not slowCheat:
+                v['rect'].move_ip(0, v['speed'])
+            elif reverseCheat:
+                v['rect'].move_ip(0, -5)
+            elif slowCheat:
+                v['rect'].move_ip(0, 1)
+
         # Delete hosp that have fallen past the bottom.
         for c in hosp[:]:
             if c['rect'].top > WINDOWHEIGHT:
@@ -206,6 +238,11 @@ while True:
         for b in baddies[:]:
             if b['rect'].top > WINDOWHEIGHT:
                 baddies.remove(b)
+
+        # Delete vaccins that have fallen past the bottom.
+        for v in vaccin[:]:
+            if v['rect'].top > WINDOWHEIGHT:
+                vaccin.remove(v)
 
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
@@ -227,14 +264,19 @@ while True:
         # Draw each hosp.
         for c in hosp:
             windowSurface.blit(c['surface'], c['rect'])
+
         # Draw each baddie.
         for b in baddies:
             windowSurface.blit(b['surface'], b['rect'])
 
+        # Draw each vaccin.
+        for v in vaccin:
+            windowSurface.blit(v['surface'], v['rect'])
+
         pygame.display.update()
 
         # Check if any of the baddies have hit the player.
-        if playerHasHitBaddie(playerRect, baddies,hosp):
+        if playerHasHitBaddie(playerRect, baddies, hosp):
             if score > topScore:
                 topScore = score # set new top score
             break
