@@ -1,10 +1,12 @@
-import pygame, random, sys
+import pygame
+import random
+import sys
 from pygame.locals import *
 
-WINDOWWIDTH = 800 # Taille de l'écran
+WINDOWWIDTH = 800  # Taille de l'écran
 WINDOWHEIGHT = 600
-TEXTCOLOR = (255, 255, 255) # Couleur du text
-FPS = 60            # Nombre d'image par secondes
+TEXTCOLOR = (255, 255, 255)  # Couleur du text
+FPS = 60  # Nombre d'image par secondes
 
 # Paramètres des entités
 HOSPMINSIZE = 40
@@ -27,9 +29,10 @@ ADDNEWVACCINRATE = 20
 PLAYERMOVERATE = 5
 
 
-def terminate():  #  Fermer la fenêtre du jeu
+def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
+
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
@@ -37,14 +40,15 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event.type == QUIT:
                 terminate()
             if event.type == KEYDOWN:
-                if event.key == K_ESCAPE: # Pressing ESC quits.
+                if event.key == K_ESCAPE:  # Pressing ESC quits.
                     terminate()
                 return
 
+
 def playerHasHitBaddie(playerRect, baddies, hops):
-    for c in hops :
+    for c in hops:
         if playerRect.colliderect(c['rect']):
-            return  True
+            return True
     for b in baddies:
         if playerRect.colliderect(b['rect']):
             return True
@@ -53,11 +57,13 @@ def playerHasHitBaddie(playerRect, baddies, hops):
             return True
     return False
 
+
 def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
+
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -66,7 +72,7 @@ windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
 pygame.mouse.set_visible(False)
 
-BACKGROUND = pygame.image.load('fond.png').convert()# fond
+BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 x = 0
 
 # Set up the fonts.
@@ -90,7 +96,6 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (
 pygame.display.update()
 waitForPlayerToPressKey()
 
-
 ############# START ####################
 topScore = 0
 while True:
@@ -101,7 +106,6 @@ while True:
     score = 0
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
     moveLeft = moveRight = moveUp = moveDown = False
-    reverseCheat = slowCheat = False
     baddieAddCounter = 0
     vaccinAddCounter = 0
     hospAddCounter = 0
@@ -109,19 +113,14 @@ while True:
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
 
-
-    while True: # The game loop runs while the game part is playing.
-        score += 1 # Increase score.
+    while True:  # The game loop runs while the game part is playing.
+        score += 1  # Increase score.
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
 
             if event.type == KEYDOWN:
-                if event.key == K_z:
-                    reverseCheat = True
-                if event.key == K_x:
-                    slowCheat = True
                 if event.key == K_LEFT or event.key == K_a:
                     moveRight = False
                     moveLeft = True
@@ -136,14 +135,8 @@ while True:
                     moveDown = True
 
             if event.type == KEYUP:
-                if event.key == K_z:
-                    reverseCheat = False
-                    score = 0
-                if event.key == K_x:
-                    slowCheat = False
-                    score = 0
                 if event.key == K_ESCAPE:
-                        terminate()
+                    terminate()
 
                 if event.key == K_LEFT or event.key == K_a:
                     moveLeft = False
@@ -160,25 +153,27 @@ while True:
                 playerRect.centery = event.pos[1]
         # Add new baddies at the top of the screen, if needed.
 
-        if not reverseCheat and not slowCheat:
-            baddieAddCounter += 1
-            vaccinAddCounter += 1
-            hospAddCounter += 1
-        if hospAddCounter == ADDNEWHOSPRATE :
+
+        baddieAddCounter += 1
+        vaccinAddCounter += 1
+        hospAddCounter += 1
+
+        if hospAddCounter == ADDNEWHOSPRATE:
             hospAddCounter = 0
             hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
             newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
-                        'speed': random.randint(MINSPEED, MAXSPEED),
-                        'surface':pygame.transform.scale(hospImage, (hospSize, hospSize)),
-                        }
+                       'speed': random.randint(MINSPEED, MAXSPEED),
+                       'surface': pygame.transform.scale(hospImage, (hospSize, hospSize)),
+                       }
             hosp.append(newHosp)
         if baddieAddCounter == ADDNEWBADDIERATE:
             baddieAddCounter = 0
             baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
-            newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize, baddieSize),
-                        'speed': random.randint(MINSPEED, MAXSPEED),
-                        'surface':pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
-                        }
+            newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize,
+                                             baddieSize),
+                         'speed': random.randint(MINSPEED, MAXSPEED),
+                         'surface': pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
+                         }
 
             baddies.append(newBaddie)
 
@@ -204,30 +199,16 @@ while True:
 
         # Move the hospitals down.
         for c in hosp:
-            if not reverseCheat and not slowCheat:
-                c['rect'].move_ip(0, c['speed'])
-            elif reverseCheat:
-                c['rect'].move_ip(0, -5)
-            elif slowCheat:
-                c['rect'].move_ip(0, 1)
+            c['rect'].move_ip(0, c['speed'])
+
 
         # Move the baddies down.
         for b in baddies:
-            if not reverseCheat and not slowCheat:
-                b['rect'].move_ip(0, b['speed'])
-            elif reverseCheat:
-                b['rect'].move_ip(0, -5)
-            elif slowCheat:
-                b['rect'].move_ip(0, 1)
+            b['rect'].move_ip(0, b['speed'])
 
         # Move the vaccins down
         for v in vaccin:
-            if not reverseCheat and not slowCheat:
-                v['rect'].move_ip(0, v['speed'])
-            elif reverseCheat:
-                v['rect'].move_ip(0, -5)
-            elif slowCheat:
-                v['rect'].move_ip(0, 1)
+            v['rect'].move_ip(0, v['speed'])
 
         # Delete hosp that have fallen past the bottom.
         for c in hosp[:]:
@@ -247,7 +228,7 @@ while True:
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
 
-        #Background image
+        # Background image
         rel_x = x % BACKGROUND.get_rect().height
         windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
         if rel_x < WINDOWHEIGHT:
@@ -278,7 +259,7 @@ while True:
         # Check if any of the baddies have hit the player.
         if playerHasHitBaddie(playerRect, baddies, hosp):
             if score > topScore:
-                topScore = score # set new top score
+                topScore = score  # set new top score
             break
 
         mainClock.tick(FPS)
