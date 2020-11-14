@@ -17,8 +17,7 @@ ADDNEWHOSPRATE = 100
 BADDIESIZE = 35
 ADDNEWBADDIERATE = 40
 
-VACCINMINSIZE = 10
-VACCINMAXSIZE = 40
+VACCINSIZE = 35
 ADDNEWVACCINRATE = 50
 
 MINSPEED = 1
@@ -177,7 +176,7 @@ while True:
 
         if vaccinAddCounter == ADDNEWVACCINRATE:
             vaccinAddCounter = 0
-            vaccinSize = random.randint(VACCINMINSIZE, VACCINMAXSIZE)
+            vaccinSize = VACCINSIZE
             newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize, vaccinSize),
                          'speed': random.randint(MINSPEED, MAXSPEED),
                          'surface': pygame.transform.scale(vaccinImage, (vaccinSize, vaccinSize)),
