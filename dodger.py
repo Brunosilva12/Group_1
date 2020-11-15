@@ -1,6 +1,4 @@
-import pygame
-import random
-import sys
+import pygame, random, sys
 from pygame.locals import *
 
 WINDOWWIDTH = 1000  # Taille de l'écran
