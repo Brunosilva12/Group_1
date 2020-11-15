@@ -75,9 +75,9 @@ def drawText(text, font, surface, x, y):
 
 def drawHealthMeter(currentHealth):
     for i in range(currentHealth):
-        pygame.draw.rect(windowSurface, RED, (900, 5 + (10 * MAXHEALTH) - i * 10, 30, 7))
+        pygame.draw.rect(windowSurface, RED, (900, 5 + (10 * MAXHEALTH) - i * 10, 30, 10))
     for i in range(MAXHEALTH):
-        pygame.draw.rect(windowSurface, WHITE, (900, 5 + (10 * MAXHEALTH) - i * 10, 30, 7))
+        pygame.draw.rect(windowSurface, WHITE, (900, 5 + (10 * MAXHEALTH) - i * 10, 30, 10), 1)
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -285,6 +285,9 @@ while True:
         if playerHitVaccine(playerRect, vaccines):
             if score > topScore:
                 topScore -= 100     # subtract 100 to the topScore
+            MAXHEALTH -= 1
+            if MAXHEALTH == 0:
+                break
 
         mainClock.tick(FPS)
 
