@@ -6,6 +6,9 @@ WINDOWHEIGHT = 600
 TEXTCOLOR = (255, 255, 255)  # Couleur du text
 FPS = 60  # Nombre d'image par secondes
 
+RED = (255, 0, 0)
+WHITE = (255, 255, 255)
+
 # Paramètres des entités
 HOSPMINSIZE = 100
 HOSPMAXSIZE = 150
@@ -20,6 +23,7 @@ ADDNEWVACCINRATE = 50
 SPEED = 2
 
 PLAYERMOVERATE = 5
+MAXHEALTH = 3
 
 
 def terminate():  # Fermer la fenêtre du jeu
@@ -63,6 +67,11 @@ def drawText(text, font, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
+def drawHealthMeter(currentHealth):
+    for i in range(currentHealth):
+        pygame.draw.rect(windowSurface, RED, (900, 5 + (10 * MAXHEALTH) - i * 10, 30, 7))
+    for i in range(MAXHEALTH):
+        pygame.draw.rect(windowSurface, WHITE, (900, 5 + (10 * MAXHEALTH) - i * 10, 30, 7))
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -254,6 +263,7 @@ while True:
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
+        drawHealthMeter(2)
         pygame.display.update()
 
         # Check if any of the baddies have hit the player.
