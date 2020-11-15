@@ -59,10 +59,11 @@ windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
 pygame.mouse.set_visible(False)
 
+# Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 x = 0
 
-# Set up the fonts.
+# Set up the same fonts for everythings
 font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
@@ -196,7 +197,7 @@ while True:
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
 
-        # Background image
+        # Background image settings
         rel_x = x % BACKGROUND.get_rect().height
         windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
         if rel_x < WINDOWHEIGHT:
