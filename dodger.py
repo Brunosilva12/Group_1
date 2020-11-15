@@ -37,6 +37,12 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                     terminate()
                 return
 
+def playerHitVirus(playerRect, viruss):
+    for v in viruss:
+        if playerRect.colliderect(v['rect']):
+            viruss.remove(v)
+            return True
+    return False
 
 def playerHasHitBaddie(playerRect, baddies):
     for b in baddies:
@@ -44,6 +50,12 @@ def playerHasHitBaddie(playerRect, baddies):
             return True
     return False
 
+def playerHitVaccin(playerRect, vaccins):
+    for va in vaccins:
+        if playerRect.colliderect(va['rect']):
+            vaccins.remove(va)
+            return True
+    return False
 
 def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
@@ -89,6 +101,8 @@ topScore = 0
 while True:
     # Set up the start of the game.
     baddies = []
+    viruss = []
+    vaccins = []
     score = 0
     playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
     moveLeft = moveRight = moveUp = moveDown = False
@@ -152,7 +166,7 @@ while True:
                          'surface': pygame.transform.scale(virusImage, (virusSize, virusSize)),
                          }
 
-            baddies.append(newVirus)
+            viruss.append(newVirus)
 
         if vaccinAddCounter == ADDNEWVACCINRATE:
             vaccinAddCounter = 0
@@ -162,7 +176,7 @@ while True:
                          'surface': pygame.transform.scale(vaccinImage, (vaccinSize, vaccinSize)),
                         }
 
-            baddies.append(newVaccin)
+            vaccins.append(newVaccin)
 
         if hospAddCounter == ADDNEWHOSPRATE:
             hospAddCounter = 0
@@ -194,6 +208,24 @@ while True:
             if b['rect'].top > WINDOWHEIGHT:
                 baddies.remove(b)
 
+        # Move the virus down.
+        for v in viruss:
+            v['rect'].move_ip(0, v['speed'])
+
+        # Delete virus that have fallen past the bottom.
+        for v in viruss[:]:
+            if v['rect'].top > WINDOWHEIGHT:
+                viruss.remove(v)
+
+        # Move the vaccin down.
+        for va in vaccins:
+            va['rect'].move_ip(0, va['speed'])
+
+        # Delete vaccin that have fallen past the bottom.
+        for va in vaccins[:]:
+            if va['rect'].top > WINDOWHEIGHT:
+                vaccins.remove(va)
+
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
 
@@ -212,6 +244,12 @@ while True:
         for b in baddies:
             windowSurface.blit(b['surface'], b['rect'])
 
+        for v in viruss:
+            windowSurface.blit(v['surface'], v['rect'])
+
+        for va in vaccins:
+            windowSurface.blit(va['surface'], va['rect'])
+
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
@@ -223,6 +261,15 @@ while True:
             if score > topScore:
                 topScore = score  # set new top score
             break
+
+        # Check if any of the virus have hit the player.
+        if playerHitVirus(playerRect, viruss):
+            if score > topScore:
+                topScore += 100    # add score to the topScore
+
+        if playerHitVaccin(playerRect,vaccins):
+            if score > topScore:
+                topScore -= 100
 
         mainClock.tick(FPS)
 
