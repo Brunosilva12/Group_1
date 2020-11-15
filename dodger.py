@@ -11,7 +11,6 @@ HOSPMINSIZE = 100
 HOSPMAXSIZE = 150
 ADDNEWHOSPRATE = 100
 
-
 VIRUSSIZE = 35
 ADDNEWVIRUSRATE = 40
 
@@ -137,31 +136,22 @@ while True:
                 # If the mouse moves, move the player where to the cursor.
                 playerRect.centerx = event.pos[0]
                 playerRect.centery = event.pos[1]
+
         # Add new baddies at the top of the screen, if needed.
-
-
         virusAddCounter += 1
         vaccinAddCounter += 1
         hospAddCounter += 1
 
-        if hospAddCounter == ADDNEWHOSPRATE:
-            hospAddCounter = 0
-            hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
-            newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
-                       'speed': SPEED,
-                       'surface': pygame.transform.scale(hospImage, (hospSize, hospSize)),
-                       }
-            baddies.append(newHosp)
         if virusAddCounter == ADDNEWVIRUSRATE:
             virusAddCounter = 0
             virusSize = VIRUSSIZE
-            newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virusSize), 0 - virusSize, virusSize,
+            newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virusSize), 0 - virusSize, virusSize,
                                              virusSize),
                          'speed': SPEED,
                          'surface': pygame.transform.scale(virusImage, (virusSize, virusSize)),
                          }
 
-            baddies.append(newBaddie)
+            baddies.append(newVirus)
 
         if vaccinAddCounter == ADDNEWVACCINRATE:
             vaccinAddCounter = 0
@@ -172,6 +162,15 @@ while True:
                         }
 
             baddies.append(newVaccin)
+
+        if hospAddCounter == ADDNEWHOSPRATE:
+            hospAddCounter = 0
+            hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
+            newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
+                       'speed': SPEED,
+                       'surface': pygame.transform.scale(hospImage, (hospSize, hospSize)),
+                       }
+            baddies.append(newHosp)
 
         # Move the player around.
         if moveLeft and playerRect.left > 0:
@@ -204,17 +203,17 @@ while True:
             windowSurface.blit(BACKGROUND, (0, rel_x))
         x += 1
 
-        # Draw the score and top score.
-        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
-        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
         # Draw the player's rectangle.
         windowSurface.blit(playerImage, playerRect)
 
-
         # Draw each baddie.
         for b in baddies:
             windowSurface.blit(b['surface'], b['rect'])
+
+        # Draw the score and top score.
+        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
+        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
         pygame.display.update()
 
