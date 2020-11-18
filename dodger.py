@@ -26,6 +26,7 @@ SPEED = 2
 
 PLAYERMOVERATE = 5
 MAXHEALTH = 3
+count = 0
 
 
 def terminate():  # Fermer la fenêtre du jeu
@@ -75,9 +76,9 @@ def drawText(text, font, surface, x, y):
 
 def drawHealthMeter(currentHealth):
     for i in range(MAXHEALTH):
-        pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 10, 35, 10, 10))
+        pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 30, 35, 29, 10))
     for i in range(currentHealth):
-        pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 10, 35, 10, 10), 1)
+        pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -292,6 +293,7 @@ while True:
             if score > topScore:
                 topScore -= 100     # subtract 100 to the topScore
             MAXHEALTH -= 1
+            count += 1
             if MAXHEALTH == 0:
                 MAXHEALTH += 3
                 break
