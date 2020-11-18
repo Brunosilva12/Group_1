@@ -102,7 +102,7 @@ pygame.mixer.music.load('Final.wav')
 playerImage = pygame.image.load('baddie.png')
 playerRect = playerImage.get_rect()
 virusImage = pygame.image.load('virus.png')
-hospImage = pygame.image.load('hosp.png')
+hospImage = pygame.image.load('hos.jpg')
 vaccinImage = pygame.image.load('vaccin.png')
 
 # Show the "Start" screen.
