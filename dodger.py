@@ -26,7 +26,7 @@ SPEED = 2
 
 PLAYERMOVERATE = 5
 MAXHEALTH = 3
-#count = 0
+count = 0
 
 
 def terminate():  # Fermer la fenêtre du jeu
@@ -76,9 +76,9 @@ def drawText(text, font, surface, x, y):
 
 def drawHealthMeter(currentHealth):
     for i in range(MAXHEALTH):
-        pygame.draw.rect(windowSurface, RED, (900, 5 + (10 * 3) - i * 10, 30, 10))
+        pygame.draw.rect(windowSurface, RED, (900, 5 + (10 * currentHealth) - i * 10, 30, 10))
     for i in range(currentHealth):
-        pygame.draw.rect(windowSurface, WHITE, (900, 5 + (10 * 3) - i * 10, 30, 10), 1)
+        pygame.draw.rect(windowSurface, WHITE, (900, 5 + (10 * currentHealth) - i * 10, 30, 10), 1)
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -275,7 +275,12 @@ while True:
         if playerHasHitBaddie(playerRect, hospitals):
             if score > topScore:
                 topScore = score  # set new top score
-            #MAXHEALTH += min(3, count)
+            if MAXHEALTH == 0:
+                MAXHEALTH += 3
+            elif MAXHEALTH == 1:
+                MAXHEALTH += 2
+            elif MAXHEALTH == 2:
+                MAXHEALTH += 1
             break
 
         # Check if any of the virus have hit the player.
@@ -288,10 +293,9 @@ while True:
             if score > topScore:
                 topScore -= 100     # subtract 100 to the topScore
             MAXHEALTH -= 1
-            #count += 1
+            count += 1
             if MAXHEALTH == 0:
                 MAXHEALTH += 3
-                #count -= count
                 break
 
 
