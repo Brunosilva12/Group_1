@@ -10,6 +10,7 @@ FPS = 60  # Nombre d'image par secondes
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
+BLACK = (0,0,0)
 
 # Paramètres des entités
 HOSPMINSIZE = 100
@@ -74,11 +75,25 @@ def drawText(text, font, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-def drawHealthMeter(currentHealth):
-    for i in range(MAXHEALTH):
-        pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 30, 35, 29, 10))
-    for i in range(currentHealth):
-        pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
+# draw lives
+img = pygame.image.load("vie.png")
+vies = pygame.transform.scale(img, (100, 76))
+vies.set_colorkey(BLACK)
+
+def draw_lives (surf, x, y, MAXHEALTH, img):
+    for i in range (MAXHEALTH):
+        img_rect = img.get_rect()
+        img_rect.x = x + 45 * i
+        img_rect.y = y
+        surf.blit(img, img_rect)
+
+# on garde les rectangles au cas où on veut remettre ça  
+#def drawHealthMeter(currentHealth):
+    #for i in range(MAXHEALTH):
+        #pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 30, 35, 29, 10))
+    #for i in range(currentHealth):
+        #pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
+
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -268,7 +283,7 @@ while True:
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
-        drawHealthMeter(3)
+        draw_lives(windowSurface, WINDOWWIDTH - 200, 5, MAXHEALTH, vies)
         pygame.display.update()
 
         # Check if any of the hospital have hit the player.
