@@ -3,6 +3,8 @@ import random
 import sys
 from pygame.locals import *
 
+# from menu import Menu
+
 WINDOWWIDTH = 1000  # Taille de l'écran
 WINDOWHEIGHT = 600
 TEXTCOLOR = (255, 255, 255)  # Couleur du text
@@ -10,7 +12,7 @@ FPS = 60  # Nombre d'image par secondes
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
-BLACK = (0,0,0)
+BLACK = (0, 0, 0)
 
 # Paramètres des entités
 HOSPMINSIZE = 100
@@ -25,9 +27,23 @@ ADDNEWVACCINRATE = 50
 
 SPEED = 2
 
-PLAYERMOVERATE = 5
+# PLAYERMOVERATE = 5
 MAXHEALTH = 3
 count = 0
+
+
+class Player(object):
+    def __init__(self, x, y):
+        self.currentHealth = 3
+        self.max_health = 3
+        self.player_move_rate = 5
+        self.image = pygame.image.load('baddie.png')
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 
 
 def terminate():  # Fermer la fenêtre du jeu
@@ -75,24 +91,27 @@ def drawText(text, font, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
+
 # draw lives
 img = pygame.image.load("vie.png")
 vies = pygame.transform.scale(img, (100, 76))
 vies.set_colorkey(BLACK)
 
-def draw_lives (surf, x, y, MAXHEALTH, img):
-    for i in range (MAXHEALTH):
+
+def draw_lives(surf, x, y, MAXHEALTH, img):
+    for i in range(MAXHEALTH):
         img_rect = img.get_rect()
         img_rect.x = x + 45 * i
         img_rect.y = y
         surf.blit(img, img_rect)
 
-# on garde les rectangles au cas où on veut remettre ça  
-#def drawHealthMeter(currentHealth):
-    #for i in range(MAXHEALTH):
-        #pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 30, 35, 29, 10))
-    #for i in range(currentHealth):
-        #pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
+
+# on garde les rectangles au cas où on veut remettre ça
+# def drawHealthMeter(currentHealth):
+# for i in range(MAXHEALTH):
+# pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 30, 35, 29, 10))
+# for i in range(currentHealth):
+# pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
 
 
 # Set up pygame, the window, and the mouse cursor.
@@ -106,7 +125,7 @@ pygame.mouse.set_visible(False)
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 x = 0
 
-# Set up the same fonts for everythings
+# Set up the same fonts for everything
 font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
@@ -114,8 +133,8 @@ gameOverSound = pygame.mixer.Sound('Gover.wav')
 pygame.mixer.music.load('Final.wav')
 
 # Set up images.
-playerImage = pygame.image.load('baddie.png')
-playerRect = playerImage.get_rect()
+# playerImage = pygame.image.load('baddie.png')
+# playerRect = playerImage.get_rect()
 virusImage = pygame.image.load('virus.png')
 hospImage = pygame.image.load('hos.jpg')
 vaccinImage = pygame.image.load('vaccin.png')
@@ -129,13 +148,13 @@ waitForPlayerToPressKey()
 
 ############# START ####################
 topScore = 0
+
 while True:
     # Set up the start of the game.
     hospitals = []
     viruss = []
     vaccines = []
     score = 0
-    playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
     moveLeft = moveRight = moveUp = moveDown = False
     virusAddCounter = 0
     vaccinAddCounter = 0
@@ -180,8 +199,8 @@ while True:
 
             if event.type == MOUSEMOTION:
                 # If the mouse moves, move the player where to the cursor.
-                playerRect.centerx = event.pos[0]
-                playerRect.centery = event.pos[1]
+                bat.rect.centerx = event.pos[0]
+                bat.rect.centery = event.pos[1]
 
         # Add new baddies at the top of the screen, if needed.
         virusAddCounter += 1
@@ -220,14 +239,14 @@ while True:
             hospitals.append(newHosp)
 
         # Move the player around.
-        if moveLeft and playerRect.left > 0:
-            playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
-        if moveRight and playerRect.right < WINDOWWIDTH:
-            playerRect.move_ip(PLAYERMOVERATE, 0)
-        if moveUp and playerRect.top > 0:
-            playerRect.move_ip(0, -1 * PLAYERMOVERATE)
-        if moveDown and playerRect.bottom < WINDOWHEIGHT:
-            playerRect.move_ip(0, PLAYERMOVERATE)
+        if moveLeft and bat.rect.left > 0:
+            bat.rect.move_ip(-1 * bat.player_move_rate, 0)
+        if moveRight and bat.rect.right < WINDOWWIDTH:
+            bat.rect.move_ip(bat.player_move_rate, 0)
+        if moveUp and bat.rect.top > 0:
+            bat.rect.move_ip(0, -1 * bat.player_move_rate)
+        if moveDown and bat.rect.bottom < WINDOWHEIGHT:
+            bat.rect.move_ip(0, bat.player_move_rate)
 
         # Move the baddies down.
         for h in hospitals:
@@ -267,7 +286,7 @@ while True:
         x += 1
 
         # Draw the player's rectangle.
-        windowSurface.blit(playerImage, playerRect)
+        windowSurface.blit(bat.image, bat.rect)
 
         # Draw each object.
         for h in hospitals:
@@ -287,7 +306,7 @@ while True:
         pygame.display.update()
 
         # Check if any of the hospital have hit the player.
-        if playerHasHitBaddie(playerRect, hospitals):
+        if playerHasHitBaddie(bat.rect, hospitals):
             if score > topScore:
                 topScore = score  # set new top score
             if MAXHEALTH == 0:
@@ -299,20 +318,19 @@ while True:
             break
 
         # Check if any of the virus have hit the player.
-        if playerHitVirus(playerRect, viruss):
+        if playerHitVirus(bat.rect, viruss):
             if score > topScore:
-                topScore += 100     # add 100 to the topScore
+                topScore += 100  # add 100 to the topScore
 
         # Check if any of the vaccines have hit the player.
-        if playerHitVaccine(playerRect, vaccines):
+        if playerHitVaccine(bat.rect, vaccines):
             if score > topScore:
-                topScore -= 100     # subtract 100 to the topScore
+                topScore -= 100  # subtract 100 to the topScore
             MAXHEALTH -= 1
             count += 1
             if MAXHEALTH == 0:
                 MAXHEALTH += 3
                 break
-
 
         mainClock.tick(FPS)
 
