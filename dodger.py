@@ -15,35 +15,43 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Paramètres des entités
-HOSPMINSIZE = 100
-HOSPMAXSIZE = 150
-ADDNEWHOSPRATE = 100
-
-VIRUSSIZE = 35
-ADDNEWVIRUSRATE = 40
-
-VACCINSIZE = 35
-ADDNEWVACCINRATE = 50
-
 SPEED = 2
-
-# PLAYERMOVERATE = 5
-MAXHEALTH = 3
 count = 0
 
 
 class Player(object):
-    def __init__(self, x, y):
-        self.currentHealth = 3
+    def __init__(self, x_pl, y_pl):
         self.max_health = 3
         self.player_move_rate = 5
         self.image = pygame.image.load('baddie.png')
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x = x_pl
+        self.rect.y = y_pl
 
 
-bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
+class Hospital(object):
+    def __init__(self):
+        self.min_size = 100
+        self.max_size = 200
+        self.add_hosp_rate = 100
+        self.image = pygame.image.load('hos.jpg')
+        self.rect = self.image.get_rect()
+
+
+class Virus(object):
+    def __init__(self):
+        self.size = 35
+        self.add_virus_rate = 40
+        self.image = pygame.image.load('virus.png').convert_alpha()
+        self.rect = self.image.get_rect()
+
+
+class Vaccine(object):
+    def __init__(self):
+        self.size = 35
+        self.add_vaccine_rate = 50
+        self.image = pygame.image.load('vaccin.png').convert_alpha()
+        self.rect = self.image.get_rect()
 
 
 def terminate():  # Fermer la fenêtre du jeu
@@ -53,42 +61,42 @@ def terminate():  # Fermer la fenêtre du jeu
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for event_Key in pygame.event.get():
+            if event_Key.type == QUIT:
                 terminate()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:  # Pressing ESC quits.
+            if event_Key.type == KEYDOWN:
+                if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
                     terminate()
                 return
 
 
-def playerHitVirus(playerRect, viruss):  # Définir la fonction : collision entre le player et le virus
-    for v in viruss:
-        if playerRect.colliderect(v['rect']):  # Détecter la collision
-            viruss.remove(v)  # Supprimer le virus à chaque fois que le player le toucher
+def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
+    for v_ in virus_:
+        if playerRect.colliderect(v_['rect']):  # Détecter la collision
+            viruss.remove(v_)  # Supprimer le virus à chaque fois que le player le toucher
             return True
     return False
 
 
-def playerHasHitBaddie(playerRect, hospitals):  # Définir la fonction : collision entre le player et l'hôpital
-    for h in hospitals:
-        if playerRect.colliderect(h['rect']):  # Détecter la collision
+def playerHasHitBaddie(playerRect, hospitals_):  # Définir la fonction : collision entre le player et l'hôpital
+    for h_ in hospitals_:
+        if playerRect.colliderect(h_['rect']):  # Détecter la collision
             return True
     return False
 
 
-def playerHitVaccine(playerRect, vaccines):  # Définir la fonction : collision entre le player et le vaccin
-    for va in vaccines:
-        if playerRect.colliderect(va['rect']):  # Détecter la collision
-            vaccines.remove(va)  # Supprimer le vaccin à chaque fois que le player le toucher
+def playerHitVaccine(playerRect, vaccines_):  # Définir la fonction : collision entre le player et le vaccin
+    for va_ in vaccines_:
+        if playerRect.colliderect(va_['rect']):  # Détecter la collision
+            vaccines.remove(va_)  # Supprimer le vaccin à chaque fois que le player le toucher
             return True
     return False
 
 
-def drawText(text, font, surface, x, y):
-    textobj = font.render(text, 1, TEXTCOLOR)
+def drawText(text, font_t, surface, x_t, y_t):
+    textobj = font_t.render(text, 1, TEXTCOLOR)
     textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
+    textrect.topleft = (x_t, y_t)
     surface.blit(textobj, textrect)
 
 
@@ -98,12 +106,12 @@ vies = pygame.transform.scale(img, (100, 76))
 vies.set_colorkey(BLACK)
 
 
-def draw_lives(surf, x, y, MAXHEALTH, img):
-    for i in range(MAXHEALTH):
-        img_rect = img.get_rect()
-        img_rect.x = x + 45 * i
-        img_rect.y = y
-        surf.blit(img, img_rect)
+def draw_lives(surf, x_l, y_l, max_health_l, img_l):
+    for i in range(max_health_l):
+        img_rect = img_l.get_rect()
+        img_rect.x = x_l + 45 * i
+        img_rect.y = y_l
+        surf.blit(img_l, img_rect)
 
 
 # on garde les rectangles au cas où on veut remettre ça
@@ -135,9 +143,9 @@ pygame.mixer.music.load('Final.wav')
 # Set up images.
 # playerImage = pygame.image.load('baddie.png')
 # playerRect = playerImage.get_rect()
-virusImage = pygame.image.load('virus.png')
-hospImage = pygame.image.load('hos.jpg')
-vaccinImage = pygame.image.load('vaccin.png')
+# virusImage = pygame.image.load('virus.png')
+# hospImage = pygame.image.load('hos.jpg')
+# vaccinImage = pygame.image.load('vaccin.png')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
@@ -148,6 +156,10 @@ waitForPlayerToPressKey()
 
 ############# START ####################
 topScore = 0
+bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
+virus = Virus()
+vaccine = Vaccine()
+hospital = Hospital()
 
 while True:
     # Set up the start of the game.
@@ -207,34 +219,34 @@ while True:
         vaccinAddCounter += 1
         hospAddCounter += 1
 
-        if virusAddCounter == ADDNEWVIRUSRATE:
+        if virusAddCounter == virus.add_virus_rate:
             virusAddCounter = 0
-            virusSize = VIRUSSIZE
+            virusSize = virus.size
             newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virusSize), 0 - virusSize, virusSize,
                                             virusSize),
                         'speed': SPEED,
-                        'surface': pygame.transform.scale(virusImage, (virusSize, virusSize)),
+                        'surface': pygame.transform.scale(virus.image, (virusSize, virusSize)),
                         }
 
             viruss.append(newVirus)
 
-        if vaccinAddCounter == ADDNEWVACCINRATE:
+        if vaccinAddCounter == vaccine.add_vaccine_rate:
             vaccinAddCounter = 0
-            vaccinSize = VACCINSIZE
+            vaccinSize = vaccine.size
             newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize,
                                              vaccinSize),
                          'speed': SPEED,
-                         'surface': pygame.transform.scale(vaccinImage, (vaccinSize, vaccinSize)),
+                         'surface': pygame.transform.scale(vaccine.image, (vaccinSize, vaccinSize)),
                          }
 
             vaccines.append(newVaccin)
 
-        if hospAddCounter == ADDNEWHOSPRATE:
+        if hospAddCounter == hospital.add_hosp_rate:
             hospAddCounter = 0
-            hospSize = random.randint(HOSPMINSIZE, HOSPMAXSIZE)
+            hospSize = random.randint(hospital.min_size, hospital.max_size)
             newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
                        'speed': SPEED,
-                       'surface': pygame.transform.scale(hospImage, (hospSize, hospSize)),
+                       'surface': pygame.transform.scale(hospital.image, (hospSize, hospSize)),
                        }
             hospitals.append(newHosp)
 
@@ -299,22 +311,22 @@ while True:
             windowSurface.blit(va['surface'], va['rect'])
 
         # Draw the score and top score.
-        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
-        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
+        drawText('Score: %s' % score, font, windowSurface, 10, 0)
+        drawText('Top Score: %s' % topScore, font, windowSurface, 10, 40)
 
-        draw_lives(windowSurface, WINDOWWIDTH - 200, 5, MAXHEALTH, vies)
+        draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
         pygame.display.update()
 
         # Check if any of the hospital have hit the player.
         if playerHasHitBaddie(bat.rect, hospitals):
             if score > topScore:
                 topScore = score  # set new top score
-            if MAXHEALTH == 0:
-                MAXHEALTH += 3
-            elif MAXHEALTH == 1:
-                MAXHEALTH += 2
-            elif MAXHEALTH == 2:
-                MAXHEALTH += 1
+            if bat.max_health == 0:
+                bat.max_health += 3
+            elif bat.max_health == 1:
+                bat.max_health += 2
+            elif bat.max_health == 2:
+                bat.max_health += 1
             break
 
         # Check if any of the virus have hit the player.
@@ -326,10 +338,10 @@ while True:
         if playerHitVaccine(bat.rect, vaccines):
             if score > topScore:
                 topScore -= 100  # subtract 100 to the topScore
-            MAXHEALTH -= 1
+            bat.max_health -= 1
             count += 1
-            if MAXHEALTH == 0:
-                MAXHEALTH += 3
+            if bat.max_health == 0:
+                bat.max_health += 3
                 break
 
         mainClock.tick(FPS)
