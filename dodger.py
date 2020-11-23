@@ -143,9 +143,9 @@ pygame.mixer.music.load('Final.wav')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
-import pygame
-from pygame.locals import *
-
+#drawText('Loco-vid', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+#drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
+#pygame.display.update()
 #Lancer pygame
 pygame.init()
 #Ouvrir une fenêtre de la même taille que le jeu
