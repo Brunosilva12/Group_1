@@ -17,7 +17,7 @@ pygame.display.flip()
 while running :
     for event in pygame.event.get():
         if event.type == QUIT :
-            continuer = 0
+            running = 0
             pygame.quit()
             exit()
 
