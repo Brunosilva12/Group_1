@@ -9,7 +9,7 @@ running = 1
 
 #Chargement image
 menu = pygame.image.load("menu 1.jpg").convert()
-img = pygame.transform.scale(menu, (1000, 600))
+img = pygame.transform.scale(menu, (1000, 610))
 fenetre.blit(img, (0,0))
 pygame.display.flip()
 

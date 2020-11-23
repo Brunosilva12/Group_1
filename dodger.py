@@ -140,28 +140,19 @@ font = pygame.font.SysFont(None, 48)
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 pygame.mixer.music.load('Final.wav')
 
+
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
-#drawText('Loco-vid', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-#drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
-#pygame.display.update()
 
-#Ouvrir une fenêtre de la même taille que le jeu
-fenetre = pygame.display.set_mode((1000,600))
-running = 1
 
-#Chargement image
+# Chargement image
 menu = pygame.image.load("menu 1.jpg").convert()
 img = pygame.transform.scale(menu, (1000, 600))
-fenetre.blit(img, (0,0))
-pygame.display.flip()
-
-#Attendre que le joueur presse une touche
+windowSurface.blit(img, (0, 0))
 pygame.display.update()
 waitForPlayerToPressKey()
 
 ############# START ####################
-
 topScore = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
