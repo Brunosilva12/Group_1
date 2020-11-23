@@ -78,7 +78,7 @@ def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entr
     return False
 
 
-def playerHasHitBaddie(playerRect, hospitals_):  # Définir la fonction : collision entre le player et l'hôpital
+def playerHasHitHospitals(playerRect, hospitals_):  # Définir la fonction : collision entre le player et l'hôpital
     for h_ in hospitals_:
         if playerRect.colliderect(h_['rect']):  # Détecter la collision
             return True
@@ -140,12 +140,6 @@ font = pygame.font.SysFont(None, 48)
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 pygame.mixer.music.load('Final.wav')
 
-# Set up images.
-# playerImage = pygame.image.load('baddie.png')
-# playerRect = playerImage.get_rect()
-# virusImage = pygame.image.load('virus.png')
-# hospImage = pygame.image.load('hos.jpg')
-# vaccinImage = pygame.image.load('vaccin.png')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
@@ -260,11 +254,11 @@ while True:
         if moveDown and bat.rect.bottom < WINDOWHEIGHT:
             bat.rect.move_ip(0, bat.player_move_rate)
 
-        # Move the baddies down.
+        # Move the hospitals down.
         for h in hospitals:
             h['rect'].move_ip(0, h['speed'])
 
-        # Delete baddies that have fallen past the bottom.
+        # Delete the hospitals that have fallen past the bottom.
         for h in hospitals[:]:
             if h['rect'].top > WINDOWHEIGHT:
                 hospitals.remove(h)
@@ -318,7 +312,7 @@ while True:
         pygame.display.update()
 
         # Check if any of the hospital have hit the player.
-        if playerHasHitBaddie(bat.rect, hospitals):
+        if playerHasHitHospitals(bat.rect, hospitals):
             if score > topScore:
                 topScore = score  # set new top score
             if bat.max_health == 0:
