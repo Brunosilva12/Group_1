@@ -143,9 +143,28 @@ pygame.mixer.music.load('Final.wav')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
-drawText('Loco-vid', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
-pygame.display.update()
+import pygame
+from pygame.locals import *
+
+#Lancer pygame
+pygame.init()
+#Ouvrir une fenêtre de la même taille que le jeu
+fenetre = pygame.display.set_mode((1000,600))
+running = 1
+
+#Chargement image
+menu = pygame.image.load("menu 1.jpg").convert()
+img = pygame.transform.scale(menu, (1000, 600))
+fenetre.blit(img, (0,0))
+pygame.display.flip()
+
+#Boucle perpétuelle qui permet de garder la fenêtre ouverte
+while running :
+    for event in pygame.event.get():
+        if event.type == QUIT :
+            continuer = 0
+            pygame.quit()
+            exit()
 waitForPlayerToPressKey()
 
 ############# START ####################
