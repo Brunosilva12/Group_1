@@ -102,7 +102,7 @@ def drawText(text, font_t, surface, x_t, y_t):
 
 # draw lives
 img = pygame.image.load("vie.png")
-vies = pygame.transform.scale(img, (100, 76))
+vies = pygame.transform.scale(img, (130, 86))
 vies.set_colorkey(BLACK)
 
 
