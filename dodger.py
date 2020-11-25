@@ -50,6 +50,51 @@ class Vaccine(object):
         self.image = pygame.image.load('vaccin.png').convert_alpha()
         self.rect = self.image.get_rect()
 
+class GameState():
+    def __init__(self):
+        self.state = "main game"
+
+    def main_game(self):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+
+            if event.type == KEYDOWN:
+                if event.key == K_LEFT or event.key == K_a:
+                    moveRight = False
+                    moveLeft = True
+                if event.key == K_RIGHT or event.key == K_d:
+                    moveLeft = False
+                    moveRight = True
+                if event.key == K_UP or event.key == K_w:
+                    moveDown = False
+                    moveUp = True
+                if event.key == K_DOWN or event.key == K_s:
+                    moveUp = False
+                    moveDown = True
+
+            if event.type == KEYUP:
+                if event.key == K_ESCAPE:
+                    terminate()
+
+                if event.key == K_LEFT or event.key == K_a:
+                    moveLeft = False
+                if event.key == K_RIGHT or event.key == K_d:
+                    moveRight = False
+                if event.key == K_UP or event.key == K_w:
+                    moveUp = False
+                if event.key == K_DOWN or event.key == K_s:
+                    moveDown = False
+
+            if event.type == MOUSEMOTION:
+                # If the mouse moves, move the player where to the cursor.
+                bat.rect.centerx = event.pos[0]
+                bat.rect.centery = event.pos[1]
+
+    def state_manager(self):
+        if self.state == "main_game":
+            self.main_game()
+
 def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
@@ -164,46 +209,13 @@ while True:
     virusAddCounter = 0
     vaccinAddCounter = 0
     hospAddCounter = 0
+    game_state = GameState()
 
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
 
     while True:  # The game loop runs while the game part is playing.
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                terminate()
-
-            if event.type == KEYDOWN:
-                if event.key == K_LEFT or event.key == K_a:
-                    moveRight = False
-                    moveLeft = True
-                if event.key == K_RIGHT or event.key == K_d:
-                    moveLeft = False
-                    moveRight = True
-                if event.key == K_UP or event.key == K_w:
-                    moveDown = False
-                    moveUp = True
-                if event.key == K_DOWN or event.key == K_s:
-                    moveUp = False
-                    moveDown = True
-
-            if event.type == KEYUP:
-                if event.key == K_ESCAPE:
-                    terminate()
-
-                if event.key == K_LEFT or event.key == K_a:
-                    moveLeft = False
-                if event.key == K_RIGHT or event.key == K_d:
-                    moveRight = False
-                if event.key == K_UP or event.key == K_w:
-                    moveUp = False
-                if event.key == K_DOWN or event.key == K_s:
-                    moveDown = False
-
-            if event.type == MOUSEMOTION:
-                # If the mouse moves, move the player where to the cursor.
-                bat.rect.centerx = event.pos[0]
-                bat.rect.centery = event.pos[1]
+        game_state.main_game()
 
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
