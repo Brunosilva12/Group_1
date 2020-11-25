@@ -3,8 +3,6 @@ import random
 import sys
 from pygame.locals import *
 
-# from menu import Menu
-
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -19,6 +17,7 @@ SPEED = 2
 scroll = 0
 score_level1 = 4000
 
+
 class Player(object):
     def __init__(self, x_pl, y_pl):
         self.max_health = 3
@@ -28,6 +27,7 @@ class Player(object):
         self.rect.x = x_pl
         self.rect.y = y_pl
 
+
 class Hospital(object):
     def __init__(self):
         self.min_size = 100
@@ -36,6 +36,7 @@ class Hospital(object):
         self.image = pygame.image.load('hos.jpg')
         self.rect = self.image.get_rect()
 
+
 class Virus(object):
     def __init__(self):
         self.size = 35
@@ -43,12 +44,14 @@ class Virus(object):
         self.image = pygame.image.load('virus.png').convert_alpha()
         self.rect = self.image.get_rect()
 
+
 class Vaccine(object):
     def __init__(self):
         self.size = 35
         self.add_vaccine_rate = 50
         self.image = pygame.image.load('vaccin.png').convert_alpha()
         self.rect = self.image.get_rect()
+
 
 class GameState():
     def __init__(self):
@@ -59,32 +62,9 @@ class GameState():
             if event.type == QUIT:
                 terminate()
 
-            if event.type == KEYDOWN:
-                if event.key == K_LEFT or event.key == K_a:
-                    moveRight = False
-                    moveLeft = True
-                if event.key == K_RIGHT or event.key == K_d:
-                    moveLeft = False
-                    moveRight = True
-                if event.key == K_UP or event.key == K_w:
-                    moveDown = False
-                    moveUp = True
-                if event.key == K_DOWN or event.key == K_s:
-                    moveUp = False
-                    moveDown = True
-
             if event.type == KEYUP:
                 if event.key == K_ESCAPE:
                     terminate()
-
-                if event.key == K_LEFT or event.key == K_a:
-                    moveLeft = False
-                if event.key == K_RIGHT or event.key == K_d:
-                    moveRight = False
-                if event.key == K_UP or event.key == K_w:
-                    moveUp = False
-                if event.key == K_DOWN or event.key == K_s:
-                    moveDown = False
 
             if event.type == MOUSEMOTION:
                 # If the mouse moves, move the player where to the cursor.
@@ -95,19 +75,64 @@ class GameState():
         if self.state == "main_game":
             self.main_game()
 
+
+class Button(object):
+    def __init__(self, color_button, x_button, y_button, width, height, text=''):
+        self.color = color_button
+        self.x = x_button
+        self.y = y_button
+        self.width = width
+        self.height = height
+        self.text = text
+
+    def draw(self, window, outline=None):
+        # Call this method to draw the button on the screen
+        if outline:
+            pygame.draw.rect(window, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
+
+        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height), 0)
+
+        if self.text != '':
+            font_button = pygame.font.SysFont('comicsans', 60)
+            text = font_button.render(self.text, 1, (0, 0, 0))
+            window.blit(text, (
+                self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
+
+    def isOver(self, pos):
+        # Pos is the mouse position or a tuple of (x,y) coordinates
+        if self.x < pos[0] < self.x + self.width:
+            if self.y < pos[1] < self.y + self.height:
+                return True
+
+        return False
+
+
 def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
+
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
         for event_Key in pygame.event.get():
+
             if event_Key.type == QUIT:
                 terminate()
             if event_Key.type == KEYDOWN:
                 if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
                     terminate()
                 return
+
+
+def waitForPlayerToPressButton():
+    while True:
+        for event_Button in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+
+            if event_Button.type == pygame.MOUSEBUTTONDOWN:
+                if start_button.isOver(pos):
+                    return
+
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
     for v_ in virus_:
@@ -116,11 +141,13 @@ def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entr
             return True
     return False
 
+
 def playerHasHitHospitals(playerRect, hospitals_):  # Définir la fonction : collision entre le player et l'hôpital
     for h_ in hospitals_:
         if playerRect.colliderect(h_['rect']):  # Détecter la collision
             return True
     return False
+
 
 def playerHitVaccine(playerRect, vaccines_):  # Définir la fonction : collision entre le player et le vaccin
     for va_ in vaccines_:
@@ -129,6 +156,7 @@ def playerHitVaccine(playerRect, vaccines_):  # Définir la fonction : collision
             return True
     return False
 
+
 def drawText(text, surface, x_t, y_t, color, size):
     font = pygame.font.SysFont(None, size)
     textobj = font.render(text, 1, color)
@@ -136,10 +164,12 @@ def drawText(text, surface, x_t, y_t, color, size):
     textrect.topleft = (x_t, y_t)
     surface.blit(textobj, textrect)
 
+
 # draw lives
 img = pygame.image.load("vie.png")
 vies = pygame.transform.scale(img, (130, 86))
 vies.set_colorkey(BLACK)
+
 
 def draw_lives(surf, x_l, y_l, max_health_l, img_l):
     for i in range(max_health_l):
@@ -147,20 +177,16 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         img_rect.x = x_l + 45 * i
         img_rect.y = y_l
         surf.blit(img_l, img_rect)
-# on garde les rectangles au cas où on veut remettre ça
-# def drawHealthMeter(currentHealth):
-# for i in range(MAXHEALTH):
-# pygame.draw.rect(windowSurface, RED, (870 + (10 * currentHealth) - i * 30, 35, 29, 10))
-# for i in range(currentHealth):
-# pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
+
 
 def win_mode():
-    drawText('LEVEL COMPLETE', windowSurface, 350, (-250+scroll), RED, 48)
-    windowSurface.blit(level1Image, (450, -500+scroll))
-    drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700+scroll), RED, 48)
+    drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
+    windowSurface.blit(level1Image, (450, -500 + scroll))
+    drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
 
     pygame.mixer.music.stop()
     levelSound.play()
+
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -172,6 +198,9 @@ pygame.mouse.set_visible(False)
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 x = 0
+
+# Set up the same fonts for everything
+font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
 gameOverSound = pygame.mixer.Sound('Gover.wav')
@@ -187,7 +216,12 @@ level1Image = pygame.image.load('Doni.png')
 level1Image = pygame.transform.scale(level1Image, (133, 100))
 img = pygame.transform.scale(menu, (1000, 600))
 windowSurface.blit(img, (0, 0))
+
+# Draw the button on the menu
+start_button = Button((0, 255, 0), 300, 200, 100, 100, "Start")
+start_button.draw(windowSurface, (250, 0, 0))
 pygame.display.update()
+waitForPlayerToPressButton()
 waitForPlayerToPressKey()
 
 ############# START ####################
@@ -361,8 +395,10 @@ while True:
     gameOverSound.play()
 
     drawText('GAME OVER', windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3), TEXTCOLOR, 48)
-    drawText('Press a key to play again.', windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50, TEXTCOLOR, 48)
+    drawText('Press a key to play again.', windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50, TEXTCOLOR,
+             48)
     pygame.display.update()
     waitForPlayerToPressKey()
+    waitForPlayerToPressButton()
 
     gameOverSound.stop()
