@@ -129,24 +129,9 @@ def Option():
     help = pygame.image.load("Help.png").convert()
     img = pygame.transform.scale(help, (1000, 600))
     windowSurface.blit(img, (0, 0))
-    back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
-    back_button.draw(windowSurface, (250, 0, 0))
+    back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
+    back_button.draw(windowSurface, (255, 255, 255))
     pygame.display.update()
-
-
-def wfP():
-    while True:
-        for event_Key in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-
-            if event_Key.type == QUIT:
-                terminate()
-            if event_Key.type == KEYDOWN:
-                if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
-                    terminate()
-            if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if Option.back_button.isOver(pos):
-                    Menu()
 
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
@@ -165,6 +150,8 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
                     Option()
+                    back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
+                    back_button.draw(windowSurface, (250, 0, 0))
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
