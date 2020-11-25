@@ -218,12 +218,24 @@ start_button.draw(windowSurface, (250, 0, 0))
 pygame.display.update()
 waitForPlayerToPressKey()
 
-# Help page
-help = pygame.image.load("Help.png").convert()
-img = pygame.transform.scale(menu, (1000, 600))
-windowSurface.blit(img, (0, 0))
-pygame.display.update()
-waitForPlayerToPressKey()
+# Option page
+
+class Option():
+    def help(self):
+        help = pygame.image.load("Help.png").convert()
+    def blit_screen(self):
+        img = pygame.transform.scale(menu, (1000, 600))
+        windowSurface.blit(img, (0, 0))
+        pygame.display.update()
+        waitForPlayerToPressKey()
+    def button(selfs):
+        back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
+        back_button.draw(windowSurface, (250, 0, 0))
+        pygame.display.update()
+        waitForPlayerToPressKey()
+
+
+
 
 ############# START ####################
 Score = 0
