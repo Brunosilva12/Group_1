@@ -122,7 +122,6 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == KEYDOWN:
                 if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
                     terminate()
-                return
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
                     return
@@ -214,7 +213,9 @@ windowSurface.blit(img, (0, 0))
 
 # Draw the button on the menu
 start_button = Button((0, 0, 0), 348, 428, 305, 70, "Start")
-start_button.draw(windowSurface, (250, 0, 0))
+start_button.draw(windowSurface, (255, 255, 255))
+option_button = Button((0, 0, 0), 360, 515, 268, 45, "How to play")
+option_button.draw(windowSurface, (255, 255, 255))
 pygame.display.update()
 waitForPlayerToPressKey()
 
