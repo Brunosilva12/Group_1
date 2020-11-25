@@ -219,6 +219,13 @@ start_button.draw(windowSurface, (250, 0, 0))
 pygame.display.update()
 waitForPlayerToPressKey()
 
+# Help page
+help = pygame.image.load("Help.png").convert()
+img = pygame.transform.scale(menu, (1000, 600))
+windowSurface.blit(img, (0, 0))
+pygame.display.update()
+waitForPlayerToPressKey()
+
 ############# START ####################
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
