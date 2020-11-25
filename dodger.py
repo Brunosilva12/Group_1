@@ -111,7 +111,13 @@ def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
-# Option page
+# Menu
+def Menu():
+    menu = pygame.image.load("menu 1.jpg").convert()
+    img = pygame.transform.scale(menu, (1000, 600))
+    windowSurface.blit(img, (0, 0))
+
+# Option
 def Option():
    help = pygame.image.load("Help.png").convert()
    img = pygame.transform.scale(help, (1000, 600))
@@ -119,6 +125,21 @@ def Option():
    back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
    back_button.draw(windowSurface, (250, 0, 0))
    pygame.display.update()
+
+def wfP():
+    while True:
+        for event_Key in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+
+            if event_Key.type == QUIT:
+                terminate()
+            if event_Key.type == KEYDOWN:
+                if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
+                    terminate()
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                if Option.back_button.isOver(pos):
+                    Menu()
+
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
@@ -136,6 +157,8 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
                     Option()
+
+
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -213,13 +236,9 @@ levelSound = pygame.mixer.Sound('Win.wav')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
-
-# Chargement image
-menu = pygame.image.load("menu 1.jpg").convert()
+Menu()
 level1Image = pygame.image.load('Doni.png')
 level1Image = pygame.transform.scale(level1Image, (133, 100))
-img = pygame.transform.scale(menu, (1000, 600))
-windowSurface.blit(img, (0, 0))
 
 # Draw the button on the menu
 start_button = Button((0, 0, 0), 348, 428, 305, 70, "Start")
@@ -229,13 +248,14 @@ option_button.draw(windowSurface, (255, 255, 255))
 pygame.display.update()
 waitForPlayerToPressKey()
 
+
+
 ############# START ####################
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
 hospital = Hospital()
-option = Option()
 
 while True:
     # Set up the start of the game.
