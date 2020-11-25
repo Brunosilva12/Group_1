@@ -53,7 +53,7 @@ class Vaccine(object):
         self.rect = self.image.get_rect()
 
 
-class GameState():
+class GameState(object):
     def __init__(self):
         self.state = "main game"
 
@@ -115,6 +115,7 @@ def terminate():  # Fermer la fenêtre du jeu
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
         for event_Key in pygame.event.get():
+            pos = pygame.mouse.get_pos()
 
             if event_Key.type == QUIT:
                 terminate()
@@ -122,16 +123,11 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                 if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
                     terminate()
                 return
-
-
-def waitForPlayerToPressButton():
-    while True:
-        for event_Button in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-
-            if event_Button.type == pygame.MOUSEBUTTONDOWN:
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
+                    print("s")
                     return
+
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -193,7 +189,7 @@ pygame.init()
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
-pygame.mouse.set_visible(False)
+
 
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
@@ -221,7 +217,6 @@ windowSurface.blit(img, (0, 0))
 start_button = Button((0, 255, 0), 300, 200, 100, 100, "Start")
 start_button.draw(windowSurface, (250, 0, 0))
 pygame.display.update()
-waitForPlayerToPressButton()
 waitForPlayerToPressKey()
 
 ############# START ####################
@@ -242,6 +237,7 @@ while True:
     vaccinAddCounter = 0
     hospAddCounter = 0
     game_state = GameState()
+    pygame.mouse.set_visible(False)
 
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
@@ -399,6 +395,5 @@ while True:
              48)
     pygame.display.update()
     waitForPlayerToPressKey()
-    waitForPlayerToPressButton()
 
     gameOverSound.stop()
