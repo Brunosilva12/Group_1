@@ -111,20 +111,23 @@ def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
+
 # Menu
 def Menu():
     menu = pygame.image.load("menu 1.jpg").convert()
     img = pygame.transform.scale(menu, (1000, 600))
     windowSurface.blit(img, (0, 0))
 
+
 # Option
 def Option():
-   help = pygame.image.load("Help.png").convert()
-   img = pygame.transform.scale(help, (1000, 600))
-   windowSurface.blit(img, (0, 0))
-   back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
-   back_button.draw(windowSurface, (250, 0, 0))
-   pygame.display.update()
+    help = pygame.image.load("Help.png").convert()
+    img = pygame.transform.scale(help, (1000, 600))
+    windowSurface.blit(img, (0, 0))
+    back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
+    back_button.draw(windowSurface, (250, 0, 0))
+    pygame.display.update()
+
 
 def wfP():
     while True:
@@ -157,8 +160,6 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
                     Option()
-
-
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -221,7 +222,6 @@ mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
 
-
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 x = 0
@@ -248,14 +248,13 @@ option_button.draw(windowSurface, (255, 255, 255))
 pygame.display.update()
 waitForPlayerToPressKey()
 
-
-
 ############# START ####################
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
 hospital = Hospital()
+Option()
 
 while True:
     # Set up the start of the game.
@@ -268,14 +267,13 @@ while True:
     vaccinAddCounter = 0
     hospAddCounter = 0
     game_state = GameState()
-    pygame.mouse.set_visible(False)
 
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
 
     while True:  # The game loop runs while the game part is playing.
         game_state.main_game()
-
+        pygame.mouse.set_visible(False)
         # Draw the game world on the window.
         windowSurface.fill((0, 0, 0))
 
@@ -420,10 +418,10 @@ while True:
     # Stop the game and show the "Game Over" screen.
     pygame.mixer.music.stop()
     gameOverSound.play()
+    pygame.mouse.set_visible(True)
 
-    drawText('GAME OVER', windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3), TEXTCOLOR, 48)
-    drawText('Press a key to play again.', windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50, TEXTCOLOR,
-             48)
+    start_button = Button((0, 0, 0), 348, 428, 305, 70, "Restart")
+    start_button.draw(windowSurface, (255, 255, 255))
     pygame.display.update()
     waitForPlayerToPressKey()
 
