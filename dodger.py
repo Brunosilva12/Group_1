@@ -129,8 +129,9 @@ def playerHitVaccine(playerRect, vaccines_):  # Définir la fonction : collision
             return True
     return False
 
-def drawText(text, font_t, surface, x_t, y_t, color):
-    textobj = font_t.render(text, 1, color)
+def drawText(text, surface, x_t, y_t, color, size):
+    font = pygame.font.SysFont(None, size)
+    textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
     textrect.topleft = (x_t, y_t)
     surface.blit(textobj, textrect)
@@ -154,9 +155,9 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
 # pygame.draw.rect(windowSurface, WHITE, (870 + (10 * currentHealth) - i * 30, 35, 29, 10), 1)
 
 def win_mode():
-    drawText('LEVEL COMPLETE', font, windowSurface, 350, (-250+scroll), RED)
+    drawText('LEVEL COMPLETE', windowSurface, 350, (-250+scroll), RED, 48)
     windowSurface.blit(level1Image, (450, -500+scroll))
-    drawText('INFECT DONALD TRUMP !', font, windowSurface, 300, (-700+scroll), RED)
+    drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700+scroll), RED, 48)
 
     pygame.mixer.music.stop()
     levelSound.play()
@@ -171,9 +172,6 @@ pygame.mouse.set_visible(False)
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 x = 0
-
-# Set up the same fonts for everything
-font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
 gameOverSound = pygame.mixer.Sound('Gover.wav')
@@ -323,7 +321,7 @@ while True:
 
         # Level 1
         if Score < score_level1:
-            drawText('Score: %s/4000' % (Score) , font, windowSurface, 10, 40, TEXTCOLOR)
+            drawText('Score: %s/4000' % (Score), windowSurface, 10, 40, TEXTCOLOR, 36)
 
         # Draw the lives
         if Score < score_level1:
@@ -362,8 +360,8 @@ while True:
     pygame.mixer.music.stop()
     gameOverSound.play()
 
-    drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3), TEXTCOLOR)
-    drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50, TEXTCOLOR)
+    drawText('GAME OVER', windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3), TEXTCOLOR, 48)
+    drawText('Press a key to play again.', windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50, TEXTCOLOR, 48)
     pygame.display.update()
     waitForPlayerToPressKey()
 
