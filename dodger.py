@@ -111,6 +111,14 @@ def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
+# Option page
+def Option():
+   help = pygame.image.load("Help.png").convert()
+   img = pygame.transform.scale(help, (1000, 600))
+   windowSurface.blit(img, (0, 0))
+   back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
+   back_button.draw(windowSurface, (250, 0, 0))
+   pygame.display.update()
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
@@ -127,7 +135,7 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                     return
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
-                    return
+                    Option()
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -221,26 +229,13 @@ option_button.draw(windowSurface, (255, 255, 255))
 pygame.display.update()
 waitForPlayerToPressKey()
 
-# Option page
-
-class Option():
-    def help(self):
-        help = pygame.image.load("Help.png").convert()
-    def blit_screen(self):
-        img = pygame.transform.scale(menu, (1000, 600))
-        windowSurface.blit(img, (0, 0))
-    def button(selfs):
-        back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
-        back_button.draw(windowSurface, (250, 0, 0))
-        pygame.display.update()
-        waitForPlayerToPressKey()
-
 ############# START ####################
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
 hospital = Hospital()
+option = Option()
 
 while True:
     # Set up the start of the game.
