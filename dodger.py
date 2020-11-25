@@ -220,6 +220,18 @@ def win_mode():
     pygame.mixer.music.stop()
     levelSound.play()
 
+def show_GameOver_screen():
+    pygame.mixer.music.stop()
+    gameOverSound.play()
+    pygame.mouse.set_visible(True)
+
+    drawText('GAME OVER', windowSurface, 300, (WINDOWHEIGHT / 2), (0, 0, 0), 100)
+    start_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Restart")
+    start_button.draw(windowSurface, (255, 255, 255))
+    pygame.display.update()
+    waitForPlayerToPressKey()
+
+    gameOverSound.stop()
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
@@ -229,6 +241,7 @@ pygame.display.set_caption('Loco-vid')
 
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
+BACKGROUND_rect = BACKGROUND.get_rect()
 x = 0
 
 # Set up the same fonts for everything
@@ -421,14 +434,4 @@ while True:
         mainClock.tick(FPS)
 
     # Stop the game and show the "Game Over" screen.
-    pygame.mixer.music.stop()
-    gameOverSound.play()
-    pygame.mouse.set_visible(True)
-
-    drawText('GAME OVER', windowSurface, 300, (WINDOWHEIGHT / 2), (0, 0, 0), 100)
-    start_button = Button((0, 0, 0), 348, 428, 305, 70, "Restart")
-    start_button.draw(windowSurface, (255, 255, 255))
-    pygame.display.update()
-    waitForPlayerToPressKey()
-
-    gameOverSound.stop()
+    show_GameOver_screen()
