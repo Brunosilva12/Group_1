@@ -326,6 +326,7 @@ while True:
                 bat.max_health += 2
             elif bat.max_health == 2:
                 bat.max_health += 1
+            Score = 0
             break
 
         # Check if any of the virus have hit the player.
@@ -340,6 +341,7 @@ while True:
             bat.max_health -= 1
             if bat.max_health == 0:
                 bat.max_health += 3
+                Score = 0
                 break
 
         mainClock.tick(FPS)
