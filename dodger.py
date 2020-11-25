@@ -18,6 +18,11 @@ scroll = 0
 score_level1 = 4000
 
 
+#class Object():
+  #  def __init__(self, image):
+   #     self.image = pygame.image.load(image)
+    #    self.rect = self.image.get_rect()
+
 class Player(object):
     def __init__(self, x_pl, y_pl):
         self.max_health = 3
@@ -33,7 +38,7 @@ class Hospital(object):
         self.min_size = 100
         self.max_size = 200
         self.add_hosp_rate = 100
-        self.image = pygame.image.load('hos.jpg')
+        self.image = pygame.image.load('hos.jpg').convert_alpha()
         self.rect = self.image.get_rect()
 
 
@@ -420,6 +425,7 @@ while True:
     gameOverSound.play()
     pygame.mouse.set_visible(True)
 
+    drawText('GAME OVER', windowSurface, 300, (WINDOWHEIGHT / 2), (0, 0, 0), 100)
     start_button = Button((0, 0, 0), 348, 428, 305, 70, "Restart")
     start_button.draw(windowSurface, (255, 255, 255))
     pygame.display.update()
