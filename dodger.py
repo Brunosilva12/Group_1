@@ -94,7 +94,7 @@ class Button(object):
 
         if self.text != '':
             font_button = pygame.font.SysFont('comicsans', 60)
-            text = font_button.render(self.text, 1, (0, 0, 0))
+            text = font_button.render(self.text, 1, (255, 255, 255))
             window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
@@ -125,7 +125,6 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                 return
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
-                    print("s")
                     return
 
 
@@ -214,7 +213,7 @@ img = pygame.transform.scale(menu, (1000, 600))
 windowSurface.blit(img, (0, 0))
 
 # Draw the button on the menu
-start_button = Button((0, 255, 0), 300, 200, 100, 100, "Start")
+start_button = Button((0, 0, 0), 348, 428, 305, 70, "Start")
 start_button.draw(windowSurface, (250, 0, 0))
 pygame.display.update()
 waitForPlayerToPressKey()
