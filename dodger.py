@@ -125,7 +125,9 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
                     return
-
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                if option_button.isOver(pos):
+                    return
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -227,16 +229,11 @@ class Option():
     def blit_screen(self):
         img = pygame.transform.scale(menu, (1000, 600))
         windowSurface.blit(img, (0, 0))
-        pygame.display.update()
-        waitForPlayerToPressKey()
     def button(selfs):
         back_button = Button((0, 255, 0), 300, 200, 100, 100, "Back")
         back_button.draw(windowSurface, (250, 0, 0))
         pygame.display.update()
         waitForPlayerToPressKey()
-
-
-
 
 ############# START ####################
 Score = 0
