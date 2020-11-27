@@ -131,8 +131,22 @@ def Option():
     windowSurface.blit(img, (0, 0))
     back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
     back_button.draw(windowSurface, (255, 255, 255))
-    pygame.display.update()
 
+    pygame.display.update()
+    waitForPlayerToGetBack()
+
+def waitForPlayerToGetBack():
+    while True:
+        for event_Key in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+            if event_Key.type == QUIT:
+                terminate()
+            if event_Key.type == KEYDOWN:
+                if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
+                    terminate()
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                if back_button.isOver(pos):
+                    Menu()
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
@@ -150,9 +164,6 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
                     Option()
-                    if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                        if back_button.isOver(pos):
-                            Menu()
 
 
 
