@@ -235,9 +235,9 @@ def b_special(msg, x, y, w, h, ic, ac):
 
 def win_mode():
     drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
-    windowSurface.blit(level1Image, (450, -500 + scroll))
+    windowSurface.blit(level1Image, (430, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
-    b_special("Level 2", 450, -500 + scroll, 150, 50, BLACK, GREY)
+    b_special("Level 2", 430, -450 + scroll, 150, 50, BLACK, GREY)
 
     pygame.mixer.music.stop()
     levelSound.play()
