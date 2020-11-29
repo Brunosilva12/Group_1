@@ -123,7 +123,6 @@ def Menu():
     menu = pygame.image.load("menu 1.jpg").convert()
     img = pygame.transform.scale(menu, (1000, 600))
     windowSurface.blit(img, (0, 0))
-    menuSound.stop()
 
 
 # Option
@@ -274,7 +273,7 @@ x = 0
 font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
-menuSound = pygame.mixer.Sound('Open.mp3')
+introSound = pygame.mixer.Sound('Open.mp3')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 gameSound = pygame.mixer.music.load('Final.wav')
 levelSound = pygame.mixer.Sound('Win.wav')
