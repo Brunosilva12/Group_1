@@ -19,10 +19,10 @@ scroll = 0
 score_level1 = 400
 
 
-#class Object():
-  #  def __init__(self, image):
-   #     self.image = pygame.image.load(image)
-    #    self.rect = self.image.get_rect()
+class Object():
+    def __init__(self, image):
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
 
 class Player(object):
     def __init__(self, x_pl, y_pl):
@@ -126,15 +126,13 @@ def Menu():
 
 
 # Option
-#def Option():
-    #help = pygame.image.load("Help.png").convert()
-    #img = pygame.transform.scale(help, (1000, 600))
-    #windowSurface.blit(img, (0, 0))
-    #back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
-    #back_button.draw(windowSurface, (255, 255, 255))
+def Option():
+    help = pygame.image.load("Help.png").convert()
+    img = pygame.transform.scale(help, (1000, 600))
+    windowSurface.blit(img, (0, 0))
 
-    #pygame.display.update()
-    #waitForPlayerToGetBack()
+    pygame.display.update()
+    waitForPlayerToGetBack()
 
 def waitForPlayerToGetBack():
     while True:
@@ -162,9 +160,9 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
                     return
-            #if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                #if option_button.isOver(pos):
-                    #Option()
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                if option_button.isOver(pos):
+                    Option()
 
 
 
@@ -291,6 +289,8 @@ start_button = Button((0, 0, 0), 348, 428, 305, 70, "Start")
 start_button.draw(windowSurface, (255, 255, 255))
 option_button = Button((0, 0, 0), 360, 515, 268, 45, "How to play")
 option_button.draw(windowSurface, (255, 255, 255))
+back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
+back_button.draw(windowSurface, (255, 255, 255))
 pygame.display.update()
 waitForPlayerToPressKey()
 
@@ -300,7 +300,7 @@ bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
 hospital = Hospital()
-#Option()
+Option()
 
 while True:
     # Set up the start of the game.
