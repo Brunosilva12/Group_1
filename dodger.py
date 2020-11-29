@@ -300,7 +300,6 @@ bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
 hospital = Hospital()
-Option()
 
 while True:
     # Set up the start of the game.
