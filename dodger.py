@@ -120,7 +120,7 @@ def terminate():  # Fermer la fenêtre du jeu
 
 # Menu
 def Menu():
-
+    menuSound.play()
     menu = pygame.image.load("menu 1.jpg").convert()
     img = pygame.transform.scale(menu, (1000, 600))
     windowSurface.blit(img, (0, 0))
@@ -274,6 +274,7 @@ x = 0
 font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
+menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 pygame.mixer.music.load('Final.wav')
 levelSound = pygame.mixer.Sound('Win.wav')
