@@ -16,7 +16,7 @@ FPS = 60  # Nombre d'image par secondes
 # Paramètres des entités
 SPEED = 2
 scroll = 0
-score_level1 = 400
+score_level = 400
 
 
 class Object():
@@ -323,7 +323,7 @@ while True:
             windowSurface.blit(BACKGROUND, (0, rel_x))
 
         # Enter in win mode
-        if Score >= score_level1:
+        if Score >= score_level:
             timer += 1
             if timer < 750:
                 scroll += 1
@@ -416,17 +416,17 @@ while True:
             windowSurface.blit(va['surface'], va['rect'])
 
         # Level 1
-        if Score < score_level1:
+        if Score < score_level:
             drawText('Score: %s/4000' % (Score), windowSurface, 10, 40, TEXTCOLOR, 36)
 
         # Draw the lives
-        if Score < score_level1:
+        if Score < score_level:
             draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
         pygame.display.update()
 
         # Check if any of the hospital have hit the player.
         if playerHasHitHospitals(bat.rect, hospitals):
-            if Score < score_level1:
+            if Score < score_level:
                 if bat.max_health == 0:
                     bat.max_health += 3
                 elif bat.max_health == 1:
@@ -438,12 +438,12 @@ while True:
 
         # Check if any of the virus have hit the player.
         if playerHitVirus(bat.rect, viruss):
-            if Score < score_level1:
+            if Score < score_level:
                 Score += 100  # add 100 to the topScore
 
         # Check if any of the vaccines have hit the player.
         if playerHitVaccine(bat.rect, vaccines):
-            if Score < score_level1 and Score > 0:
+            if Score < score_level and Score > 0:
                 Score -= 100  # subtract 100 to the topScore
             bat.max_health -= 1
             if bat.max_health == 0:
