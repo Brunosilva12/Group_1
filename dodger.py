@@ -24,6 +24,7 @@ class Object():
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
 
+
 class Player(object):
     def __init__(self, x_pl, y_pl):
         self.max_health = 3
@@ -117,10 +118,12 @@ def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
+
 # Draw the button on the menu
 start_button = Button(BLACK, 348, 428, 305, 70, "Start")
 option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
+
 
 # Menu
 def Menu():
@@ -133,13 +136,15 @@ def Menu():
 
     pygame.display.update()
 
+
 # Option
 def Option():
-    help = pygame.image.load("Help.png").convert()
+    help = pygame.image.load("Option.png").convert()
     img = pygame.transform.scale(help, (1000, 600))
     windowSurface.blit(img, (0, 0))
     back_button.draw(windowSurface, WHITE)
     pygame.display.update()
+
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
@@ -160,7 +165,6 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     Menu()
-
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -199,6 +203,7 @@ img = pygame.image.load("vie.png")
 vies = pygame.transform.scale(img, (130, 86))
 vies.set_colorkey(BLACK)
 
+
 def draw_lives(surf, x_l, y_l, max_health_l, img_l):
     for i in range(max_health_l):
         img_rect = img_l.get_rect()
@@ -206,30 +211,33 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         img_rect.y = y_l
         surf.blit(img_l, img_rect)
 
+
 def level2():
     niveau2 = pygame.image.load("level2.png")
     niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
 
     windowSurface.blit(niveau2_img, (0, 0))
 
+
 def text_objects(text, font):
     textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
+
 
 def b_special(msg, x, y, w, h, ic, ac):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
-    if x + w > mouse[0] > x and y+h > mouse[1] > y:
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(windowSurface, ac, (x, y, w, h))
         if click[0] == 1:
-                level2()
+            level2()
     else:
         pygame.draw.rect(windowSurface, ic, (x, y, w, h))
 
     smallText = pygame.font.Font("freesansbold.ttf", 20)
     textSurf, textRect = text_objects(msg, smallText)
-    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    textRect.center = ((x + (w / 2)), (y + (h / 2)))
     windowSurface.blit(textSurf, textRect)
 
 
@@ -241,6 +249,7 @@ def win_mode():
 
     pygame.mixer.music.stop()
     levelSound.play()
+
 
 def show_GameOver_screen():
     pygame.mixer.music.stop()
@@ -254,6 +263,7 @@ def show_GameOver_screen():
     waitForPlayerToPressKey()
 
     gameOverSound.stop()
+
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
