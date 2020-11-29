@@ -453,9 +453,9 @@ while True:
 
         # Check if any of the vaccines have hit the player.
         if playerHitVaccine(bat.rect, vaccines):
+            bat.max_health -= 1
             if Score < score_level and Score > 0:
                 Score -= 100  # subtract 100 to the topScore
-                bat.max_health -= 1
                 if bat.max_health == 0:
                     bat.max_health += 3
                     Score = 0
