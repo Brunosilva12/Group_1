@@ -426,14 +426,15 @@ while True:
 
         # Check if any of the hospital have hit the player.
         if playerHasHitHospitals(bat.rect, hospitals):
-            if bat.max_health == 0:
-                bat.max_health += 3
-            elif bat.max_health == 1:
-                bat.max_health += 2
-            elif bat.max_health == 2:
-                bat.max_health += 1
-            Score = 0
-            break
+            if Score < score_level1:
+                if bat.max_health == 0:
+                    bat.max_health += 3
+                elif bat.max_health == 1:
+                    bat.max_health += 2
+                elif bat.max_health == 2:
+                    bat.max_health += 1
+                Score = 0
+                break
 
         # Check if any of the virus have hit the player.
         if playerHitVirus(bat.rect, viruss):
