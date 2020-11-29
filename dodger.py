@@ -6,6 +6,7 @@ from pygame.locals import *
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREY = (127, 127, 127)
 
 WINDOWWIDTH = 1000  # Taille de l'écran
 WINDOWHEIGHT = 600
@@ -15,7 +16,7 @@ FPS = 60  # Nombre d'image par secondes
 # Paramètres des entités
 SPEED = 2
 scroll = 0
-score_level1 = 4000
+score_level1 = 400
 
 
 #class Object():
@@ -125,15 +126,15 @@ def Menu():
 
 
 # Option
-def Option():
-    help = pygame.image.load("Help.png").convert()
-    img = pygame.transform.scale(help, (1000, 600))
-    windowSurface.blit(img, (0, 0))
-    back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
-    back_button.draw(windowSurface, (255, 255, 255))
+#def Option():
+    #help = pygame.image.load("Help.png").convert()
+    #img = pygame.transform.scale(help, (1000, 600))
+    #windowSurface.blit(img, (0, 0))
+    #back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
+    #back_button.draw(windowSurface, (255, 255, 255))
 
-    pygame.display.update()
-    waitForPlayerToGetBack()
+    #pygame.display.update()
+    #waitForPlayerToGetBack()
 
 def waitForPlayerToGetBack():
     while True:
@@ -161,9 +162,9 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
                     return
-            if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if option_button.isOver(pos):
-                    Option()
+            #if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                #if option_button.isOver(pos):
+                    #Option()
 
 
 
@@ -211,11 +212,38 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         img_rect.y = y_l
         surf.blit(img_l, img_rect)
 
+def level2():
+    niveau2 = pygame.image.load("level2.png")
+    niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
+
+    windowSurface.blit(niveau2_img, (0, 0))
+
+def text_objects(text, font):
+    textSurface = font.render(text, True, WHITE)
+    return textSurface, textSurface.get_rect()
+
+def b_special(msg, x, y, w, h, ic, ac):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x + w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(windowSurface, ac, (x, y, w, h))
+        if click[0] == 1:
+                level2()
+    else:
+        pygame.draw.rect(windowSurface, ic, (x, y, w, h))
+
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    windowSurface.blit(textSurf, textRect)
+
 
 def win_mode():
     drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
     windowSurface.blit(level1Image, (450, -500 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
+    b_special("Level 2", 800, 400, 150, 50, BLACK, GREY)
 
     pygame.mixer.music.stop()
     levelSound.play()
@@ -272,7 +300,7 @@ bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
 hospital = Hospital()
-Option()
+#Option()
 
 while True:
     # Set up the start of the game.
