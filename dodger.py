@@ -117,6 +117,10 @@ def terminate():  # Fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
+# Draw the button on the menu
+start_button = Button(BLACK, 348, 428, 305, 70, "Start")
+option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
+back_button = Button(BLACK, 25, 25, 125, 50, "Back")
 
 # Menu
 def Menu():
@@ -124,29 +128,18 @@ def Menu():
     menu = pygame.image.load("menu 1.jpg").convert()
     img = pygame.transform.scale(menu, (1000, 600))
     windowSurface.blit(img, (0, 0))
+    start_button.draw(windowSurface, WHITE)
+    option_button.draw(windowSurface, WHITE)
 
+    pygame.display.update()
 
 # Option
 def Option():
     help = pygame.image.load("Help.png").convert()
     img = pygame.transform.scale(help, (1000, 600))
     windowSurface.blit(img, (0, 0))
-
+    back_button.draw(windowSurface, WHITE)
     pygame.display.update()
-    waitForPlayerToGetBack()
-
-def waitForPlayerToGetBack():
-    while True:
-        for event_Key in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-            if event_Key.type == QUIT:
-                terminate()
-            if event_Key.type == KEYDOWN:
-                if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
-                    terminate()
-            if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if back_button.isOver(pos):
-                    Menu()
 
 def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
     while True:
@@ -164,6 +157,9 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
                     Option()
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                if back_button.isOver(pos):
+                    Menu()
 
 
 
@@ -286,12 +282,6 @@ level1Image = pygame.image.load('Doni.png')
 level1Image = pygame.transform.scale(level1Image, (133, 100))
 
 # Draw the button on the menu
-start_button = Button((0, 0, 0), 348, 428, 305, 70, "Start")
-start_button.draw(windowSurface, (255, 255, 255))
-option_button = Button((0, 0, 0), 360, 515, 268, 45, "How to play")
-option_button.draw(windowSurface, (255, 255, 255))
-back_button = Button((0, 0, 0), 25, 25, 125, 50, "Back")
-back_button.draw(windowSurface, (255, 255, 255))
 pygame.display.update()
 waitForPlayerToPressKey()
 
@@ -314,6 +304,7 @@ while True:
     hospAddCounter = 0
     game_state = GameState()
 
+    menuSound.stop()
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
 
