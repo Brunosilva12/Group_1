@@ -120,6 +120,7 @@ def terminate():  # Fermer la fenêtre du jeu
 
 # Menu
 def Menu():
+
     menu = pygame.image.load("menu 1.jpg").convert()
     img = pygame.transform.scale(menu, (1000, 600))
     windowSurface.blit(img, (0, 0))
@@ -202,7 +203,6 @@ img = pygame.image.load("vie.png")
 vies = pygame.transform.scale(img, (130, 86))
 vies.set_colorkey(BLACK)
 
-
 def draw_lives(surf, x_l, y_l, max_health_l, img_l):
     for i in range(max_health_l):
         img_rect = img_l.get_rect()
@@ -243,11 +243,12 @@ def win_mode():
     drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
     b_special("Level 2", 800, 400, 150, 50, BLACK, GREY)
 
-    gameSound.stop()
+    pygame.mixer.music.stop()
     levelSound.play()
 
 def show_GameOver_screen():
-    gameSound.stop()
+    pygame.mixer.music.stop()
+    gameOverSound.play()
     pygame.mouse.set_visible(True)
 
     drawText('GAME OVER', windowSurface, 300, (WINDOWHEIGHT / 2), (0, 0, 0), 100)
@@ -273,9 +274,8 @@ x = 0
 font = pygame.font.SysFont(None, 48)
 
 # Set up sounds.
-introSound = pygame.mixer.Sound('Open.mp3')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
-gameSound = pygame.mixer.music.load('Final.wav')
+pygame.mixer.music.load('Final.wav')
 levelSound = pygame.mixer.Sound('Win.wav')
 
 # Show the "Start" screen.
@@ -314,8 +314,8 @@ while True:
     hospAddCounter = 0
     game_state = GameState()
 
-    gameSound.music.play(-1, 0.0)
-    gameSound.music.rewind()  # relancer directement la musique
+    pygame.mixer.music.play(-1, 0.0)
+    pygame.mixer.music.rewind()  # relancer directement la musique
 
     while True:  # The game loop runs while the game part is playing.
         game_state.main_game()
