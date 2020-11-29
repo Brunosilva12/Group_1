@@ -237,7 +237,7 @@ def win_mode():
     drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
     windowSurface.blit(level1Image, (450, -500 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
-    b_special("Level 2", 800, 400, 150, 50, BLACK, GREY)
+    b_special("Level 2", 450, -500 + scroll, 150, 50, BLACK, GREY)
 
     pygame.mixer.music.stop()
     levelSound.play()
@@ -445,11 +445,11 @@ while True:
         if playerHitVaccine(bat.rect, vaccines):
             if Score < score_level and Score > 0:
                 Score -= 100  # subtract 100 to the topScore
-            bat.max_health -= 1
-            if bat.max_health == 0:
-                bat.max_health += 3
-                Score = 0
-                break
+                bat.max_health -= 1
+                if bat.max_health == 0:
+                    bat.max_health += 3
+                    Score = 0
+                    break
 
         mainClock.tick(FPS)
 
