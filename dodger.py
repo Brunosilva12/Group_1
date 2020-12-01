@@ -158,12 +158,15 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                     terminate()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.isOver(pos):
+                    buttonSound.play()
                     return
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if option_button.isOver(pos):
+                    buttonSound.play()
                     Option()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
+                    buttonSound.play()
                     Menu()
 
 
@@ -284,6 +287,8 @@ menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 pygame.mixer.music.load('Final.wav')
 levelSound = pygame.mixer.Sound('Win.wav')
+pickupSound = pygame.mixer.Sound('pickup.wav')
+buttonSound = pygame.mixer.Sound('Button.wav')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
@@ -450,6 +455,7 @@ while True:
         if playerHitVirus(bat.rect, viruss):
             if Score < score_level:
                 Score += 100  # add 100 to the topScore
+                pickupSound.play()
 
         # Check if any of the vaccines have hit the player.
         if playerHitVaccine(bat.rect, vaccines):
