@@ -289,6 +289,7 @@ pygame.mixer.music.load('Final.wav')
 levelSound = pygame.mixer.Sound('Win.wav')
 pickupSound = pygame.mixer.Sound('pickup.wav')
 buttonSound = pygame.mixer.Sound('Button.wav')
+failSound = pygame.mixer.Sound('Fail.wav')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
@@ -460,6 +461,7 @@ while True:
         # Check if any of the vaccines have hit the player.
         if playerHitVaccine(bat.rect, vaccines):
             bat.max_health -= 1
+            failSound.play()
             if Score < score_level and Score > 0:
                 Score -= 100  # subtract 100 to the topScore
                 if bat.max_health == 0:
