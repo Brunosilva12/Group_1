@@ -290,6 +290,7 @@ levelSound = pygame.mixer.Sound('Win.wav')
 pickupSound = pygame.mixer.Sound('pickup.wav')
 buttonSound = pygame.mixer.Sound('Button.wav')
 failSound = pygame.mixer.Sound('Fail.wav')
+breakSound = pygame.mixer.Sound('Break.wav')
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
@@ -443,6 +444,7 @@ while True:
         # Check if any of the hospital have hit the player.
         if playerHasHitHospitals(bat.rect, hospitals):
             if Score < score_level:
+                breakSound.play()
                 if bat.max_health == 0:
                     bat.max_health += 3
                 elif bat.max_health == 1:
