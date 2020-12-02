@@ -367,22 +367,20 @@ while True:
 
         if virusAddCounter == virus.add_virus_rate:
             virusAddCounter = 0
-            virusSize = virus.size
-            newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virusSize), 0 - virusSize, virusSize,
-                                            virusSize),
+            newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
+                                            virus.size),
                         'speed': SPEED,
-                        'surface': pygame.transform.scale(virus.image, (virusSize, virusSize)),
+                        'surface': pygame.transform.scale(virus.image, (virus.size, virus.size)),
                         }
 
             viruss.append(newVirus)
 
         if vaccinAddCounter == vaccine.add_vaccine_rate:
             vaccinAddCounter = 0
-            vaccinSize = vaccine.size
-            newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccinSize), 0 - vaccinSize, vaccinSize,
-                                             vaccinSize),
+            newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
+                                             vaccine.size),
                          'speed': SPEED,
-                         'surface': pygame.transform.scale(vaccine.image, (vaccinSize, vaccinSize)),
+                         'surface': pygame.transform.scale(vaccine.image, (vaccine.size, vaccine.size)),
                          }
 
             vaccines.append(newVaccin)
