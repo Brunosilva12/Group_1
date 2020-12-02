@@ -122,7 +122,7 @@ def terminate():  # Fermer la fenêtre du jeu
 start_button = Button(BLACK, 348, 428, 305, 70, "Start")
 option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
-
+lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Restart")
 
 # Menu
 def Menu():
@@ -166,6 +166,9 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isOver(pos):
                     buttonSound.play()
+                    Menu()
+            if event_Key.type == pygame.MOUSEBUTTONDOWN:
+                if lvl_button.isOver(pos):
                     Menu()
 
 
@@ -217,8 +220,12 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
 def level2():
     niveau2 = pygame.image.load("level2.png")
     niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
-
     windowSurface.blit(niveau2_img, (0, 0))
+    pygame.mouse.set_visible(True)
+    lvl_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Restart")
+    lvl_button.draw(windowSurface, (255, 255, 255))
+    pygame.display.update()
+    waitForPlayerToPressKey()
 
 
 def text_objects(text, font):
@@ -279,8 +286,6 @@ BACKGROUND_rect = BACKGROUND.get_rect()
 x = 0
 
 # Set up sounds.
-
-
 menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 finalSound = pygame.mixer.music.load('Final.wav')
@@ -290,12 +295,16 @@ buttonSound = pygame.mixer.Sound('Button.wav')
 failSound = pygame.mixer.Sound('Fail.wav')
 breakSound = pygame.mixer.Sound('Break.wav')
 
+# Set up the volume.
 menuSound.set_volume(0.2)
+gameOverSound.set_volume(0.5)
 pygame.mixer.music.set_volume(0.1)
+levelSound.set_volume(0.1)
 pickupSound.set_volume(0.2)
 buttonSound.set_volume(0.1)
 failSound.set_volume(100)
-breakSound.set_volume(0.1)
+breakSound.set_volume(0.2)
+
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
