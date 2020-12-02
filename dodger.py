@@ -279,9 +279,6 @@ BACKGROUND = pygame.image.load('fond.png').convert()  # fond
 BACKGROUND_rect = BACKGROUND.get_rect()
 x = 0
 
-# Set up the same fonts for everything
-font = pygame.font.SysFont(None, 48)
-
 # Set up sounds.
 menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
