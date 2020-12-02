@@ -10,7 +10,6 @@ GREY = (127, 127, 127)
 
 WINDOWWIDTH = 1000  # Taille de l'écran
 WINDOWHEIGHT = 600
-TEXTCOLOR = WHITE  # Couleur du text
 FPS = 60  # Nombre d'image par secondes
 
 # Paramètres des entités
@@ -431,7 +430,7 @@ while True:
 
         # Level 1
         if Score < score_level:
-            drawText('Score: %s/4000' % (Score), windowSurface, 10, 40, TEXTCOLOR, 36)
+            drawText('Score: %s/4000' % (Score), windowSurface, 10, 40, WHITE, 36)
 
         # Draw the lives
         if Score < score_level:
