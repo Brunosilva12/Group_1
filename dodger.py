@@ -41,6 +41,8 @@ class Hospital(object):
         self.add_hosp_rate = 100
         self.image = pygame.image.load('hos.jpg').convert_alpha()
         self.rect = self.image.get_rect()
+        self.rand_size = random.randint(self.min_size, self.max_size)
+        self.surface = pygame.transform.scale(self.image, (self.rand_size, self.rand_size))
 
 
 class Virus(object):
@@ -49,6 +51,7 @@ class Virus(object):
         self.add_virus_rate = 40
         self.image = pygame.image.load('virus.png').convert_alpha()
         self.rect = self.image.get_rect()
+        self.surface = pygame.transform.scale(self.image, (self.size, self.size))
 
 
 class Vaccine(object):
@@ -57,6 +60,7 @@ class Vaccine(object):
         self.add_vaccine_rate = 50
         self.image = pygame.image.load('vaccin.png').convert_alpha()
         self.rect = self.image.get_rect()
+        self.surface = pygame.transform.scale(self.image, (self.size, self.size))
 
 
 class GameState(object):
@@ -123,6 +127,7 @@ start_button = Button(BLACK, 348, 428, 305, 70, "Start")
 option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
 lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
+
 
 # Menu
 def Menu():
@@ -305,7 +310,6 @@ buttonSound.set_volume(0.1)
 failSound.set_volume(100)
 breakSound.set_volume(0.2)
 
-
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
 Menu()
@@ -370,27 +374,28 @@ while True:
             newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                             virus.size),
                         'speed': SPEED,
-                        'surface': pygame.transform.scale(virus.image, (virus.size, virus.size)),
+                        'surface': virus.surface,
                         }
 
             viruss.append(newVirus)
 
         if vaccinAddCounter == vaccine.add_vaccine_rate:
             vaccinAddCounter = 0
-            newVaccin = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
-                                             vaccine.size),
-                         'speed': SPEED,
-                         'surface': pygame.transform.scale(vaccine.image, (vaccine.size, vaccine.size)),
-                         }
+            newVaccin = {
+                'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
+                                    vaccine.size),
+                'speed': SPEED,
+                'surface': vaccine.surface,
+                }
 
             vaccines.append(newVaccin)
 
         if hospAddCounter == hospital.add_hosp_rate:
             hospAddCounter = 0
-            hospSize = random.randint(hospital.min_size, hospital.max_size)
-            newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospSize), 0 - hospSize, hospSize, hospSize),
+            newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
+                                           hospital.rand_size, hospital.rand_size),
                        'speed': SPEED,
-                       'surface': pygame.transform.scale(hospital.image, (hospSize, hospSize)),
+                       'surface': hospital.surface,
                        }
             hospitals.append(newHosp)
 
@@ -478,10 +483,10 @@ while True:
             failSound.play()
             if Score < score_level and Score > 0:
                 Score -= 100  # subtract 100 to the topScore
-                if bat.max_health == 0:
-                    bat.max_health += 3
-                    Score = 0
-                    break
+            if bat.max_health == 0:
+                bat.max_health += 3
+                Score = 0
+                break
 
         mainClock.tick(FPS)
 
