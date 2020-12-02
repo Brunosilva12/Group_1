@@ -122,7 +122,7 @@ def terminate():  # Fermer la fenêtre du jeu
 start_button = Button(BLACK, 348, 428, 305, 70, "Start")
 option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
-lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Restart")
+lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 
 # Menu
 def Menu():
@@ -222,7 +222,7 @@ def level2():
     niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
     windowSurface.blit(niveau2_img, (0, 0))
     pygame.mouse.set_visible(True)
-    lvl_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Restart")
+    lvl_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
     lvl_button.draw(windowSurface, (255, 255, 255))
     pygame.display.update()
     waitForPlayerToPressKey()
