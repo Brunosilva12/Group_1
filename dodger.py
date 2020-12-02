@@ -456,7 +456,6 @@ while True:
         # Draw the lives
         if Score < score_level:
             draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
-        pygame.display.update()
 
         # Check if any of the hospital have hit the player.
         if playerHasHitHospitals(bat.rect, hospitals):
@@ -487,7 +486,8 @@ while True:
                 bat.max_health += 3
                 Score = 0
                 break
-
+        
+        pygame.display.update()
         mainClock.tick(FPS)
 
     # Stop the game and show the "Game Over" screen.
