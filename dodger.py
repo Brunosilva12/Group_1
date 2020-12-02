@@ -279,14 +279,23 @@ BACKGROUND_rect = BACKGROUND.get_rect()
 x = 0
 
 # Set up sounds.
+
+
 menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
-pygame.mixer.music.load('Final.wav')
+finalSound = pygame.mixer.music.load('Final.wav')
 levelSound = pygame.mixer.Sound('Win.wav')
 pickupSound = pygame.mixer.Sound('pickup.wav')
 buttonSound = pygame.mixer.Sound('Button.wav')
 failSound = pygame.mixer.Sound('Fail.wav')
 breakSound = pygame.mixer.Sound('Break.wav')
+
+menuSound.set_volume(0.2)
+pygame.mixer.music.set_volume(0.1)
+pickupSound.set_volume(0.2)
+buttonSound.set_volume(0.1)
+failSound.set_volume(100)
+breakSound.set_volume(0.1)
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
