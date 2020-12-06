@@ -351,8 +351,6 @@ while True:
     while True:  # The game loop runs while the game part is playing.
         game_state.main_game()
         pygame.mouse.set_visible(False)
-        # Draw the game world on the window.
-        windowSurface.fill((0, 0, 0))
 
         # Background image settings
         if timer < 750:
