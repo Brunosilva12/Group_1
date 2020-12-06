@@ -67,6 +67,9 @@ class GameState(object):
     def __init__(self):
         self.state = "main game"
 
+    def intro (self):
+        Menu()
+
     def main_game(self):
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -82,6 +85,8 @@ class GameState(object):
                 bat.rect.centery = event.pos[1]
 
     def state_manager(self):
+        if self.state == "intro":
+            self.intro()
         if self.state == "main_game":
             self.main_game()
 
@@ -311,7 +316,8 @@ breakSound.set_volume(0.2)
 
 # Show the "Start" screen.
 windowSurface.fill((0, 0, 0))
-Menu()
+game_state = GameState()
+game_state.intro()
 level1Image = pygame.image.load('Doni.png')
 level1Image = pygame.transform.scale(level1Image, (133, 100))
 
@@ -336,7 +342,7 @@ while True:
     virusAddCounter = 0
     vaccinAddCounter = 0
     hospAddCounter = 0
-    game_state = GameState()
+    #game_state = GameState()
 
     menuSound.stop()
     pygame.mixer.music.play(-1, 0.0)
