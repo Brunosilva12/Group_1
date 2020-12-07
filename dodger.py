@@ -233,7 +233,7 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         surf.blit(img_l, img_rect)
 
 '''
-def level2():
+#def level2():
     niveau2 = pygame.image.load("level2.png")
     niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
     windowSurface.blit(niveau2_img, (0, 0))
