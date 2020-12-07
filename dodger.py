@@ -185,25 +185,25 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                     Menu()
 
 
-def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
-    for v_ in virus_:
-        if playerRect.colliderect(v_['rect']):  # Détecter la collision
-            viruss.remove(v_)  # Supprimer le virus à chaque fois que le player le toucher
+def playerHitVirus(playerRect, viruss):  # Définir la fonction : collision entre le player et le virus
+    for v in viruss:
+        if playerRect.colliderect(v['rect']):  # Détecter la collision
+            viruss.remove(v)  # Supprimer le virus à chaque fois que le player le toucher
             return True
     return False
 
 
-def playerHasHitHospitals(playerRect, hospitals_):  # Définir la fonction : collision entre le player et l'hôpital
-    for h_ in hospitals_:
-        if playerRect.colliderect(h_['rect']):  # Détecter la collision
+def playerHasHitHospitals(playerRect, hospitals):  # Définir la fonction : collision entre le player et l'hôpital
+    for h in hospitals:
+        if playerRect.colliderect(h['rect']):  # Détecter la collision
             return True
     return False
 
 
-def playerHitVaccine(playerRect, vaccines_):  # Définir la fonction : collision entre le player et le vaccin
-    for va_ in vaccines_:
-        if playerRect.colliderect(va_['rect']):  # Détecter la collision
-            vaccines.remove(va_)  # Supprimer le vaccin à chaque fois que le player le toucher
+def playerHitVaccine(playerRect, vaccines):  # Définir la fonction : collision entre le player et le vaccin
+    for va in vaccines:
+        if playerRect.colliderect(va['rect']):  # Détecter la collision
+            vaccines.remove(va)  # Supprimer le vaccin à chaque fois que le player le toucher
             return True
     return False
 
