@@ -63,12 +63,13 @@ class Vaccine(object):
         self.surface = pygame.transform.scale(self.image, (self.size, self.size))
 
 
-class GameState(object):
+class GameState:
     def __init__(self):
         self.state = "main game"
 
-    def intro (self):
+    def intro(self):
         Menu()
+
 
     def main_game(self):
         for event in pygame.event.get():
@@ -91,8 +92,9 @@ class GameState(object):
             self.main_game()
 
 
-class Button(object):
+class Button(GameState):
     def __init__(self, color_button, x_button, y_button, width, height, text=''):
+        super().__init__()
         self.color = color_button
         self.x = x_button
         self.y = y_button
@@ -132,6 +134,8 @@ start_button = Button(BLACK, 348, 428, 305, 70, "Start")
 option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
 lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
+nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
+
 
 
 # Menu
@@ -178,8 +182,10 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                     buttonSound.play()
                     Menu()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if lvl_button.isOver(pos):
+                if nxt_button.isOver(pos):
+                    buttonSound.play()
                     Menu()
+
 
 
 def playerHitVirus(playerRect, virus_):  # Définir la fonction : collision entre le player et le virus
@@ -226,7 +232,17 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         img_rect.y = y_l
         surf.blit(img_l, img_rect)
 
-
+'''
+def level2():
+    niveau2 = pygame.image.load("level2.png")
+    niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
+    windowSurface.blit(niveau2_img, (0, 0))
+    pygame.mouse.set_visible(True)
+    lvl_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
+    lvl_button.draw(windowSurface, (255, 255, 255))
+    pygame.display.update()
+    waitForPlayerToPressKey()
+'''
 
 def text_objects(text, font):
     textSurface = font.render(text, True, WHITE)
@@ -251,12 +267,18 @@ def b_special(msg, x, y, w, h, ic, ac):
 
 
 def win_mode():
+    pygame.mixer.music.stop()
+    levelSound.play()
+    pygame.mouse.set_visible(True)
+
     drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
     windowSurface.blit(level1Image, (430, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
-    b_special("Level 2", 430, -450 + scroll, 150, 50, BLACK, GREY)
-    pygame.mixer.music.stop()
-    levelSound.play()
+    nxt_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
+    nxt_button.draw(windowSurface, (255, 255, 255))
+    pygame.display.update()
+    waitForPlayerToPressKey()
+#    b_special("Level 2", 430, -450 + scroll, 150, 50, BLACK, GREY)
 
 
 def show_GameOver_screen():
