@@ -63,12 +63,13 @@ class Vaccine(object):
         self.surface = pygame.transform.scale(self.image, (self.size, self.size))
 
 
-class GameState(object):
+class GameState:
     def __init__(self):
         self.state = "main game"
 
-    def intro (self):
+    def intro(self):
         Menu()
+
 
     def main_game(self):
         for event in pygame.event.get():
@@ -91,8 +92,9 @@ class GameState(object):
             self.main_game()
 
 
-class Button(object):
+class Button(GameState):
     def __init__(self, color_button, x_button, y_button, width, height, text=''):
+        super().__init__()
         self.color = color_button
         self.x = x_button
         self.y = y_button
