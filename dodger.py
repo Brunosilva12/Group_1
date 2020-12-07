@@ -110,7 +110,7 @@ class Button(GameState):
 
         if self.text != '':
             font_button = pygame.font.SysFont('comicsans', 60)
-            text = font_button.render(self.text, 1, (255, 255, 255))
+            text = font_button.render(self.text, 1, WHITE)
             window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
@@ -129,8 +129,10 @@ def terminate():  # Fermer la fenêtre du jeu
 
 
 # Draw the button on the menu
-start_button = Button(BLACK, 348, 428, 305, 70, "Start")
-option_button = Button(BLACK, 360, 515, 268, 45, "How to play")
+start_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2)+10, 70, "Start")
+restart_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2)+10, 70, "Restart")
+menu_button = Button(BLACK, 25, 25, 125, 50, "Menu")
+option_button = Button(BLACK, 360, 515, (WINDOWHEIGHT / 2)-15, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
 lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
@@ -270,14 +272,14 @@ def win_mode():
     levelSound.play()
     pygame.mouse.set_visible(True)
 
-    drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
-    windowSurface.blit(level1Image, (430, -550 + scroll))
-    drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
+    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
+    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
+    drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
     # nxt_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
     # nxt_button.draw(windowSurface, (255, 255, 255))
     # pygame.display.update()
     # waitForPlayerToPressKey()
-    b_special("Level 2", 430, -450 + scroll, 150, 50, BLACK, GREY)
+    b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
 
 
 def show_GameOver_screen():
@@ -285,9 +287,10 @@ def show_GameOver_screen():
     gameOverSound.play()
     pygame.mouse.set_visible(True)
 
-    drawText('GAME OVER', windowSurface, 300, (WINDOWHEIGHT / 2), (0, 0, 0), 100)
-    start_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Restart")
-    start_button.draw(windowSurface, (255, 255, 255))
+    drawText('GAME OVER', windowSurface, 290, (WINDOWHEIGHT / 2), BLACK, 100)
+    restart_button.draw(windowSurface, WHITE)
+    option_button.draw(windowSurface, WHITE)
+    menu_button.draw(windowSurface, WHITE)
     pygame.display.update()
     waitForPlayerToPressKey()
 
