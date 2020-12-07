@@ -497,7 +497,7 @@ def level2():
 
             # Check if any of the vaccines have hit the player.
             if playerHitVaccine(bat.rect, vaccines):
-                if Score < score_level and Score > 0:
+                if Score < score_level and Score >= 0:
                     bat.max_health -= 1
                     failSound.play()
                     Score -= 100  # subtract 100 to the topScore
@@ -673,7 +673,7 @@ while True:
 
         # Check if any of the vaccines have hit the player.
         if playerHitVaccine(bat.rect, vaccines):
-            if Score < score_level and Score > 0:
+            if Score < score_level and Score >= 0:
                 bat.max_health -= 1
                 failSound.play()
                 Score -= 100  # subtract 100 to the topScore
