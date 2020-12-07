@@ -274,11 +274,11 @@ def win_mode():
     drawText('LEVEL COMPLETE', windowSurface, 350, (-250 + scroll), RED, 48)
     windowSurface.blit(level1Image, (430, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, 300, (-700 + scroll), RED, 48)
-    nxt_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
-    nxt_button.draw(windowSurface, (255, 255, 255))
-    pygame.display.update()
-    waitForPlayerToPressKey()
-#    b_special("Level 2", 430, -450 + scroll, 150, 50, BLACK, GREY)
+    #nxt_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
+    #nxt_button.draw(windowSurface, (255, 255, 255))
+    #pygame.display.update()
+    #waitForPlayerToPressKey()
+    b_special("Level 2", 430, -450 + scroll, 150, 50, BLACK, GREY)
 
 
 def show_GameOver_screen():
