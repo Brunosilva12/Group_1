@@ -270,7 +270,6 @@ def b_special(msg, x, y, w, h, ic, ac):
 
 def win_mode():
     pygame.mixer.music.stop()
-    levelSound.play()
     pygame.mouse.set_visible(False)
 
     drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
@@ -362,10 +361,10 @@ def level2():
         hospAddCounter = 0
 
         # game_state = GameState()
-        level2Sound = pygame.mixer.music.load('Level2.mp3')
+        level2Sound = pygame.mixer.music.load('Level2.wav')
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.rewind()  # relancer directement la musique
-
+        pygame.mixer.music.set_volume(0.05)
         while True:  # The game loop runs while the game part is playing.
             game_state.main_game()
 
