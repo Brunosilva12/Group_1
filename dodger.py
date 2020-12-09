@@ -38,7 +38,6 @@ class Hospital(object):
         self.rect = self.image.get_rect()
         self.rand_size = random.randint(self.min_size, self.max_size)
         self.surface = pygame.transform.scale(self.image, (self.rand_size, self.rand_size))
-
         self.image_2 = pygame.image.load('hosp_lvl2.png').convert_alpha()
         self.rect_2 = self.image_2.get_rect()
         self.surface_2 = pygame.transform.scale(self.image_2, (self.rand_size, self.rand_size))
@@ -305,7 +304,7 @@ pygame.display.set_caption('Loco-vid')
 
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
-BACKGROUND_rect = BACKGROUND.get_rect()
+BACKGROUND_2 = pygame.image.load('fond_2.png').convert()  # fond
 x = 0
 
 # Set up sounds.
@@ -366,10 +365,10 @@ def level2():
             # Background image settings
             if timer2 < 750:
                 x += 1
-            rel_x = x % BACKGROUND.get_rect().height
-            windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
+            rel_x = x % BACKGROUND_2.get_rect().height
+            windowSurface.blit(BACKGROUND_2, (0, rel_x - BACKGROUND_2.get_rect().height))
             if rel_x < WINDOWHEIGHT:
-                windowSurface.blit(BACKGROUND, (0, rel_x))
+                windowSurface.blit(BACKGROUND_2, (0, rel_x))
 
             # Enter in win mode
             if Score2 >= score_level2:
