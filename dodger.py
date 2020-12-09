@@ -277,8 +277,7 @@ def win_mode():
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
-
-
+'''
 def win_mode_2():
     pygame.mixer.music.stop()
 
@@ -288,7 +287,7 @@ def win_mode_2():
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll2))
     drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll2), RED, 48)
     b_special("Menu", (WINDOWHEIGHT / 2)+125, -450 + scroll2, 150, 50, BLACK, GREY)
-
+'''
 
 def show_GameOver_screen():
     pygame.mixer.music.stop()
@@ -357,15 +356,16 @@ def level2():
         hospitals = []
         viruss = []
         vaccines = []
+        moveLeft = moveRight = moveUp = moveDown = False
         virusAddCounter = 0
         vaccinAddCounter = 0
         hospAddCounter = 0
 
         # game_state = GameState()
-        level2Sound = pygame.mixer.music.load('Level2.mp3')
+        level2Sound = pygame.mixer.music.load('Level2.wav')
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.rewind()  # relancer directement la musique
-
+        pygame.mixer.music.set_volume(0.05)
         while True:  # The game loop runs while the game part is playing.
             game_state.main_game()
 
@@ -382,7 +382,16 @@ def level2():
                 timer2 += 1
                 if timer2 < 750:
                     scroll2 += 1
-                win_mode_2()
+                #Win mode 2
+                pygame.mixer.music.stop()
+
+                pygame.mouse.set_visible(False)
+
+                drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-250 + scroll2), RED, 48)
+                windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2) + 125, -550 + scroll2))
+                drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2) - 10, (-700 + scroll2), RED, 48)
+                b_special("Menu", (WINDOWHEIGHT / 2) + 125, -450 + scroll2, 150, 50, BLACK, GREY)
+
             # Add new baddies at the top of the screen, if needed.
             else:
                 virusAddCounter += 1
@@ -507,7 +516,7 @@ def level2():
 
 
 # Draw the button on the menu
-# pygame.display.update()
+pygame.display.update()
 waitForPlayerToPressKey()
 
 ############# START ####################
