@@ -39,6 +39,10 @@ class Hospital(object):
         self.rand_size = random.randint(self.min_size, self.max_size)
         self.surface = pygame.transform.scale(self.image, (self.rand_size, self.rand_size))
 
+        self.image_2 = pygame.image.load('hosp_lvl2.png').convert_alpha()
+        self.rect_2 = self.image_2.get_rect()
+        self.surface_2 = pygame.transform.scale(self.image_2, (self.rand_size, self.rand_size))
+
 
 class Virus(object):
     def __init__(self):
@@ -347,7 +351,6 @@ def level2():
         hospitals = []
         viruss = []
         vaccines = []
-        moveLeft = moveRight = moveUp = moveDown = False
         virusAddCounter = 0
         vaccinAddCounter = 0
         hospAddCounter = 0
@@ -416,7 +419,7 @@ def level2():
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
                                         hospital.rand_size, hospital.rand_size),
                     'speed': 2,
-                    'surface': hospital.surface,
+                    'surface': hospital.surface_2,
                 }
                 hospitals.append(newHosp)
 
