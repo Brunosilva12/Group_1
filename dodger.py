@@ -257,7 +257,11 @@ def b_special(msg, x, y, w, h, ic, ac):
     if x + w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(windowSurface, ac, (x, y, w, h))
         if click[0] == 1:
-            level2()
+            if msg == "Level 2":
+                level2()
+            elif msg == "Menu":
+                Menu()
+                waitForPlayerToPressKey()
     else:
         pygame.draw.rect(windowSurface, ic, (x, y, w, h))
 
@@ -280,6 +284,16 @@ def win_mode():
     # pygame.display.update()
     # waitForPlayerToPressKey()
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
+
+def win_mode_2():
+    pygame.mixer.music.stop()
+
+    pygame.mouse.set_visible(True)
+
+    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
+    #windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
+    drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
+    b_special("Menu", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
 
 
 def show_GameOver_screen():
@@ -347,6 +361,7 @@ def level2():
     pygame.display.update()
     waitForPlayerToPressKey()
 '''
+    levelSound.stop()
     while True:
         # Set up the start of the game.
         bat.max_health = 3
@@ -384,7 +399,7 @@ def level2():
                 timer += 1
                 if timer < 750:
                     scroll += 1
-                win_mode()
+                win_mode_2()
             # Add new baddies at the top of the screen, if needed.
             else:
                 virusAddCounter += 1
