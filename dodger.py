@@ -16,8 +16,8 @@ FPS = 60  # Nombre d'image par secondes
 SPEED = 2
 scroll = 0
 scroll2 = 0
-score_level = 100
-score_level2 = 100
+score_level = 1000
+score_level2 = 1000
 
 
 class Player(object):
@@ -152,6 +152,7 @@ nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 # Menu
 def Menu():
     menuSound.play()
+    pygame.mouse.set_visible(True)
     menu = pygame.image.load("menu 1.jpg").convert()
     img = pygame.transform.scale(menu, (1000, 600))
     windowSurface.blit(img, (0, 0))
@@ -276,17 +277,6 @@ def win_mode():
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
-'''
-def win_mode_2():
-    pygame.mixer.music.stop()
-
-    pygame.mouse.set_visible(False)
-
-    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll2), RED, 48)
-    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll2))
-    drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll2), RED, 48)
-    b_special("Menu", (WINDOWHEIGHT / 2)+125, -450 + scroll2, 150, 50, BLACK, GREY)
-'''
 
 def show_GameOver_screen():
     pygame.mixer.music.stop()
@@ -502,7 +492,7 @@ def level2():
                     bat.max_health -= 1
                     failSound.play()
                     if Score2 >0:
-                        Score2 -= 100  # subtract 100 to the topScore
+                        Score2 -= 500  # subtract 500 to the topScore
                 if bat.max_health == 0:
                     bat.max_health += 3
                     Score2 = 0
@@ -670,7 +660,7 @@ while True:
                 bat.max_health -= 1
                 failSound.play()
                 if Score > 0:
-                    Score -= 100  # subtract 100 to the topScore
+                    Score -= 500  # subtract 500 to the topScore
             if bat.max_health == 0:
                 bat.max_health += 3
                 Score = 0
