@@ -15,7 +15,9 @@ FPS = 60  # Nombre d'image par secondes
 # Paramètres des entités
 SPEED = 2
 scroll = 0
-score_level = 400
+scroll2 = 0
+score_level = 100
+score_level2 = 100
 
 
 class Player(object):
@@ -240,19 +242,6 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         surf.blit(img_l, img_rect)
 
 
-'''
-#def level2():
-    niveau2 = pygame.image.load("level2.png")
-    niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
-    windowSurface.blit(niveau2_img, (0, 0))
-    pygame.mouse.set_visible(True)
-    lvl_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
-    lvl_button.draw(windowSurface, (255, 255, 255))
-    pygame.display.update()
-    waitForPlayerToPressKey()
-'''
-
-
 def text_objects(text, font):
     textSurface = font.render(text, True, WHITE)
     return textSurface, textSurface.get_rect()
@@ -286,21 +275,17 @@ def win_mode():
     drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
-    # nxt_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
-    # nxt_button.draw(windowSurface, (255, 255, 255))
-    # pygame.display.update()
-    # waitForPlayerToPressKey()
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
 
 def win_mode_2():
     pygame.mixer.music.stop()
 
-    pygame.mouse.set_visible(True)
+    pygame.mouse.set_visible(False)
 
-    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
-    #windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
-    drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
-    b_special("Menu", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
+    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll2), RED, 48)
+    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll2))
+    drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll2), RED, 48)
+    b_special("Menu", (WINDOWHEIGHT / 2)+125, -450 + scroll2, 150, 50, BLACK, GREY)
 
 
 def show_GameOver_screen():
@@ -358,27 +343,18 @@ level1Image = pygame.transform.scale(level1Image, (133, 100))
 
 
 def level2():
-    '''
-    niveau2 = pygame.image.load("level2.png")
-    niveau2_img = pygame.transform.scale(niveau2, (1000, 600))
-    windowSurface.blit(niveau2_img, (0, 0))
-    pygame.mouse.set_visible(True)
-    lvl_button = Button((0, 0, 0), 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
-    lvl_button.draw(windowSurface, (255, 255, 255))
-    pygame.display.update()
-    waitForPlayerToPressKey()
-'''
     levelSound.stop()
+
     while True:
         # Set up the start of the game.
+        timer2 = 0
+        scroll2 = 0
+        Score2 = 0
         bat.max_health = 3
-        Score = 0
         x = 0
-        scroll = 0
         hospitals = []
         viruss = []
         vaccines = []
-        timer = 0
         moveLeft = moveRight = moveUp = moveDown = False
         virusAddCounter = 0
         vaccinAddCounter = 0
@@ -395,7 +371,7 @@ def level2():
             game_state.main_game()
 
             # Background image settings
-            if timer < 750:
+            if timer2 < 750:
                 x += 1
             rel_x = x % BACKGROUND.get_rect().height
             windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
@@ -403,10 +379,10 @@ def level2():
                 windowSurface.blit(BACKGROUND, (0, rel_x))
 
             # Enter in win mode
-            if Score >= score_level:
-                timer += 1
-                if timer < 750:
-                    scroll += 1
+            if Score2 >= score_level2:
+                timer2 += 1
+                if timer2 < 750:
+                    scroll2 += 1
                 win_mode_2()
             # Add new baddies at the top of the screen, if needed.
             else:
@@ -487,16 +463,16 @@ def level2():
 
 
             # Level 1
-            if Score < score_level:
-                drawText('Score: %s/4000' % (Score), windowSurface, 10, 40, WHITE, 36)
+            if Score2 < score_level2:
+                drawText('Score: %s/4000' % (Score2), windowSurface, 10, 40, WHITE, 36)
 
             # Draw the lives
-            if Score < score_level:
+            if Score2 < score_level2:
                 draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
 
             # Check if any of the hospital have hit the player.
             if playerHasHitHospitals(bat.rect, hospitals):
-                if Score < score_level:
+                if Score2 < score_level2:
                     breakSound.play()
                     if bat.max_health == 0:
                         bat.max_health += 3
@@ -504,25 +480,25 @@ def level2():
                         bat.max_health += 2
                     elif bat.max_health == 2:
                         bat.max_health += 1
-                    Score = 0
+                    Score2 = 0
                     break
 
             # Check if any of the virus have hit the player.
             if playerHitVirus(bat.rect, viruss):
-                if Score < score_level:
-                    Score += 100  # add 100 to the topScore
+                if Score2 < score_level2:
+                    Score2 += 100  # add 100 to the topScore
                     pickupSound.play()
 
             # Check if any of the vaccines have hit the player.
             if playerHitVaccine(bat.rect, vaccines):
-                if Score < score_level:
+                if Score2 < score_level2:
                     bat.max_health -= 1
                     failSound.play()
-                    if Score >0:
-                        Score -= 100  # subtract 100 to the topScore
+                    if Score2 >0:
+                        Score2 -= 100  # subtract 100 to the topScore
                 if bat.max_health == 0:
                     bat.max_health += 3
-                    Score = 0
+                    Score2 = 0
                     break
 
             pygame.display.update()
@@ -538,6 +514,7 @@ waitForPlayerToPressKey()
 
 ############# START ####################
 Score = 0
+Score2 = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
