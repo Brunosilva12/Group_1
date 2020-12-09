@@ -270,7 +270,7 @@ def b_special(msg, x, y, w, h, ic, ac):
 def win_mode():
     pygame.mixer.music.stop()
     levelSound.play()
-    pygame.mouse.set_visible(True)
+    pygame.mouse.set_visible(False)
 
     drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
