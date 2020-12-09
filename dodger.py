@@ -277,7 +277,7 @@ def win_mode():
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
     drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
-
+'''
 def win_mode_2():
     pygame.mixer.music.stop()
 
@@ -287,7 +287,7 @@ def win_mode_2():
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll2))
     drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll2), RED, 48)
     b_special("Menu", (WINDOWHEIGHT / 2)+125, -450 + scroll2, 150, 50, BLACK, GREY)
-
+'''
 
 def show_GameOver_screen():
     pygame.mixer.music.stop()
@@ -382,7 +382,16 @@ def level2():
                 timer2 += 1
                 if timer2 < 750:
                     scroll2 += 1
-                win_mode_2()
+                #Win mode 2
+                pygame.mixer.music.stop()
+
+                pygame.mouse.set_visible(False)
+
+                drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-250 + scroll2), RED, 48)
+                windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2) + 125, -550 + scroll2))
+                drawText('BRAVO !', windowSurface, (WINDOWHEIGHT / 2) - 10, (-700 + scroll2), RED, 48)
+                b_special("Menu", (WINDOWHEIGHT / 2) + 125, -450 + scroll2, 150, 50, BLACK, GREY)
+
             # Add new baddies at the top of the screen, if needed.
             else:
                 virusAddCounter += 1
