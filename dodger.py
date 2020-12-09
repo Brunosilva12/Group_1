@@ -62,7 +62,6 @@ class Vaccine(object):
 class GameState:
     def __init__(self):
         self.state = "main game"
-        self.timer = 0
 
     def intro(self):
         Menu()
@@ -92,6 +91,8 @@ class GameState:
             bat.rect.move_ip(0, -1 * bat.player_move_rate)
         if moveDown and bat.rect.bottom < WINDOWHEIGHT:
             bat.rect.move_ip(0, bat.player_move_rate)
+
+        mainClock.tick(FPS)
 
 
     def state_manager(self):
@@ -500,7 +501,6 @@ def level2():
                     break
 
             pygame.display.update()
-            mainClock.tick(FPS)
 
         # Stop the game and show the "Game Over" screen.
         show_GameOver_screen()
@@ -669,7 +669,6 @@ while True:
                 break
 
         pygame.display.update()
-        mainClock.tick(FPS)
 
     # Stop the game and show the "Game Over" screen.
     show_GameOver_screen()
