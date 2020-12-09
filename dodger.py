@@ -387,6 +387,7 @@ def level2():
         # game_state = GameState()
 
         menuSound.stop()
+        level2Sound = pygame.mixer.music.load('Level2.mp3')
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.rewind()  # relancer directement la musique
 
