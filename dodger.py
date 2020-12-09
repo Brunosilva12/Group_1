@@ -18,12 +18,6 @@ scroll = 0
 score_level = 400
 
 
-class Object():
-    def __init__(self, image):
-        self.image = pygame.image.load(image)
-        self.rect = self.image.get_rect()
-
-
 class Player(object):
     def __init__(self, x_pl, y_pl):
         self.max_health = 3
@@ -66,11 +60,14 @@ class Vaccine(object):
 class GameState:
     def __init__(self):
         self.state = "main game"
+        self.timer = 0
 
     def intro(self):
         Menu()
 
     def main_game(self):
+        pygame.mouse.set_visible(False)
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
@@ -83,6 +80,17 @@ class GameState:
                 # If the mouse moves, move the player where to the cursor.
                 bat.rect.centerx = event.pos[0]
                 bat.rect.centery = event.pos[1]
+
+        # Move the player around.
+        if moveLeft and bat.rect.left > 0:
+            bat.rect.move_ip(-1 * bat.player_move_rate, 0)
+        if moveRight and bat.rect.right < WINDOWWIDTH:
+            bat.rect.move_ip(bat.player_move_rate, 0)
+        if moveUp and bat.rect.top > 0:
+            bat.rect.move_ip(0, -1 * bat.player_move_rate)
+        if moveDown and bat.rect.bottom < WINDOWHEIGHT:
+            bat.rect.move_ip(0, bat.player_move_rate)
+
 
     def state_manager(self):
         if self.state == "intro":
@@ -384,7 +392,6 @@ def level2():
 
         while True:  # The game loop runs while the game part is playing.
             game_state.main_game()
-            pygame.mouse.set_visible(False)
 
             # Background image settings
             if timer < 750:
@@ -437,16 +444,6 @@ def level2():
                 }
                 hospitals.append(newHosp)
 
-            # Move the player around.
-            if moveLeft and bat.rect.left > 0:
-                bat.rect.move_ip(-1 * bat.player_move_rate, 0)
-            if moveRight and bat.rect.right < WINDOWWIDTH:
-                bat.rect.move_ip(bat.player_move_rate, 0)
-            if moveUp and bat.rect.top > 0:
-                bat.rect.move_ip(0, -1 * bat.player_move_rate)
-            if moveDown and bat.rect.bottom < WINDOWHEIGHT:
-                bat.rect.move_ip(0, bat.player_move_rate)
-
             # Move the hospitals down.
             for h in hospitals:
                 h['rect'].move_ip(0, h['speed'])
@@ -486,6 +483,7 @@ def level2():
 
             for va in vaccines:
                 windowSurface.blit(va['surface'], va['rect'])
+
 
             # Level 1
             if Score < score_level:
@@ -562,7 +560,6 @@ while True:
 
     while True:  # The game loop runs while the game part is playing.
         game_state.main_game()
-        pygame.mouse.set_visible(False)
 
         # Background image settings
         if timer < 750:
@@ -614,15 +611,7 @@ while True:
                        }
             hospitals.append(newHosp)
 
-        # Move the player around.
-        if moveLeft and bat.rect.left > 0:
-            bat.rect.move_ip(-1 * bat.player_move_rate, 0)
-        if moveRight and bat.rect.right < WINDOWWIDTH:
-            bat.rect.move_ip(bat.player_move_rate, 0)
-        if moveUp and bat.rect.top > 0:
-            bat.rect.move_ip(0, -1 * bat.player_move_rate)
-        if moveDown and bat.rect.bottom < WINDOWHEIGHT:
-            bat.rect.move_ip(0, bat.player_move_rate)
+
 
         # Move the hospitals down.
         for h in hospitals:
