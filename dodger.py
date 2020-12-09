@@ -15,8 +15,8 @@ FPS = 60  # Nombre d'image par secondes
 # Paramètres des entités
 scroll = 0
 scroll2 = 0
-score_level = 1000
-score_level2 = 1000
+score_level = 100
+score_level2 = 100
 
 
 class Player(object):
@@ -331,7 +331,7 @@ game_state.intro()
 level1Image = pygame.image.load('Doni.png')
 level1Image = pygame.transform.scale(level1Image, (133, 100))
 world = pygame.image.load('world.png')
-world = pygame.transform.scale(world, (350, 170))
+world = pygame.transform.scale(world, (800, 400))
 
 
 def level2():
@@ -379,9 +379,9 @@ def level2():
                 pygame.mouse.set_visible(False)
 
                 drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-250 + scroll2), RED, 48)
-                windowSurface.blit(world, ((WINDOWHEIGHT / 2) + 30, -600 + scroll2))
+                windowSurface.blit(world, ((WINDOWHEIGHT / 2) -200, -650 + scroll2))
                 drawText('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-700 + scroll2), RED, 48)
-                b_special("Menu", (WINDOWHEIGHT / 2) + 125, -450 + scroll2, 150, 50, BLACK, GREY)
+                b_special("Menu", (WINDOWHEIGHT / 2) + 125, -320 + scroll2, 150, 50, BLACK, GREY)
 
             # Add new baddies at the top of the screen, if needed.
             else:
