@@ -13,11 +13,10 @@ WINDOWHEIGHT = 600
 FPS = 60  # Nombre d'image par secondes
 
 # Paramètres des entités
-SPEED = 2
 scroll = 0
 scroll2 = 0
-score_level = 1000
-score_level2 = 1000
+score_level = 300
+score_level2 = 300
 
 
 class Player(object):
@@ -385,13 +384,13 @@ def level2():
             else:
                 virusAddCounter += 1
                 vaccinAddCounter += 5
-                hospAddCounter += 2
+                hospAddCounter += 1
 
             if virusAddCounter == virus.add_virus_rate:
                 virusAddCounter = 0
                 newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                                 virus.size),
-                            'speed': 5,
+                            'speed': 6,
                             'surface': virus.surface,
                             }
 
@@ -413,7 +412,7 @@ def level2():
                 newHosp = {
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
                                         hospital.rand_size, hospital.rand_size),
-                    'speed': SPEED,
+                    'speed': 2,
                     'surface': hospital.surface,
                 }
                 hospitals.append(newHosp)
@@ -552,14 +551,14 @@ while True:
         # Add new baddies at the top of the screen, if needed.
         else:
             virusAddCounter += 1
-            vaccinAddCounter += 1
+            vaccinAddCounter += 2
             hospAddCounter += 1
 
         if virusAddCounter == virus.add_virus_rate:
             virusAddCounter = 0
             newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                             virus.size),
-                        'speed': SPEED,
+                        'speed': 3,
                         'surface': virus.surface,
                         }
 
@@ -570,7 +569,7 @@ while True:
             newVaccin = {
                 'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
                                     vaccine.size),
-                'speed': SPEED,
+                'speed': 3,
                 'surface': vaccine.surface,
             }
 
@@ -580,7 +579,7 @@ while True:
             hospAddCounter = 0
             newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
                                            hospital.rand_size, hospital.rand_size),
-                       'speed': SPEED,
+                       'speed': 1,
                        'surface': hospital.surface,
                        }
             hospitals.append(newHosp)
