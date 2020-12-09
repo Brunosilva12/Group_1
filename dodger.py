@@ -278,6 +278,7 @@ def win_mode():
     drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
 
+
 def win_mode_2():
     pygame.mixer.music.stop()
 
@@ -356,7 +357,6 @@ def level2():
         hospitals = []
         viruss = []
         vaccines = []
-        moveLeft = moveRight = moveUp = moveDown = False
         virusAddCounter = 0
         vaccinAddCounter = 0
         hospAddCounter = 0
@@ -507,7 +507,7 @@ def level2():
 
 
 # Draw the button on the menu
-pygame.display.update()
+# pygame.display.update()
 waitForPlayerToPressKey()
 
 ############# START ####################
@@ -586,8 +586,6 @@ while True:
                        'surface': hospital.surface,
                        }
             hospitals.append(newHosp)
-
-
 
         # Move the hospitals down.
         for h in hospitals:
