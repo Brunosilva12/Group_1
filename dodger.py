@@ -266,7 +266,6 @@ def b_special(msg, x, y, w, h, ic, ac):
     textRect.center = ((x + (w / 2)), (y + (h / 2)))
     windowSurface.blit(textSurf, textRect)
 
-
 def win_mode():
     pygame.mixer.music.stop()
     levelSound.play()
@@ -361,6 +360,7 @@ def level2():
         virusAddCounter = 0
         vaccinAddCounter = 0
         hospAddCounter = 0
+
         # game_state = GameState()
 
         menuSound.stop()
