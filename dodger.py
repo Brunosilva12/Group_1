@@ -38,7 +38,6 @@ class Hospital(object):
         self.rand_size = random.randint(self.min_size, self.max_size)
         self.surface = pygame.transform.scale(self.image, (self.rand_size, self.rand_size))
         self.image_2 = pygame.image.load('hosp_lvl2.png').convert_alpha()
-        self.surface_2 = pygame.transform.scale(self.image_2, (self.rand_size, self.rand_size))
 
 
 class Virus(object):
@@ -450,19 +449,18 @@ def level2():
                 if va['rect'].top > WINDOWHEIGHT:
                     vaccines.remove(va)
 
-            # Draw the player's rectangle.
-            windowSurface.blit(bat.image, bat.rect)
-
             # Draw each object.
-            for h in hospitals:
-                windowSurface.blit(h['surface'], h['rect'])
-
             for v in viruss:
                 windowSurface.blit(v['surface'], v['rect'])
 
             for va in vaccines:
                 windowSurface.blit(va['surface'], va['rect'])
 
+            for h in hospitals:
+                windowSurface.blit(h['surface'], h['rect'])
+
+            # Draw the player's rectangle.
+            windowSurface.blit(bat.image, bat.rect)
 
             # Level 1
             if Score2 < score_level2:
@@ -617,18 +615,18 @@ while True:
             if va['rect'].top > WINDOWHEIGHT:
                 vaccines.remove(va)
 
-        # Draw the player's rectangle.
-        windowSurface.blit(bat.image, bat.rect)
-
         # Draw each object.
-        for h in hospitals:
-            windowSurface.blit(h['surface'], h['rect'])
-
         for v in viruss:
             windowSurface.blit(v['surface'], v['rect'])
 
         for va in vaccines:
             windowSurface.blit(va['surface'], va['rect'])
+
+        for h in hospitals:
+            windowSurface.blit(h['surface'], h['rect'])
+
+        # Draw the player's rectangle.
+        windowSurface.blit(bat.image, bat.rect)
 
         # Level 1
         if Score < score_level:
