@@ -35,11 +35,9 @@ class Hospital(object):
         self.max_size = 200
         self.add_hosp_rate = 100
         self.image = pygame.image.load('hos.jpg').convert_alpha()
-        self.rect = self.image.get_rect()
         self.rand_size = random.randint(self.min_size, self.max_size)
         self.surface = pygame.transform.scale(self.image, (self.rand_size, self.rand_size))
         self.image_2 = pygame.image.load('hosp_lvl2.png').convert_alpha()
-        self.rect_2 = self.image_2.get_rect()
         self.surface_2 = pygame.transform.scale(self.image_2, (self.rand_size, self.rand_size))
 
 
@@ -48,8 +46,9 @@ class Virus(object):
         self.size = 35
         self.add_virus_rate = 40
         self.image = pygame.image.load('virus.png').convert_alpha()
-        self.rect = self.image.get_rect()
         self.surface = pygame.transform.scale(self.image, (self.size, self.size))
+        self.image_2 = pygame.image.load('virus_2.png').convert_alpha()
+        self.surface_2 = pygame.transform.scale(self.image_2, (self.size, self.size))
 
 
 class Vaccine(object):
@@ -57,8 +56,9 @@ class Vaccine(object):
         self.size = 35
         self.add_vaccine_rate = 50
         self.image = pygame.image.load('vaccin.png').convert_alpha()
-        self.rect = self.image.get_rect()
         self.surface = pygame.transform.scale(self.image, (self.size, self.size))
+        self.image_2 = pygame.image.load('vaccin_2.png').convert_alpha()
+        self.surface_2 = pygame.transform.scale(self.image_2, (self.size, self.size))
 
 
 class GameState:
@@ -396,7 +396,7 @@ def level2():
                 newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                                 virus.size),
                             'speed': 6,
-                            'surface': virus.surface,
+                            'surface': virus.surface_2,
                             }
 
                 viruss.append(newVirus)
@@ -407,18 +407,19 @@ def level2():
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
                                         vaccine.size),
                     'speed': 4,
-                    'surface': vaccine.surface,
+                    'surface': vaccine.surface_2,
                 }
 
                 vaccines.append(newVaccin)
 
             if hospAddCounter == hospital.add_hosp_rate:
                 hospAddCounter = 0
+                hosp_rand_size = random.randint(hospital.min_size, hospital.max_size)
                 newHosp = {
-                    'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
-                                        hospital.rand_size, hospital.rand_size),
+                    'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hosp_rand_size), 0 - hosp_rand_size,
+                                        hosp_rand_size, hosp_rand_size),
                     'speed': 2,
-                    'surface': hospital.surface_2,
+                    'surface': pygame.transform.scale(hospital.image_2, (hosp_rand_size, hosp_rand_size)),
                 }
                 hospitals.append(newHosp)
 
