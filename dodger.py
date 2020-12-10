@@ -394,6 +394,7 @@ def level2():
                 virusAddCounter = 0
                 newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                                 virus.size),
+                            'speed x': random.randrange(-3, 3, 1),
                             'speed': 6,
                             'surface': virus.surface_2,
                             }
@@ -432,11 +433,12 @@ def level2():
                     hospitals.remove(h)
 
             # Move the virus down.
-            for v in viruss:
-                v['rect'].move_ip(0, v['speed'])
+            # for v in viruss:
+
 
             # Delete virus that have fallen past the bottom.
             for v in viruss[:]:
+                v['rect'].move_ip(v['speed x'], v['speed'])
                 if v['rect'].top > WINDOWHEIGHT:
                     viruss.remove(v)
 
