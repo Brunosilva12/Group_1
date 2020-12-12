@@ -384,8 +384,10 @@ def level2():
                 drawText('Staff', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1200 + scroll2), WHITE, 26)
                 drawText('Ingénieure son: Tiffany Garcia', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1240 + scroll2), WHITE, 20)
                 drawText('Ingénieure Design: Daniel Do Vale Anes', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1270 + scroll2), WHITE, 20)
-                drawText('Crative Mind: Erika da Silva', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1300 + scroll2), WHITE, 20)
+                drawText('Creative Mind: Erika da Silva', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1300 + scroll2), WHITE, 20)
                 drawText('Debuger: Bruno Samuel Da Silva Ferreira', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1330 + scroll2), WHITE, 20)
+                if scroll2 > 1700 :
+                    terminate()
 
                 if scroll2 > 1050:
                     menuSound.play()
