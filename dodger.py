@@ -122,7 +122,7 @@ class Button(GameState):
 
         if self.text != '':
             font_button = pygame.font.SysFont('comicsans', 60)
-            text = font_button.render(self.text, 1, WHITE)
+            text = font_button.render(self.text, True, WHITE)
             window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
@@ -224,8 +224,8 @@ def playerHitVaccine(playerRect, vaccines):  # Définir la fonction : collision 
 
 
 def drawText(text, surface, x_t, y_t, color, size):
-    font = pygame.font.SysFont(None, size)
-    textobj = font.render(text, 1, color)
+    font = pygame.font.SysFont("freesansbold.ttf", size)
+    textobj = font.render(text, True, color)
     textrect = textobj.get_rect()
     textrect.topleft = (x_t, y_t)
     surface.blit(textobj, textrect)
