@@ -319,7 +319,7 @@ menuSound.set_volume(0.2)
 gameOverSound.set_volume(0.5)
 pygame.mixer.music.set_volume(0.1)
 winSound.set_volume(0.1)
-win2Sound.set_volume(0.1)
+win2Sound.set_volume(0.07)
 pickupSound.set_volume(0.2)
 buttonSound.set_volume(0.1)
 failSound.set_volume(100)
@@ -376,7 +376,7 @@ def level2():
                 #Win mode 2
                 pygame.mixer.music.stop()
                 win2Sound.play()
-                if scroll2 >= 550:
+                if scroll2 >= 200:
                     win2Sound.stop()
 
                 pygame.mouse.set_visible(False)
