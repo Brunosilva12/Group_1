@@ -331,8 +331,10 @@ game_state = GameState()
 game_state.intro()
 level1Image = pygame.image.load('Doni.png')
 level1Image = pygame.transform.scale(level1Image, (133, 100))
-world = pygame.image.load('world.png')
+world = pygame.image.load('covid_world.png')
 world = pygame.transform.scale(world, (800, 400))
+logo = pygame.image.load('logo_game.jpg')
+logo = pygame.transform.scale(logo, (150, 150))
 
 
 def level2():
@@ -380,14 +382,13 @@ def level2():
                     win2Sound.stop()
 
                 pygame.mouse.set_visible(False)
-                #logo = pygame.image.load('logo.jpeg')
-                #logo = pygame.transform.scale(logo, (100, 100))
                 drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
                 windowSurface.blit(world, ((WINDOWHEIGHT / 2) -200, -550 + scroll2))
                 drawText('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-600 + scroll2), RED, 48)
+
                 drawText('Crédits', windowSurface, (WINDOWHEIGHT / 2) + 150, (-1550 + scroll2), WHITE, 42)
                 drawText('Loco-vid ALPHA 1.0', windowSurface, (WINDOWHEIGHT / 2) + 125, (-1500 + scroll2), WHITE, 26)
-                #windowSurface.blit(logo, ((WINDOWHEIGHT / 2), -1400 + scroll2))
+                windowSurface.blit(logo, ((WINDOWHEIGHT / 2) +125, -1430 + scroll2))
                 drawText('Copyright : GROUPE ONE', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1230 + scroll2), WHITE, 26)
                 drawText('Staff', windowSurface, (WINDOWHEIGHT / 2) + 180, (-1180 + scroll2), WHITE, 32)
                 drawText('Tiffany Garcia', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1140 + scroll2), WHITE, 20)
@@ -444,43 +445,26 @@ def level2():
                 }
                 hospitals.append(newHosp)
 
-            # Move the hospitals down.
-            for h in hospitals:
-                h['rect'].move_ip(0, h['speed'])
-
-            # Delete the hospitals that have fallen past the bottom.
-            for h in hospitals[:]:
-                if h['rect'].top > WINDOWHEIGHT:
-                    hospitals.remove(h)
-
-            # Move the virus down.
-            # for v in viruss:
-
-
-            # Delete virus that have fallen past the bottom.
+            # Draw and move the virus. And delete the virus that have fallen past the bottom.
             for v in viruss[:]:
                 v['rect'].move_ip(v['speed x'], v['speed'])
+                windowSurface.blit(v['surface'], v['rect'])
                 if v['rect'].top > WINDOWHEIGHT:
                     viruss.remove(v)
 
-            # Move the vaccine down.
-            for va in vaccines:
-                va['rect'].move_ip(0, va['speed'])
-
-            # Delete vaccines that have fallen past the bottom.
+            # Draw and move the vaccines. And delete vaccines that have fallen past the bottom.
             for va in vaccines[:]:
+                va['rect'].move_ip(0, va['speed'])
+                windowSurface.blit(va['surface'], va['rect'])
                 if va['rect'].top > WINDOWHEIGHT:
                     vaccines.remove(va)
 
-            # Draw each object.
-            for v in viruss:
-                windowSurface.blit(v['surface'], v['rect'])
-
-            for va in vaccines:
-                windowSurface.blit(va['surface'], va['rect'])
-
-            for h in hospitals:
+            # Draw and move the hospitals. And delete hospitals that have fallen past the bottom.
+            for h in hospitals[:]:
+                h['rect'].move_ip(0, h['speed'])
                 windowSurface.blit(h['surface'], h['rect'])
+                if h['rect'].top > WINDOWHEIGHT:
+                    hospitals.remove(h)
 
             # Draw the player's rectangle.
             windowSurface.blit(bat.image, bat.rect)
@@ -503,7 +487,6 @@ def level2():
                         bat.max_health += 2
                     elif bat.max_health == 2:
                         bat.max_health += 1
-                    Score2 = 0
                     break
 
             # Check if any of the virus have hit the player.
@@ -517,11 +500,12 @@ def level2():
                 if Score2 < score_level2:
                     bat.max_health -= 1
                     failSound.play()
-                    if Score2 >0:
+                    if Score2 > 500:
                         Score2 -= 500  # subtract 500 to the topScore
+                    if Score2 < 500:
+                        Score2 -= Score2
                 if bat.max_health == 0:
                     bat.max_health += 3
-                    Score2 = 0
                     break
 
             pygame.display.update()
@@ -534,9 +518,8 @@ def level2():
 pygame.display.update()
 waitForPlayerToPressKey()
 
-############# START ####################
+# START
 Score = 0
-Score2 = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
 vaccine = Vaccine()
@@ -611,42 +594,32 @@ while True:
                        }
             hospitals.append(newHosp)
 
-        # Move the hospitals down.
-        for h in hospitals:
-            h['rect'].move_ip(0, h['speed'])
-
-        # Delete the hospitals that have fallen past the bottom.
-        for h in hospitals[:]:
-            if h['rect'].top > WINDOWHEIGHT:
-                hospitals.remove(h)
-
         # Move the virus down.
         for v in viruss:
             v['rect'].move_ip(0, v['speed'])
+            windowSurface.blit(v['surface'], v['rect'])
+            if v['rect'].top > WINDOWHEIGHT:
+                viruss.remove(v)
 
         # Delete virus that have fallen past the bottom.
         for v in viruss[:]:
             if v['rect'].top > WINDOWHEIGHT:
                 viruss.remove(v)
 
-        # Move the vaccine down.
-        for va in vaccines:
-            va['rect'].move_ip(0, va['speed'])
-
         # Delete vaccines that have fallen past the bottom.
         for va in vaccines[:]:
+            va['rect'].move_ip(0, va['speed'])
+            windowSurface.blit(va['surface'], va['rect'])
             if va['rect'].top > WINDOWHEIGHT:
                 vaccines.remove(va)
 
-        # Draw each object.
-        for v in viruss:
-            windowSurface.blit(v['surface'], v['rect'])
 
-        for va in vaccines:
-            windowSurface.blit(va['surface'], va['rect'])
-
-        for h in hospitals:
+        # Delete the hospitals that have fallen past the bottom.
+        for h in hospitals[:]:
+            h['rect'].move_ip(0, h['speed'])
             windowSurface.blit(h['surface'], h['rect'])
+            if h['rect'].top > WINDOWHEIGHT:
+                hospitals.remove(h)
 
         # Draw the player's rectangle.
         windowSurface.blit(bat.image, bat.rect)
