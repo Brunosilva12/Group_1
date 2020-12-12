@@ -377,8 +377,9 @@ def level2():
                     scroll2 += 1
                 #Win mode 2
                 pygame.mixer.music.stop()
-                win2Sound.play()
-                if scroll2 >= 200:
+                if scroll2 == 500:
+                    win2Sound.play()
+                if scroll2 >= 1000:
                     win2Sound.stop()
 
                 pygame.mouse.set_visible(False)
