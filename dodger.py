@@ -665,7 +665,9 @@ while True:
                 bat.max_health -= 1
                 failSound.play()
                 if Score > 0:
-                    Score -= 500  # subtract 500 to the topScore
+                    Score -= 100  # subtract 500 to the topScore
+                if Score < 100:
+                    Score -= Score
             if bat.max_health == 0:
                 bat.max_health += 3
                 Score = 0
