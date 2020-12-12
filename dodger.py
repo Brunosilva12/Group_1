@@ -266,7 +266,7 @@ def b_special(msg, pos_x, pos_y, largeur, hauteur, ic, ac):
 
 def win_mode():
     pygame.mixer.music.stop()
-    levelSound.play()
+    winSound.play()
     pygame.mouse.set_visible(False)
 
     drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-150 + scroll), RED, 48)
@@ -305,7 +305,8 @@ timer_x = 0
 menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 finalSound = pygame.mixer.music.load('Final.wav')
-levelSound = pygame.mixer.Sound('Win.wav')
+winSound = pygame.mixer.Sound('Win.wav')
+win2Sound = pygame.mixer.Sound('Win2.wav')
 pickupSound = pygame.mixer.Sound('pickup.wav')
 buttonSound = pygame.mixer.Sound('Button.wav')
 failSound = pygame.mixer.Sound('Fail.wav')
@@ -315,7 +316,8 @@ breakSound = pygame.mixer.Sound('Break.wav')
 menuSound.set_volume(0.2)
 gameOverSound.set_volume(0.5)
 pygame.mixer.music.set_volume(0.1)
-levelSound.set_volume(0.1)
+winSound.set_volume(0.1)
+win2Sound.set_volume(0.1)
 pickupSound.set_volume(0.2)
 buttonSound.set_volume(0.1)
 failSound.set_volume(100)
@@ -332,7 +334,7 @@ world = pygame.transform.scale(world, (800, 400))
 
 
 def level2():
-    levelSound.stop()
+    winSound.stop()
 
     while True:
         # Set up the start of the game.
@@ -367,13 +369,12 @@ def level2():
             if Score2 >= score_level2:
                 timer2 += 1
                 scroll2 += 1
-                # Win mode 2
                 pygame.mixer.music.stop()
-                levelSound.play()
+                win2Sound.play()
+                if scroll2 >= 300:
+                    win2Sound.stop()
                 if scroll2 >= 1050:
-                    levelSound.stop()
-
-                pygame.mouse.set_visible(False)
+                    pygame.mouse.set_visible(False)
 
                 drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
                 windowSurface.blit(world, ((WINDOWHEIGHT / 2) -200, -550 + scroll2))
