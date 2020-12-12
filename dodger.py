@@ -428,42 +428,26 @@ def level2():
                 }
                 hospitals.append(newHosp)
 
-            # Move the hospitals down.
-            for h in hospitals:
-                h['rect'].move_ip(0, h['speed'])
-
-            # Delete the hospitals that have fallen past the bottom.
-            for h in hospitals[:]:
-                if h['rect'].top > WINDOWHEIGHT:
-                    hospitals.remove(h)
-
-            # Move the virus down.
-            # for v in viruss:
-
-            # Delete virus that have fallen past the bottom.
+            # Draw and move the virus. And delete the virus that have fallen past the bottom.
             for v in viruss[:]:
                 v['rect'].move_ip(v['speed x'], v['speed'])
+                windowSurface.blit(v['surface'], v['rect'])
                 if v['rect'].top > WINDOWHEIGHT:
                     viruss.remove(v)
 
-            # Move the vaccine down.
-            for va in vaccines:
-                va['rect'].move_ip(0, va['speed'])
-
-            # Delete vaccines that have fallen past the bottom.
+            # Draw and move the vaccines. And delete vaccines that have fallen past the bottom.
             for va in vaccines[:]:
+                va['rect'].move_ip(0, va['speed'])
+                windowSurface.blit(va['surface'], va['rect'])
                 if va['rect'].top > WINDOWHEIGHT:
                     vaccines.remove(va)
 
-            # Draw each object.
-            for v in viruss:
-                windowSurface.blit(v['surface'], v['rect'])
-
-            for va in vaccines:
-                windowSurface.blit(va['surface'], va['rect'])
-
-            for h in hospitals:
+            # Draw and move the hospitals. And delete the hospitals that have fallen past the bottom.
+            for h in hospitals[:]:
+                h['rect'].move_ip(0, h['speed'])
                 windowSurface.blit(h['surface'], h['rect'])
+                if h['rect'].top > WINDOWHEIGHT:
+                    hospitals.remove(h)
 
             # Draw the player's rectangle.
             windowSurface.blit(bat.image, bat.rect)
@@ -593,42 +577,27 @@ while True:
                        }
             hospitals.append(newHosp)
 
-        # Move the hospitals down.
-        for h in hospitals:
-            h['rect'].move_ip(0, h['speed'])
-
-        # Delete the hospitals that have fallen past the bottom.
-        for h in hospitals[:]:
-            if h['rect'].top > WINDOWHEIGHT:
-                hospitals.remove(h)
-
-        # Move the virus down.
-        for v in viruss:
-            v['rect'].move_ip(0, v['speed'])
-
-        # Delete virus that have fallen past the bottom.
+            # Draw and move the virus. And delete the virus that have fallen past the bottom.
         for v in viruss[:]:
+            v['rect'].move_ip(0, v['speed'])
+            windowSurface.blit(v['surface'], v['rect'])
             if v['rect'].top > WINDOWHEIGHT:
                 viruss.remove(v)
 
-        # Move the vaccine down.
-        for va in vaccines:
-            va['rect'].move_ip(0, va['speed'])
-
-        # Delete vaccines that have fallen past the bottom.
+            # Draw and move the vaccines. And delete vaccines that have fallen past the bottom.
         for va in vaccines[:]:
+            va['rect'].move_ip(0, va['speed'])
+            windowSurface.blit(va['surface'], va['rect'])
             if va['rect'].top > WINDOWHEIGHT:
                 vaccines.remove(va)
 
-        # Draw each object.
-        for v in viruss:
-            windowSurface.blit(v['surface'], v['rect'])
-
-        for va in vaccines:
-            windowSurface.blit(va['surface'], va['rect'])
-
-        for h in hospitals:
+            # Draw and move the hospitals. And delete the hospitals that have fallen past the bottom.
+        for h in hospitals[:]:
+            h['rect'].move_ip(0, h['speed'])
             windowSurface.blit(h['surface'], h['rect'])
+            if h['rect'].top > WINDOWHEIGHT:
+                hospitals.remove(h)
+
 
         # Draw the player's rectangle.
         windowSurface.blit(bat.image, bat.rect)
