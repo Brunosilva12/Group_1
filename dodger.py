@@ -259,9 +259,6 @@ def b_special(msg, x, y, w, h, ic, ac):
         if click[0] == 1:
             if msg == "Level 2":
                 level2()
-            elif msg == "Menu":
-                Menu()
-                waitForPlayerToPressKey()
     else:
         pygame.draw.rect(windowSurface, ic, (x, y, w, h))
 
@@ -275,10 +272,10 @@ def win_mode():
     levelSound.play()
     pygame.mouse.set_visible(False)
 
-    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-250 + scroll), RED, 48)
-    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -550 + scroll))
-    drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-700 + scroll), RED, 48)
-    b_special("Level 2", (WINDOWHEIGHT / 2)+125, -450 + scroll, 150, 50, BLACK, GREY)
+    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-150 + scroll), RED, 48)
+    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -450 + scroll))
+    drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-600 + scroll), RED, 48)
+    b_special("Level 2", (WINDOWHEIGHT / 2)+125, -350 + scroll, 150, 50, BLACK, GREY)
 
 def show_GameOver_screen():
     pygame.mixer.music.stop()
@@ -362,8 +359,7 @@ def level2():
             game_state.main_game()
 
             # Background image settings
-            if timer2 < 750:
-                x += 1
+            x += 1
             rel_x = x % BACKGROUND_2.get_rect().height
             windowSurface.blit(BACKGROUND_2, (0, rel_x - BACKGROUND_2.get_rect().height))
             if rel_x < WINDOWHEIGHT:
@@ -372,17 +368,28 @@ def level2():
             # Enter in win mode
             if Score2 >= score_level2:
                 timer2 += 1
-                if timer2 < 750:
-                    scroll2 += 1
+                scroll2 += 1
                 #Win mode 2
                 pygame.mixer.music.stop()
+                levelSound.play()
+                if scroll2 >= 1050:
+                    levelSound.stop()
 
                 pygame.mouse.set_visible(False)
 
-                drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-250 + scroll2), RED, 48)
-                windowSurface.blit(world, ((WINDOWHEIGHT / 2) -200, -650 + scroll2))
-                drawText('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-700 + scroll2), RED, 48)
-                b_special("Menu", (WINDOWHEIGHT / 2) + 125, -320 + scroll2, 150, 50, BLACK, GREY)
+                drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
+                windowSurface.blit(world, ((WINDOWHEIGHT / 2) -200, -550 + scroll2))
+                drawText('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-600 + scroll2), RED, 48)
+                drawText('Crédits', windowSurface, (WINDOWHEIGHT / 2) + 80, (-1150 + scroll2), WHITE, 36)
+                drawText('Staff', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1200 + scroll2), WHITE, 26)
+                drawText('Ingénieure son: Tiffany Garcia', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1240 + scroll2), WHITE, 20)
+                drawText('Ingénieure Design: Daniel Do Vale Anes', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1270 + scroll2), WHITE, 20)
+                drawText('Crative Mind: Erika da Silva', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1300 + scroll2), WHITE, 20)
+                drawText('Debuger: Bruno Samuel Da Silva Ferreira', windowSurface, (WINDOWHEIGHT / 2) + 50, (-1330 + scroll2), WHITE, 20)
+
+                if scroll2 > 1050:
+                    menuSound.play()
+
 
             # Add new baddies at the top of the screen, if needed.
             else:
@@ -541,7 +548,7 @@ while True:
         game_state.main_game()
 
         # Background image settings
-        if timer < 750:
+        if timer < 650:
             x += 1
         rel_x = x % BACKGROUND.get_rect().height
         windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
@@ -551,7 +558,7 @@ while True:
         # Enter in win mode
         if Score >= score_level:
             timer += 1
-            if timer < 750:
+            if timer < 650:
                 scroll += 1
             win_mode()
         # Add new baddies at the top of the screen, if needed.
@@ -585,7 +592,7 @@ while True:
             hospAddCounter = 0
             newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
                                            hospital.rand_size, hospital.rand_size),
-                       'speed': 1,
+                       'speed': 2,
                        'surface': hospital.surface,
                        }
             hospitals.append(newHosp)
