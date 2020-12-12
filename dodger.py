@@ -259,6 +259,8 @@ def b_special(msg, x, y, w, h, ic, ac):
         if click[0] == 1:
             if msg == "Level 2":
                 level2()
+            if msg == "Terminate":
+                terminate()
     else:
         pygame.draw.rect(windowSurface, ic, (x, y, w, h))
 
@@ -379,8 +381,11 @@ def level2():
                 pygame.mixer.music.stop()
                 if scroll2 == 500:
                     win2Sound.play()
-                if scroll2 >= 1000:
-                    win2Sound.stop()
+                if scroll2 > 1010:
+                    menuSound.play()
+                if scroll2 > 1595:
+                    b_special("Terminate", (WINDOWHEIGHT / 2) + 500, 500, 150, 50, BLACK, GREY)
+
 
                 pygame.mouse.set_visible(False)
                 drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
@@ -403,8 +408,7 @@ def level2():
 
 
 
-                if scroll2 > 1050:
-                    menuSound.play()
+
 
 
             # Add new baddies at the top of the screen, if needed.
