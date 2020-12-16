@@ -498,9 +498,7 @@ def level2():
                     failSound.play()
                     if score2 > 500:
                         score2 -= 500  # subtract 500 to the topScore
-                    if score2 == 500:
-                        score2 -= score2
-                    if score2 < 500:
+                    if score2 <= 500:
                         score2 -= score2
                 if bat.max_health == 0:
                     bat.max_health += 3
@@ -567,7 +565,6 @@ while True:
                         'speed': 3,
                         'surface': virus.surface,
                         }
-
             viruss.append(newvirus)
 
         if vaccinaddcounter == vaccine.add_vaccine_rate:
@@ -578,7 +575,6 @@ while True:
                 'speed': 3,
                 'surface': vaccine.surface,
             }
-
             vaccines.append(newvaccin)
 
         if hospaddcounter == hospital.add_hosp_rate:
@@ -648,9 +644,7 @@ while True:
                 failSound.play()
                 if Score > 500:
                     Score -= 500  # subtract 500 to the topScore
-                if Score == 500:
-                    Score -= Score
-                if Score < 500:
+                if Score <= 500:
                     Score -= Score
             if bat.max_health == 0:
                 bat.max_health += 3
