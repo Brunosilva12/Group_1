@@ -14,8 +14,8 @@ FPS = 60  # Nombre d'image par secondes
 
 # Paramètres des entités
 scroll = 0
-score_level = 4000
-score_level2 = 4000
+score_level = 300
+score_level2 = 300
 
 
 class Player(object):
@@ -150,8 +150,8 @@ nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 def menu():
     menuSound.play()
     pygame.mouse.set_visible(True)
-    menu = pygame.image.load("menu 1.jpg").convert()
-    pic = pygame.transform.scale(menu, (WINDOWWIDTH, WINDOWHEIGHT))
+    menu_img = pygame.image.load("menu 1.jpg").convert()
+    pic = pygame.transform.scale(menu_img, (WINDOWWIDTH, WINDOWHEIGHT))
     windowSurface.blit(pic, (0, 0))
     start_button.draw(windowSurface, WHITE)
     option_button.draw(windowSurface, WHITE)
@@ -197,24 +197,24 @@ def waitforplayertopresskey():  # Lancer le jeu ou le fermer
 
 
 def playerhitvirus(player_v, vir):  # Définir la fonction : collision entre le player et le virus
-    for v in vir:
-        if player_v.colliderect(v['rect']):  # Détecter la collision
-            vir.remove(v)  # Supprimer le virus à chaque fois que le player le toucher
+    for v_hit in vir:
+        if player_v.colliderect(v_hit['rect']):  # Détecter la collision
+            vir.remove(v_hit)  # Supprimer le virus à chaque fois que le player le toucher
             return True
     return False
 
 
-def playerhashithospitals(player_h, hospitals):  # Définir la fonction : collision entre le player et l'hôpital
-    for h in hospitals:
-        if player_h.colliderect(h['rect']):  # Détecter la collision
+def playerhashithospitals(player_h, hospital_hit):  # Définir la fonction : collision entre le player et l'hôpital
+    for h_hit in hospital_hit:
+        if player_h.colliderect(h_hit['rect']):  # Détecter la collision
             return True
     return False
 
 
 def playerhitvaccine(player_va, vacc):  # Définir la fonction : collision entre le player et le vaccin
-    for va in vacc:
-        if player_va.colliderect(va['rect']):  # Détecter la collision
-            vacc.remove(va)  # Supprimer le vaccin à chaque fois que le player le toucher
+    for va_hit in vacc:
+        if player_va.colliderect(va_hit['rect']):  # Détecter la collision
+            vacc.remove(va_hit)  # Supprimer le vaccin à chaque fois que le player le toucher
             return True
     return False
 
@@ -346,13 +346,13 @@ def level2():
         scroll2 = 0
         score2 = 0
         bat.max_health = 3
-        timer_x = 0
-        hospitals = []
-        viruss = []
-        vaccines = []
-        virusaddcounter = 0
-        vaccinaddcounter = 0
-        hospaddcounter = 0
+        timer_x2 = 0
+        hospitals_2 = []
+        viruss_2 = []
+        vaccines_2 = []
+        virusaddcounter_2 = 0
+        vaccinaddcounter_2 = 0
+        hospaddcounter_2 = 0
 
         pygame.mixer.music.load('Level2.wav')
         pygame.mixer.music.play(-1, 0.0)
@@ -364,11 +364,11 @@ def level2():
 
             # Background image settings
             if timer2 < 1600:
-                timer_x += 1
-            rel_x = timer_x % BACKGROUND_2.get_rect().height
-            windowSurface.blit(BACKGROUND_2, (0, rel_x - BACKGROUND_2.get_rect().height))
-            if rel_x < WINDOWHEIGHT:
-                windowSurface.blit(BACKGROUND_2, (0, rel_x))
+                timer_x2 += 1
+            rel_x2 = timer_x2 % BACKGROUND_2.get_rect().height
+            windowSurface.blit(BACKGROUND_2, (0, rel_x2 - BACKGROUND_2.get_rect().height))
+            if rel_x2 < WINDOWHEIGHT:
+                windowSurface.blit(BACKGROUND_2, (0, rel_x2))
 
             # Enter in win mode
             if score2 >= score_level2:
@@ -406,61 +406,61 @@ def level2():
 
             # Add new baddies at the top of the screen, if needed.
             else:
-                virusaddcounter += 1
-                vaccinaddcounter += 5
-                hospaddcounter += 1
+                virusaddcounter_2 += 1
+                vaccinaddcounter_2 += 5
+                hospaddcounter_2 += 1
 
-            if virusaddcounter == virus.add_virus_rate:
-                virusaddcounter = 0
-                newvirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
-                                                virus.size),
-                            'speed x': random.randrange(-3, 3, 1),
-                            'speed': 6,
-                            'surface': virus.surface_2,
-                            }
-                viruss.append(newvirus)
+            if virusaddcounter_2 == virus.add_virus_rate:
+                virusaddcounter_2 = 0
+                newvirus_2 = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size,
+                                                  virus.size, virus.size),
+                              'speed x': random.randrange(-3, 3, 1),
+                              'speed': 6,
+                              'surface': virus.surface_2,
+                              }
+                viruss_2.append(newvirus_2)
 
-            if vaccinaddcounter == vaccine.add_vaccine_rate:
-                vaccinaddcounter = 0
-                newvaccin = {
+            if vaccinaddcounter_2 == vaccine.add_vaccine_rate:
+                vaccinaddcounter_2 = 0
+                newvaccin_2 = {
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
                                         vaccine.size),
                     'speed': 4,
                     'surface': vaccine.surface_2,
                 }
-                vaccines.append(newvaccin)
+                vaccines_2.append(newvaccin_2)
 
-            if hospaddcounter == hospital.add_hosp_rate:
-                hospaddcounter = 0
+            if hospaddcounter_2 == hospital.add_hosp_rate:
+                hospaddcounter_2 = 0
                 hosp_rand_size = random.randint(hospital.min_size, hospital.max_size)
-                newhosp = {
+                newhosp_2 = {
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hosp_rand_size), 0 - hosp_rand_size,
                                         hosp_rand_size, hosp_rand_size),
                     'speed': 2,
                     'surface': pygame.transform.scale(hospital.image_2, (hosp_rand_size, hosp_rand_size)),
                 }
-                hospitals.append(newhosp)
+                hospitals_2.append(newhosp_2)
 
             # Draw and move the virus. And delete the virus that have fallen past the bottom.
-            for v in viruss[:]:
-                v['rect'].move_ip(v['speed x'], v['speed'])
-                windowSurface.blit(v['surface'], v['rect'])
-                if v['rect'].top > WINDOWHEIGHT:
-                    viruss.remove(v)
+            for v_2 in viruss_2[:]:
+                v_2['rect'].move_ip(v_2['speed x'], v_2['speed'])
+                windowSurface.blit(v_2['surface'], v_2['rect'])
+                if v_2['rect'].top > WINDOWHEIGHT:
+                    viruss_2.remove(v_2)
 
             # Draw and move the vaccines. And delete vaccines that have fallen past the bottom.
-            for va in vaccines[:]:
-                va['rect'].move_ip(0, va['speed'])
-                windowSurface.blit(va['surface'], va['rect'])
-                if va['rect'].top > WINDOWHEIGHT:
-                    vaccines.remove(va)
+            for va_2 in vaccines_2[:]:
+                va_2['rect'].move_ip(0, va_2['speed'])
+                windowSurface.blit(va_2['surface'], va_2['rect'])
+                if va_2['rect'].top > WINDOWHEIGHT:
+                    vaccines_2.remove(va_2)
 
             # Draw and move the hospitals. And delete hospitals that have fallen past the bottom.
-            for h in hospitals[:]:
-                h['rect'].move_ip(0, h['speed'])
-                windowSurface.blit(h['surface'], h['rect'])
-                if h['rect'].top > WINDOWHEIGHT:
-                    hospitals.remove(h)
+            for h_2 in hospitals_2[:]:
+                h_2['rect'].move_ip(0, h_2['speed'])
+                windowSurface.blit(h_2['surface'], h_2['rect'])
+                if h_2['rect'].top > WINDOWHEIGHT:
+                    hospitals_2.remove(h_2)
 
             # Draw the player's rectangle.
             windowSurface.blit(bat.image, bat.rect)
@@ -474,7 +474,7 @@ def level2():
                 draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
 
             # Check if any of the hospital have hit the player.
-            if playerhashithospitals(bat.rect, hospitals):
+            if playerhashithospitals(bat.rect, hospitals_2):
                 if score2 < score_level2:
                     breakSound.play()
                     if bat.max_health == 0:
@@ -486,13 +486,13 @@ def level2():
                     break
 
             # Check if any of the virus have hit the player.
-            if playerhitvirus(bat.rect, viruss):
+            if playerhitvirus(bat.rect, viruss_2):
                 if score2 < score_level2:
                     score2 += 100  # add 100 to the topScore
                     pickupSound.play()
 
             # Check if any of the vaccines have hit the player.
-            if playerhitvaccine(bat.rect, vaccines):
+            if playerhitvaccine(bat.rect, vaccines_2):
                 if score2 < score_level2:
                     bat.max_health -= 1
                     failSound.play()
