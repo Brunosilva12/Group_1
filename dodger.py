@@ -15,8 +15,8 @@ FPS = 60  # Nombre d'image par secondes
 # Paramètres des entités
 scroll = 0
 scroll2 = 0
-score_level = 100
-score_level2 = 100
+score_level = 4000
+score_level2 = 4000
 
 
 class Player(object):
@@ -507,6 +507,8 @@ def level2():
                     failSound.play()
                     if Score2 > 500:
                         Score2 -= 500  # subtract 500 to the topScore
+                    if Score2 == 500:
+                        Score2 -= Score2
                     if Score2 < 500:
                         Score2 -= Score2
                 if bat.max_health == 0:
@@ -661,8 +663,12 @@ while True:
             if Score < score_level:
                 bat.max_health -= 1
                 failSound.play()
-                if Score > 0:
+                if Score > 500:
                     Score -= 500  # subtract 500 to the topScore
+                if Score == 500:
+                    Score -= Score
+                if Score < 500:
+                    Score -= Score
             if bat.max_health == 0:
                 bat.max_health += 3
                 Score = 0
