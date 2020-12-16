@@ -3,21 +3,24 @@ import random
 import sys
 from pygame.locals import *
 
+# Définir les variables pour les couleurs
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (127, 127, 127)
 
-WINDOWWIDTH = 1000  # Taille de l'écran
+# Définir les variables pour la taille de l'écran
+WINDOWWIDTH = 1000
 WINDOWHEIGHT = 600
+
 FPS = 60  # Nombre d'image par secondes
 
-# Paramètres des entités
-scroll = 0
+# Définition des scores à atteindre dans le jeu
 score_level = 300
 score_level2 = 300
 
 
+# Définition des class pour les entités du jeu (Player, Hospital, Virus, Vaccine)
 class Player(object):
     def __init__(self, x_pl, y_pl):
         self.max_health = 3
@@ -59,30 +62,33 @@ class Vaccine(object):
         self.surface_2 = pygame.transform.scale(self.image_2, (self.size, self.size))
 
 
+# Définition de la class pour le jeu (Menu, How to play et Game)
 class GameState:
     def __init__(self):
         self.state = "main game"
 
-    def intro(self):
+    def intro(self):    # Définir la page menu
         menu()
 
-    def main_game(self):
-        pygame.mouse.set_visible(False)
+    def main_game(self):    # Définir la page de jeu
+        pygame.mouse.set_visible(False)     # Rend le curseur de la souris invisible
 
-        for event in pygame.event.get():
+        for event in pygame.event.get():    # Boucle for pour les actions du joueur
             if event.type == QUIT:
+                # Si le joueur presse sur la croix rouge ,  quitter le jeu.
                 terminate()
 
             if event.type == KEYUP:
                 if event.key == K_ESCAPE:
+                    # Si le joueur presse le touche "Escape", il quitte le jeu.
                     terminate()
 
             if event.type == MOUSEMOTION:
-                # If the mouse moves, move the player where to the cursor.
+                # Si la souris bouge, l'entité player bouge à l'endroit où se trouve le curseur.
                 bat.rect.centerx = event.pos[0]
                 bat.rect.centery = event.pos[1]
 
-        # Move the player around.
+        # Bouge l'entité player pour qu'elle reste visible en entier si le curseur sort de la fenêtre de jeu
         if moveLeft and bat.rect.left > 0:
             bat.rect.move_ip(-1 * bat.player_move_rate, 0)
         if moveRight and bat.rect.right < WINDOWWIDTH:
@@ -94,15 +100,16 @@ class GameState:
 
         mainClock.tick(FPS)
 
-    def state_manager(self):
+    def state_manager(self):    # définition pour savoir quelle page lancer
         if self.state == "intro":
             self.intro()
         if self.state == "main_game":
             self.main_game()
 
 
+# Définition de la class pour les buttons
 class Button(GameState):
-    def __init__(self, color_button, x_button, y_button, width, height, text=''):
+    def __init__(self, color_button, x_button, y_button, width, height, text=''):   # paramètre du button
         super().__init__()
         self.color = color_button
         self.x = x_button
@@ -111,8 +118,7 @@ class Button(GameState):
         self.height = height
         self.text = text
 
-    def draw(self, window, outline=None):
-        # Call this method to draw the button on the screen
+    def draw(self, window, outline=None):   # définition pour dessiner le button
         if outline:
             pygame.draw.rect(window, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
 
@@ -124,7 +130,7 @@ class Button(GameState):
             window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
-    def isover(self, pos):
+    def isover(self, pos):  #
         # Pos is the mouse position or a tuple of (x,y) coordinates
         if self.x < pos[0] < self.x + self.width and self.y < pos[1] < self.y + self.height:
             return True
@@ -137,10 +143,10 @@ def terminate():  # Fermer la fenêtre du jeu
 
 
 # Draw the button on the menu
-start_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2)+10, 70, "Start")
-restart_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2)+10, 70, "Restart")
+start_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2) + 10, 70, "Start")
+restart_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2) + 10, 70, "Restart")
 menu_button = Button(BLACK, 25, 25, 125, 50, "Menu")
-option_button = Button(BLACK, 360, 515, (WINDOWHEIGHT / 2)-15, 45, "How to play")
+option_button = Button(BLACK, 360, 515, (WINDOWHEIGHT / 2) - 15, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
 lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
@@ -271,10 +277,10 @@ def win_mode():
     winSound.play()
     pygame.mouse.set_visible(False)
 
-    drawtext('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-150 + scroll), RED, 48)
-    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -450 + scroll))
-    drawtext('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-600 + scroll), RED, 48)
-    b_special("Level 2", (WINDOWHEIGHT / 2)+125, -350 + scroll, 150, 50, BLACK, GREY)
+    drawtext('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll), RED, 48)
+    windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2) + 125, -450 + scroll))
+    drawtext('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2) - 10, (-600 + scroll), RED, 48)
+    b_special("Level 2", (WINDOWHEIGHT / 2) + 125, -350 + scroll, 150, 50, BLACK, GREY)
 
 
 def show_gameover_screen():
@@ -392,7 +398,8 @@ def level2():
                 drawtext('Crédits', windowSurface, (WINDOWHEIGHT / 2) + 150, (-1550 + scroll2), WHITE, 42)
                 drawtext('Loco-vid ALPHA 1.0', windowSurface, (WINDOWHEIGHT / 2) + 125, (-1500 + scroll2), WHITE, 26)
                 windowSurface.blit(logo, ((WINDOWHEIGHT / 2) + 125, - 1430 + scroll2))
-                drawtext('Copyright : GROUPE ONE', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1230+scroll2), WHITE, 26)
+                drawtext('Copyright : GROUPE ONE', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1230 + scroll2), WHITE,
+                         26)
                 drawtext('Staff', windowSurface, (WINDOWHEIGHT / 2) + 180, (-1180 + scroll2), WHITE, 32)
                 drawtext('Tiffany Garcia', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1140 + scroll2), WHITE, 20)
                 drawtext('INGENIEURE SON', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1140 + scroll2), WHITE, 20)
@@ -401,7 +408,7 @@ def level2():
                 drawtext('Erika da Silva', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1080 + scroll2), WHITE, 20)
                 drawtext('CREATIVE MIND', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1080 + scroll2), WHITE, 20)
                 drawtext('Bruno Samuel Da Silva Ferreira', windowSurface,
-                         (WINDOWHEIGHT/2)-5, (-1050+scroll2), WHITE, 20)
+                         (WINDOWHEIGHT / 2) - 5, (-1050 + scroll2), WHITE, 20)
                 drawtext('DEBUGER', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1050 + scroll2), WHITE, 20)
 
             # Add new baddies at the top of the screen, if needed.
@@ -514,6 +521,7 @@ def level2():
 pygame.display.update()
 waitforplayertopresskey()
 # START
+scroll = 0
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
 virus = Virus()
@@ -526,7 +534,7 @@ while True:
     viruss = []
     vaccines = []
     timer = 0
-    moveLeft = moveRight = moveUp = moveDown = False
+    moveLeft = moveRight = moveUp = moveDown = True
     virusaddcounter = 0
     vaccinaddcounter = 0
     hospaddcounter = 0
