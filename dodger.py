@@ -64,7 +64,7 @@ class GameState:
         self.state = "main game"
 
     def intro(self):
-        Menu()
+        menu()
 
     def main_game(self):
         pygame.mouse.set_visible(False)
@@ -124,7 +124,7 @@ class Button(GameState):
             window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
-    def isOver(self, pos):
+    def isover(self, pos):
         # Pos is the mouse position or a tuple of (x,y) coordinates
         if self.x < pos[0] < self.x + self.width and self.y < pos[1] < self.y + self.height:
             return True
@@ -147,7 +147,7 @@ nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 
 
 # Menu
-def Menu():
+def menu():
     menuSound.play()
     pygame.mouse.set_visible(True)
     menu = pygame.image.load("menu 1.jpg").convert()
@@ -160,7 +160,7 @@ def Menu():
 
 
 # Option
-def Option():
+def option():
     opt = pygame.image.load("Option.png").convert()
     opt_img = pygame.transform.scale(opt, (WINDOWWIDTH, WINDOWHEIGHT))
     windowSurface.blit(opt_img, (0, 0))
@@ -168,7 +168,7 @@ def Option():
     pygame.display.update()
 
 
-def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
+def waitforplayertopresskey():  # Lancer le jeu ou le fermer
     while True:
         for event_Key in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -179,24 +179,24 @@ def waitForPlayerToPressKey():  # Lancer le jeu ou le fermer
                 if event_Key.key == K_ESCAPE:  # Pressing ESC quits.
                     terminate()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if start_button.isOver(pos):
+                if start_button.isover(pos):
                     buttonSound.play()
                     return
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if option_button.isOver(pos):
+                if option_button.isover(pos):
                     buttonSound.play()
-                    Option()
+                    option()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if back_button.isOver(pos):
+                if back_button.isover(pos):
                     buttonSound.play()
-                    Menu()
+                    menu()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if nxt_button.isOver(pos):
+                if nxt_button.isover(pos):
                     buttonSound.play()
-                    Menu()
+                    menu()
 
 
-def playerHitVirus(player_v, vir):  # Définir la fonction : collision entre le player et le virus
+def playerhitvirus(player_v, vir):  # Définir la fonction : collision entre le player et le virus
     for v in vir:
         if player_v.colliderect(v['rect']):  # Détecter la collision
             vir.remove(v)  # Supprimer le virus à chaque fois que le player le toucher
@@ -204,14 +204,14 @@ def playerHitVirus(player_v, vir):  # Définir la fonction : collision entre le 
     return False
 
 
-def playerHasHitHospitals(player_h, hospitals):  # Définir la fonction : collision entre le player et l'hôpital
+def playerhashithospitals(player_h, hospitals):  # Définir la fonction : collision entre le player et l'hôpital
     for h in hospitals:
         if player_h.colliderect(h['rect']):  # Détecter la collision
             return True
     return False
 
 
-def playerHitVaccine(player_va, vacc):  # Définir la fonction : collision entre le player et le vaccin
+def playerhitvaccine(player_va, vacc):  # Définir la fonction : collision entre le player et le vaccin
     for va in vacc:
         if player_va.colliderect(va['rect']):  # Détecter la collision
             vacc.remove(va)  # Supprimer le vaccin à chaque fois que le player le toucher
@@ -219,7 +219,7 @@ def playerHitVaccine(player_va, vacc):  # Définir la fonction : collision entre
     return False
 
 
-def drawText(text, surface, x_t, y_t, colour, size):
+def drawtext(text, surface, x_t, y_t, colour, size):
     font = pygame.font.SysFont(None, size)
     textobj = font.render(text, 1, colour)
     textrect = textobj.get_rect()
@@ -242,8 +242,8 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
 
 
 def text_objects(text, font):
-    textSurface = font.render(text, True, WHITE)
-    return textSurface, textSurface.get_rect()
+    textsurface = font.render(text, True, WHITE)
+    return textsurface, textsurface.get_rect()
 
 
 def b_special(msg, pos_x, pos_y, largeur, hauteur, ic, ac):
@@ -260,10 +260,10 @@ def b_special(msg, pos_x, pos_y, largeur, hauteur, ic, ac):
     else:
         pygame.draw.rect(windowSurface, ic, (pos_x, pos_y, largeur, hauteur))
 
-    smallText = pygame.font.Font("freesansbold.ttf", 20)
-    textSurf, textRect = text_objects(msg, smallText)
-    textRect.center = ((pos_x + (largeur / 2)), (pos_y + (hauteur / 2)))
-    windowSurface.blit(textSurf, textRect)
+    smalltext = pygame.font.Font("freesansbold.ttf", 20)
+    textsurf, textrect = text_objects(msg, smalltext)
+    textrect.center = ((pos_x + (largeur / 2)), (pos_y + (hauteur / 2)))
+    windowSurface.blit(textsurf, textrect)
 
 
 def win_mode():
@@ -271,23 +271,23 @@ def win_mode():
     winSound.play()
     pygame.mouse.set_visible(False)
 
-    drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-150 + scroll), RED, 48)
+    drawtext('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2)+50, (-150 + scroll), RED, 48)
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2)+125, -450 + scroll))
-    drawText('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-600 + scroll), RED, 48)
+    drawtext('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2)-10, (-600 + scroll), RED, 48)
     b_special("Level 2", (WINDOWHEIGHT / 2)+125, -350 + scroll, 150, 50, BLACK, GREY)
 
 
-def show_GameOver_screen():
+def show_gameover_screen():
     pygame.mixer.music.stop()
     gameOverSound.play()
     pygame.mouse.set_visible(True)
 
-    drawText('GAME OVER', windowSurface, 290, (WINDOWHEIGHT / 2), BLACK, 100)
+    drawtext('GAME OVER', windowSurface, 290, (WINDOWHEIGHT / 2), BLACK, 100)
     restart_button.draw(windowSurface, WHITE)
     option_button.draw(windowSurface, WHITE)
     menu_button.draw(windowSurface, WHITE)
     pygame.display.update()
-    waitForPlayerToPressKey()
+    waitforplayertopresskey()
 
     gameOverSound.stop()
 
@@ -344,15 +344,15 @@ def level2():
         # Set up the start of the game.
         timer2 = 0
         scroll2 = 0
-        Score2 = 0
+        score2 = 0
         bat.max_health = 3
         timer_x = 0
         hospitals = []
         viruss = []
         vaccines = []
-        virusAddCounter = 0
-        vaccinAddCounter = 0
-        hospAddCounter = 0
+        virusaddcounter = 0
+        vaccinaddcounter = 0
+        hospaddcounter = 0
 
         pygame.mixer.music.load('Level2.wav')
         pygame.mixer.music.play(-1, 0.0)
@@ -371,7 +371,7 @@ def level2():
                 windowSurface.blit(BACKGROUND_2, (0, rel_x))
 
             # Enter in win mode
-            if Score2 >= score_level2:
+            if score2 >= score_level2:
                 timer2 += 1
                 if timer2 < 1600:
                     scroll2 += 1
@@ -385,60 +385,61 @@ def level2():
                     b_special("Terminate", (WINDOWHEIGHT / 2) + 500, 500, 150, 50, BLACK, GREY)
 
                 pygame.mouse.set_visible(False)
-                drawText('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
+                drawtext('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
                 windowSurface.blit(world, ((WINDOWHEIGHT / 2) - 200, - 550 + scroll2))
-                drawText('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-600 + scroll2), RED, 48)
+                drawtext('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-600 + scroll2), RED, 48)
 
-                drawText('Crédits', windowSurface, (WINDOWHEIGHT / 2) + 150, (-1550 + scroll2), WHITE, 42)
-                drawText('Loco-vid ALPHA 1.0', windowSurface, (WINDOWHEIGHT / 2) + 125, (-1500 + scroll2), WHITE, 26)
+                drawtext('Crédits', windowSurface, (WINDOWHEIGHT / 2) + 150, (-1550 + scroll2), WHITE, 42)
+                drawtext('Loco-vid ALPHA 1.0', windowSurface, (WINDOWHEIGHT / 2) + 125, (-1500 + scroll2), WHITE, 26)
                 windowSurface.blit(logo, ((WINDOWHEIGHT / 2) + 125, - 1430 + scroll2))
-                drawText('Copyright : GROUPE ONE', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1230 + scroll2), WHITE, 26)
-                drawText('Staff', windowSurface, (WINDOWHEIGHT / 2) + 180, (-1180 + scroll2), WHITE, 32)
-                drawText('Tiffany Garcia', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1140 + scroll2), WHITE, 20)
-                drawText('INGENIEURE SON', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1140 + scroll2), WHITE, 20)
-                drawText('Daniel Do Vale Anes', windowSurface, (WINDOWHEIGHT / 2) + 65, (-1110 + scroll2), WHITE, 20)
-                drawText('INGENIEUR DESIGN', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1110 + scroll2), WHITE, 20)
-                drawText('Erika da Silva', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1080 + scroll2), WHITE, 20)
-                drawText('CREATIVE MIND', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1080 + scroll2), WHITE, 20)
-                drawText('Bruno Samuel Da Silva Ferreira', windowSurface, (WINDOWHEIGHT / 2) - 5, (- 1050 + scroll2), WHITE, 20)
-                drawText('DEBUGER', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1050 + scroll2), WHITE, 20)
+                drawtext('Copyright : GROUPE ONE', windowSurface, (WINDOWHEIGHT / 2) + 100, (-1230+scroll2), WHITE, 26)
+                drawtext('Staff', windowSurface, (WINDOWHEIGHT / 2) + 180, (-1180 + scroll2), WHITE, 32)
+                drawtext('Tiffany Garcia', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1140 + scroll2), WHITE, 20)
+                drawtext('INGENIEURE SON', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1140 + scroll2), WHITE, 20)
+                drawtext('Daniel Do Vale Anes', windowSurface, (WINDOWHEIGHT / 2) + 65, (-1110 + scroll2), WHITE, 20)
+                drawtext('INGENIEUR DESIGN', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1110 + scroll2), WHITE, 20)
+                drawtext('Erika da Silva', windowSurface, (WINDOWHEIGHT / 2) + 105, (-1080 + scroll2), WHITE, 20)
+                drawtext('CREATIVE MIND', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1080 + scroll2), WHITE, 20)
+                drawtext('Bruno Samuel Da Silva Ferreira', windowSurface,
+                         (WINDOWHEIGHT/2)-5, (-1050+scroll2), WHITE, 20)
+                drawtext('DEBUGER', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1050 + scroll2), WHITE, 20)
 
             # Add new baddies at the top of the screen, if needed.
             else:
-                virusAddCounter += 1
-                vaccinAddCounter += 5
-                hospAddCounter += 1
+                virusaddcounter += 1
+                vaccinaddcounter += 5
+                hospaddcounter += 1
 
-            if virusAddCounter == virus.add_virus_rate:
-                virusAddCounter = 0
-                newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
+            if virusaddcounter == virus.add_virus_rate:
+                virusaddcounter = 0
+                newvirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                                 virus.size),
                             'speed x': random.randrange(-3, 3, 1),
                             'speed': 6,
                             'surface': virus.surface_2,
                             }
-                viruss.append(newVirus)
+                viruss.append(newvirus)
 
-            if vaccinAddCounter == vaccine.add_vaccine_rate:
-                vaccinAddCounter = 0
-                newVaccin = {
+            if vaccinaddcounter == vaccine.add_vaccine_rate:
+                vaccinaddcounter = 0
+                newvaccin = {
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
                                         vaccine.size),
                     'speed': 4,
                     'surface': vaccine.surface_2,
                 }
-                vaccines.append(newVaccin)
+                vaccines.append(newvaccin)
 
-            if hospAddCounter == hospital.add_hosp_rate:
-                hospAddCounter = 0
+            if hospaddcounter == hospital.add_hosp_rate:
+                hospaddcounter = 0
                 hosp_rand_size = random.randint(hospital.min_size, hospital.max_size)
-                newHosp = {
+                newhosp = {
                     'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hosp_rand_size), 0 - hosp_rand_size,
                                         hosp_rand_size, hosp_rand_size),
                     'speed': 2,
                     'surface': pygame.transform.scale(hospital.image_2, (hosp_rand_size, hosp_rand_size)),
                 }
-                hospitals.append(newHosp)
+                hospitals.append(newhosp)
 
             # Draw and move the virus. And delete the virus that have fallen past the bottom.
             for v in viruss[:]:
@@ -465,16 +466,16 @@ def level2():
             windowSurface.blit(bat.image, bat.rect)
 
             # Level 1
-            if Score2 < score_level2:
-                drawText('Score: %s/4000' % (Score2), windowSurface, 10, 40, WHITE, 36)
+            if score2 < score_level2:
+                drawtext('Score: %s/4000' % score2, windowSurface, 10, 40, WHITE, 36)
 
             # Draw the lives
-            if Score2 < score_level2:
+            if score2 < score_level2:
                 draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
 
             # Check if any of the hospital have hit the player.
-            if playerHasHitHospitals(bat.rect, hospitals):
-                if Score2 < score_level2:
+            if playerhashithospitals(bat.rect, hospitals):
+                if score2 < score_level2:
                     breakSound.play()
                     if bat.max_health == 0:
                         bat.max_health += 3
@@ -485,22 +486,22 @@ def level2():
                     break
 
             # Check if any of the virus have hit the player.
-            if playerHitVirus(bat.rect, viruss):
-                if Score2 < score_level2:
-                    Score2 += 100  # add 100 to the topScore
+            if playerhitvirus(bat.rect, viruss):
+                if score2 < score_level2:
+                    score2 += 100  # add 100 to the topScore
                     pickupSound.play()
 
             # Check if any of the vaccines have hit the player.
-            if playerHitVaccine(bat.rect, vaccines):
-                if Score2 < score_level2:
+            if playerhitvaccine(bat.rect, vaccines):
+                if score2 < score_level2:
                     bat.max_health -= 1
                     failSound.play()
-                    if Score2 > 500:
-                        Score2 -= 500  # subtract 500 to the topScore
-                    if Score2 == 500:
-                        Score2 -= Score2
-                    if Score2 < 500:
-                        Score2 -= Score2
+                    if score2 > 500:
+                        score2 -= 500  # subtract 500 to the topScore
+                    if score2 == 500:
+                        score2 -= score2
+                    if score2 < 500:
+                        score2 -= score2
                 if bat.max_health == 0:
                     bat.max_health += 3
                     break
@@ -508,13 +509,12 @@ def level2():
             pygame.display.update()
 
         # Stop the game and show the "Game Over" screen.
-        show_GameOver_screen()
+        show_gameover_screen()
 
 
 # Draw the button on the menu
 pygame.display.update()
-waitForPlayerToPressKey()
-
+waitforplayertopresskey()
 # START
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
@@ -529,9 +529,9 @@ while True:
     vaccines = []
     timer = 0
     moveLeft = moveRight = moveUp = moveDown = False
-    virusAddCounter = 0
-    vaccinAddCounter = 0
-    hospAddCounter = 0
+    virusaddcounter = 0
+    vaccinaddcounter = 0
+    hospaddcounter = 0
 
     menuSound.stop()
     pygame.mixer.music.play(-1, 0.0)
@@ -556,39 +556,39 @@ while True:
             win_mode()
         # Add new baddies at the top of the screen, if needed.
         else:
-            virusAddCounter += 1
-            vaccinAddCounter += 2
-            hospAddCounter += 1
+            virusaddcounter += 1
+            vaccinaddcounter += 2
+            hospaddcounter += 1
 
-        if virusAddCounter == virus.add_virus_rate:
-            virusAddCounter = 0
-            newVirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
+        if virusaddcounter == virus.add_virus_rate:
+            virusaddcounter = 0
+            newvirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
                                             virus.size),
                         'speed': 3,
                         'surface': virus.surface,
                         }
 
-            viruss.append(newVirus)
+            viruss.append(newvirus)
 
-        if vaccinAddCounter == vaccine.add_vaccine_rate:
-            vaccinAddCounter = 0
-            newVaccin = {
+        if vaccinaddcounter == vaccine.add_vaccine_rate:
+            vaccinaddcounter = 0
+            newvaccin = {
                 'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - vaccine.size), 0 - vaccine.size, vaccine.size,
                                     vaccine.size),
                 'speed': 3,
                 'surface': vaccine.surface,
             }
 
-            vaccines.append(newVaccin)
+            vaccines.append(newvaccin)
 
-        if hospAddCounter == hospital.add_hosp_rate:
-            hospAddCounter = 0
-            newHosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
+        if hospaddcounter == hospital.add_hosp_rate:
+            hospaddcounter = 0
+            newhosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
                                            hospital.rand_size, hospital.rand_size),
                        'speed': 2,
                        'surface': hospital.surface,
                        }
-            hospitals.append(newHosp)
+            hospitals.append(newhosp)
 
         # Draw and move the virus. And delete the virus that have fallen past the bottom.
         for v in viruss:
@@ -616,14 +616,14 @@ while True:
 
         # Level 1
         if Score < score_level:
-            drawText('Score: %s/4000' % (Score), windowSurface, 10, 40, WHITE, 36)
+            drawtext('Score: %s/4000' % Score, windowSurface, 10, 40, WHITE, 36)
 
         # Draw the lives
         if Score < score_level:
             draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
 
         # Check if any of the hospital have hit the player.
-        if playerHasHitHospitals(bat.rect, hospitals):
+        if playerhashithospitals(bat.rect, hospitals):
             if Score < score_level:
                 breakSound.play()
                 if bat.max_health == 0:
@@ -636,13 +636,13 @@ while True:
                 break
 
         # Check if any of the virus have hit the player.
-        if playerHitVirus(bat.rect, viruss):
+        if playerhitvirus(bat.rect, viruss):
             if Score < score_level:
                 Score += 100  # add 100 to the topScore
                 pickupSound.play()
 
         # Check if any of the vaccines have hit the player.
-        if playerHitVaccine(bat.rect, vaccines):
+        if playerhitvaccine(bat.rect, vaccines):
             if Score < score_level:
                 bat.max_health -= 1
                 failSound.play()
@@ -660,4 +660,4 @@ while True:
         pygame.display.update()
 
     # Stop the game and show the "Game Over" screen.
-    show_GameOver_screen()
+    show_gameover_screen()
