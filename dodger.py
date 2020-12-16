@@ -155,7 +155,6 @@ def Menu():
     windowSurface.blit(pic, (0, 0))
     start_button.draw(windowSurface, WHITE)
     option_button.draw(windowSurface, WHITE)
-
     pygame.display.update()
 
 
@@ -497,9 +496,7 @@ def level2():
                     failSound.play()
                     if Score2 > 500:
                         Score2 -= 500  # subtract 500 to the topScore
-                    if Score2 == 500:
-                        Score2 -= Score2
-                    if Score2 < 500:
+                    if Score2 <= 500:
                         Score2 -= Score2
                 if bat.max_health == 0:
                     bat.max_health += 3
@@ -567,7 +564,6 @@ while True:
                         'speed': 3,
                         'surface': virus.surface,
                         }
-
             viruss.append(newVirus)
 
         if vaccinAddCounter == vaccine.add_vaccine_rate:
@@ -648,9 +644,7 @@ while True:
                 failSound.play()
                 if Score > 500:
                     Score -= 500  # subtract 500 to the topScore
-                if Score == 500:
-                    Score -= Score
-                if Score < 500:
+                if Score <= 500:
                     Score -= Score
             if bat.max_health == 0:
                 bat.max_health += 3
