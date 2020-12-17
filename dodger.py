@@ -13,7 +13,7 @@ GREY = (127, 127, 127)
 WINDOWWIDTH = 1000
 WINDOWHEIGHT = 600
 
-FPS = 60  # Nombre d'image par secondes
+FPS = 60  # Nombre d'images par secondes
 
 # Définition des scores à atteindre dans le jeu
 score_level = 300
@@ -67,13 +67,13 @@ class GameState:
     def __init__(self):
         self.state = "main game"
 
-    def intro(self):    # Définir la page menu
+    def intro(self):  # Définir la page menu
         menu()
 
-    def main_game(self):    # Définir la page de jeu
-        pygame.mouse.set_visible(False)     # Rend le curseur de la souris invisible
+    def main_game(self):  # Définir la page de jeu
+        pygame.mouse.set_visible(False)  # Rend le curseur de la souris invisible
 
-        for event in pygame.event.get():    # Boucle for pour les actions du joueur
+        for event in pygame.event.get():  # Boucle for pour les actions du joueur
             if event.type == QUIT:
                 # Si le joueur presse sur la croix rouge ,  quitter le jeu.
                 terminate()
@@ -98,9 +98,11 @@ class GameState:
         if moveDown and bat.rect.bottom < WINDOWHEIGHT:
             bat.rect.move_ip(0, bat.player_move_rate)
 
+
+        # Fonction pour limiter le nombre de tick à 60 FPS ici (FPS = 60)
         mainClock.tick(FPS)
 
-    def state_manager(self):    # définition pour savoir quelle page lancer
+    def state_manager(self):  # Définition pour savoir quelle page lancer
         if self.state == "intro":
             self.intro()
         if self.state == "main_game":
@@ -109,7 +111,7 @@ class GameState:
 
 # Définition de la class pour les buttons
 class Button(GameState):
-    def __init__(self, color_button, x_button, y_button, width, height, text=''):   # paramètre du button
+    def __init__(self, color_button, x_button, y_button, width, height, text=''):  # Paramètre du button
         super().__init__()
         self.color = color_button
         self.x = x_button
@@ -118,7 +120,7 @@ class Button(GameState):
         self.height = height
         self.text = text
 
-    def draw(self, window, outline=None):   # définition pour dessiner le button
+    def draw(self, window, outline=None):  # Définition pour dessiner le button
         if outline:
             pygame.draw.rect(window, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
 
@@ -300,9 +302,18 @@ def show_gameover_screen():
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
-mainClock = pygame.time.Clock()
+mainClock = pygame.time.Clock()  # Variable pour avoir un suivi du temps quand on lance pygame.init()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
+
+font = pygame.font.SysFont("Arial", 18)
+
+
+def update_fps():
+    fps = str(int(mainClock.get_fps()))
+    fps_text = font.render(fps, 1, pygame.Color("coral"))
+    return fps_text
+
 
 # Background image
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond
@@ -375,6 +386,8 @@ def level2():
             windowSurface.blit(BACKGROUND_2, (0, rel_x2 - BACKGROUND_2.get_rect().height))
             if rel_x2 < WINDOWHEIGHT:
                 windowSurface.blit(BACKGROUND_2, (0, rel_x2))
+
+            windowSurface.blit(update_fps(), (100, 10))
 
             # Enter in win mode
             if score2 >= score_level2:
@@ -553,6 +566,8 @@ while True:
         windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
         if rel_x < WINDOWHEIGHT:
             windowSurface.blit(BACKGROUND, (0, rel_x))
+
+        windowSurface.blit(update_fps(), (100, 10))
 
         # Enter in win mode
         if Score >= score_level:
