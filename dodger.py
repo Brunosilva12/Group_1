@@ -16,8 +16,8 @@ WINDOWHEIGHT = 600
 FPS = 60  # Nombre d'images par secondes
 
 # Définition des scores à atteindre dans le jeu
-score_level = 300
-score_level2 = 300
+score_level = 4000
+score_level2 = 4000
 
 
 # Définition des class pour les entités du jeu (Player, Hospital, Virus, Vaccine)
@@ -99,7 +99,6 @@ class GameState:
         if moveDown and bat.rect.bottom < WINDOWHEIGHT:
             bat.rect.move_ip(0, bat.player_move_rate)
 
-
         # Fonction pour limiter le nombre de tick à 60 FPS ici (FPS = 60)
         mainClock.tick(FPS)
 
@@ -112,7 +111,7 @@ class GameState:
 
 # Définition de la class pour les buttons
 class Button(GameState):
-    def __init__(self, color_button, x_button, y_button, width, height, text=''):  # Paramètre du button
+    def __init__(self, color_button, x_button, y_button, width, height, text=''):  # Paramètres du button
         super().__init__()
         self.color = color_button
         self.x = x_button
@@ -121,7 +120,7 @@ class Button(GameState):
         self.height = height
         self.text = text
 
-    def draw(self, window, outline):  # Définition pour dessiner le bouton
+    def draw(self, window, outline):  # Définition de la fonction pour dessiner le bouton
         pygame.draw.rect(window, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
         pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
 
@@ -131,19 +130,19 @@ class Button(GameState):
         window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
-    def isover(self, pos):  #
-        # Pos is the mouse position or a tuple of (x,y) coordinates
+    def isover(self, pos):  # Définition de la fonction pour retourner True quand le joueur presse sur le bouton
+        # Pos est la position du curseur
         if self.x < pos[0] < self.x + self.width and self.y < pos[1] < self.y + self.height:
             return True
         return False
 
 
-def terminate():  # Fermer la fenêtre du jeu
+def terminate():  # Définition de la fonction pour fermer la fenêtre du jeu
     pygame.quit()
     sys.exit()
 
 
-# Draw the button on the menu
+# Dessiner les boutons utilisés hors de la boucle du jeu
 start_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2) + 10, 70, "Start")
 restart_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2) + 10, 70, "Restart")
 menu_button = Button(BLACK, 25, 25, 125, 50, "Menu")
@@ -151,7 +150,7 @@ option_button = Button(BLACK, 360, 515, (WINDOWHEIGHT / 2) - 15, 45, "How to pla
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
 
 
-# Menu
+# Définition de la fonction menu
 def menu():
     menuSound.play()
     pygame.mouse.set_visible(True)
@@ -163,7 +162,7 @@ def menu():
     pygame.display.update()
 
 
-# Option
+# Définition de la fonction option ("How To Play")
 def option():
     opt = pygame.image.load("Option.png").convert()
     opt_img = pygame.transform.scale(opt, (WINDOWWIDTH, WINDOWHEIGHT))
@@ -172,7 +171,8 @@ def option():
     pygame.display.update()
 
 
-def waitforplayertopresskey():  # Lancer le jeu ou le fermer
+# Définition de la fonction pour toutes les actions qui nécessite qu'un bouton soit pressé
+def waitforplayertopresskey():
     while True:
         for event_Key in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -196,29 +196,33 @@ def waitforplayertopresskey():  # Lancer le jeu ou le fermer
                     menu()
 
 
-def playerhitvirus(player_v, vir):  # Définir la fonction : collision entre le player et le virus
+# Définition de la fonction d'une collision entre le joueur et le virus
+def playerhitvirus(player_v, vir):
     for v_hit in vir:
         if player_v.colliderect(v_hit['rect']):  # Détecter la collision
-            vir.remove(v_hit)  # Supprimer le virus à chaque fois que le player le toucher
+            vir.remove(v_hit)  # Supprimer le virus à chaque fois que le joueur le touche
             return True
     return False
 
 
-def playerhashithospitals(player_h, hospital_hit):  # Définir la fonction : collision entre le player et l'hôpital
+# Définition de la fonction d'une collision entre le joueur et les hôpitaux
+def playerhashithospitals(player_h, hospital_hit):
     for h_hit in hospital_hit:
         if player_h.colliderect(h_hit['rect']):  # Détecter la collision
             return True
     return False
 
 
-def playerhitvaccine(player_va, vacc):  # Définir la fonction : collision entre le player et le vaccin
+# Définition de la fonction d'une collision entre le joueur et le vaccin
+def playerhitvaccine(player_va, vacc):
     for va_hit in vacc:
         if player_va.colliderect(va_hit['rect']):  # Détecter la collision
-            vacc.remove(va_hit)  # Supprimer le vaccin à chaque fois que le player le toucher
+            vacc.remove(va_hit)  # Supprimer le vaccin à chaque fois que le joueur le touche
             return True
     return False
 
 
+# Définition de la fonction pour dessiner les zones de textes
 def drawtext(text, surface, x_t, y_t, colour, size):
     font = pygame.font.SysFont(None, size)
     textobj = font.render(text, 1, colour)
@@ -227,12 +231,13 @@ def drawtext(text, surface, x_t, y_t, colour, size):
     surface.blit(textobj, textrect)
 
 
-# draw lives
+# Variables pour définir les vies
 img = pygame.image.load("vie.png")
 vies = pygame.transform.scale(img, (130, 86))
 vies.set_colorkey(BLACK)
 
 
+# Définition pour dessiner les vies
 def draw_lives(surf, x_l, y_l, max_health_l, img_l):
     for i in range(max_health_l):
         img_rect = img_l.get_rect()
@@ -241,11 +246,13 @@ def draw_lives(surf, x_l, y_l, max_health_l, img_l):
         surf.blit(img_l, img_rect)
 
 
+# Définition de la fonction texte pour le bouton spécial
 def text_objects(text, font):
     textsurface = font.render(text, True, WHITE)
     return textsurface, textsurface.get_rect()
 
 
+# Définition de la fonction du bouton spécial
 def b_special(msg, pos_x, pos_y, largeur, hauteur, ic, ac):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
@@ -266,46 +273,35 @@ def b_special(msg, pos_x, pos_y, largeur, hauteur, ic, ac):
     windowSurface.blit(textsurf, textrect)
 
 
+# Définition de la fonction quand le joueur atteind le score final du niveau 1
 def win_mode():
     pygame.mixer.music.stop()
     winSound.play()
-    pygame.mouse.set_visible(False)
-
     drawtext('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll), RED, 48)
     windowSurface.blit(level1Image, ((WINDOWHEIGHT / 2) + 125, -450 + scroll))
     drawtext('INFECT DONALD TRUMP !', windowSurface, (WINDOWHEIGHT / 2) - 10, (-600 + scroll), RED, 48)
     b_special("Level 2", (WINDOWHEIGHT / 2) + 125, -350 + scroll, 150, 50, BLACK, GREY)
 
 
+# Définitioin de la fonction quand le joueur perd
 def show_gameover_screen():
     pygame.mixer.music.stop()
     gameOverSound.play()
     pygame.mouse.set_visible(True)
-
     drawtext('GAME OVER', windowSurface, 290, (WINDOWHEIGHT / 2), BLACK, 100)
     restart_button.draw(windowSurface, WHITE)
     option_button.draw(windowSurface, WHITE)
     menu_button.draw(windowSurface, WHITE)
     pygame.display.update()
     waitforplayertopresskey()
-
     gameOverSound.stop()
 
 
-# Set up pygame, the window, and the mouse cursor.
+# Configuration de pygame et de la fenêtre de jeu.
 pygame.init()
 mainClock = pygame.time.Clock()  # Variable pour avoir un suivi du temps quand on lance pygame.init()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 pygame.display.set_caption('Loco-vid')
-
-font = pygame.font.SysFont("Arial", 18)
-
-
-def update_fps():
-    fps = str(int(mainClock.get_fps()))
-    fps_text = font.render(fps, 1, pygame.Color("coral"))
-    return fps_text
-
 
 # Définir les images de fond des 2 niveaux
 BACKGROUND = pygame.image.load('fond.png').convert()  # fond du niveau 1
@@ -330,7 +326,7 @@ buttonSound = pygame.mixer.Sound('Button.wav')
 failSound = pygame.mixer.Sound('Fail.wav')
 breakSound = pygame.mixer.Sound('Break.wav')
 
-# Configurer le volume pour chaque sons
+# Configurer le volume pour chaque son
 menuSound.set_volume(0.2)
 gameOverSound.set_volume(0.5)
 pygame.mixer.music.set_volume(0.1)
@@ -345,17 +341,17 @@ breakSound.set_volume(0.2)
 game_state = GameState()
 game_state.intro()
 
-# Définir la fonction pour le niveau 2
+# Définition de la fonction pour le niveau 2
 def level2():
     winSound.stop()
 
     while True:
         # Configurer les paramètres du niveau 2
         timer2 = 0
+        timer_x2 = 0
         scroll2 = 0
         score2 = 0
         bat.max_health = 3
-        timer_x2 = 0
         hospitals_2 = []
         viruss_2 = []
         vaccines_2 = []
@@ -364,12 +360,13 @@ def level2():
         hospaddcounter_2 = 0
 
         # Configurer la musique du niveau 2
+        menuSound.stop()
         pygame.mixer.music.load('Level2.wav')
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.rewind()  # relancer directement la musique
         pygame.mixer.music.set_volume(0.05)
 
-        while True:  # La boucle du jeu s'execute tend que le jeu n'est pas fini.
+        while True:  # La boucle du jeu s'execute tant que le jeu n'est pas fini.
             game_state.main_game()
 
             # Configurer les paramètres du fond d'écran
@@ -377,18 +374,14 @@ def level2():
                 timer_x2 += 1
             rel_x2 = timer_x2 % BACKGROUND_2.get_rect().height
             windowSurface.blit(BACKGROUND_2, (0, rel_x2 - BACKGROUND_2.get_rect().height))
-            # Dessiner à nouveau le fond d'écran pour
             if rel_x2 < WINDOWHEIGHT:
                 windowSurface.blit(BACKGROUND_2, (0, rel_x2))
 
-            windowSurface.blit(update_fps(), (100, 10))
-
-            # Enter in win mode
+            # Entrer dans le win_mode
             if score2 >= score_level2:
                 timer2 += 1
                 if timer2 < 1600:
                     scroll2 += 1
-                # Win mode 2
                 pygame.mixer.music.stop()
                 if scroll2 == 500:
                     win2Sound.play()
@@ -401,6 +394,7 @@ def level2():
                 windowSurface.blit(world, ((WINDOWHEIGHT / 2) - 200, - 550 + scroll2))
                 drawtext('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-600 + scroll2), RED, 48)
 
+                # Dessiner les crédits à la fin du win_mode
                 drawtext('Crédits', windowSurface, (WINDOWHEIGHT / 2) + 150, (-1550 + scroll2), WHITE, 42)
                 drawtext('Loco-vid ALPHA 1.0', windowSurface, (WINDOWHEIGHT / 2) + 125, (-1500 + scroll2), WHITE, 26)
                 windowSurface.blit(logo, ((WINDOWHEIGHT / 2) + 125, - 1430 + scroll2))
@@ -417,12 +411,13 @@ def level2():
                          (WINDOWHEIGHT / 2) - 5, (-1050 + scroll2), WHITE, 20)
                 drawtext('DEBUGER', windowSurface, (WINDOWHEIGHT / 2) + 215, (-1050 + scroll2), WHITE, 20)
 
-            # Add new baddies at the top of the screen, if needed.
+            # Définir la quantité de nouveaux éléments qui apparaissent
             else:
                 virusaddcounter_2 += 1
                 vaccinaddcounter_2 += 5
                 hospaddcounter_2 += 1
 
+            # Si la quantité de nouveaux virus est égale au taux d'ajout de virus, on définit un nouveau virus
             if virusaddcounter_2 == virus.add_virus_rate:
                 virusaddcounter_2 = 0
                 newvirus_2 = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size,
@@ -433,6 +428,7 @@ def level2():
                               }
                 viruss_2.append(newvirus_2)
 
+            # Si la quantité de nouveaux vaccins est égale au taux d'ajout de vaccins, on définit un nouveau vaccins
             if vaccinaddcounter_2 == vaccine.add_vaccine_rate:
                 vaccinaddcounter_2 = 0
                 newvaccin_2 = {
@@ -443,6 +439,7 @@ def level2():
                 }
                 vaccines_2.append(newvaccin_2)
 
+            # Si la quantité de nouveaux hôpitaux est égale au taux d'ajout des hôpitaux, on définit un nouvel hôpital
             if hospaddcounter_2 == hospital.add_hosp_rate:
                 hospaddcounter_2 = 0
                 hosp_rand_size = random.randint(hospital.min_size, hospital.max_size)
@@ -454,36 +451,36 @@ def level2():
                 }
                 hospitals_2.append(newhosp_2)
 
-            # Draw and move the virus. And delete the virus that have fallen past the bottom.
+            # Dessiner et bouger les virus
             for v_2 in viruss_2[:]:
                 v_2['rect'].move_ip(v_2['speed x'], v_2['speed'])
                 windowSurface.blit(v_2['surface'], v_2['rect'])
-                if v_2['rect'].top > WINDOWHEIGHT:
+                if v_2['rect'].top > WINDOWHEIGHT:  # supprimer les virus qui sortent de la fenêtre
                     viruss_2.remove(v_2)
 
-            # Draw and move the vaccines. And delete vaccines that have fallen past the bottom.
+            # Dessiner et bouger les vaccins
             for va_2 in vaccines_2[:]:
                 va_2['rect'].move_ip(0, va_2['speed'])
                 windowSurface.blit(va_2['surface'], va_2['rect'])
-                if va_2['rect'].top > WINDOWHEIGHT:
+                if va_2['rect'].top > WINDOWHEIGHT:  # supprimer les vaccins qui sortent de la fenêtre
                     vaccines_2.remove(va_2)
 
-            # Draw and move the hospitals. And delete hospitals that have fallen past the bottom.
+            # Dessiner et bouger les hôpitaux
             for h_2 in hospitals_2[:]:
                 h_2['rect'].move_ip(0, h_2['speed'])
                 windowSurface.blit(h_2['surface'], h_2['rect'])
-                if h_2['rect'].top > WINDOWHEIGHT:
+                if h_2['rect'].top > WINDOWHEIGHT:  # supprimer les hôpitaux qui sortent de la fenêtre
                     hospitals_2.remove(h_2)
 
-            # Draw the player's rectangle.
+            # Dessiner le joueur
             windowSurface.blit(bat.image, bat.rect)
 
-            # Level 1
+            # Dessiner le score et les vies
             if score2 < score_level2:
                 drawtext('Score: %s/4000' % score2, windowSurface, 10, 40, WHITE, 36)
                 draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
 
-            # Check if any of the hospital have hit the player.
+            # Contrôler si le joueur a touché un hôpital
             if playerhashithospitals(bat.rect, hospitals_2):
                 if score2 < score_level2:
                     breakSound.play()
@@ -495,32 +492,32 @@ def level2():
                         bat.max_health += 1
                     break
 
-            # Check if any of the virus have hit the player.
+            # Contrôler si le joueur a touché un virus
             if playerhitvirus(bat.rect, viruss_2):
                 if score2 < score_level2:
-                    score2 += 100  # add 100 to the topScore
+                    score2 += 100  # ajouter 100 points au score
                     pickupSound.play()
 
-            # Check if any of the vaccines have hit the player.
+            # Contrôler si le joueur a touché un vaccin
             if playerhitvaccine(bat.rect, vaccines_2):
                 if score2 < score_level2:
                     bat.max_health -= 1
                     failSound.play()
                     if score2 > 500:
-                        score2 -= 500  # subtract 500 to the topScore
+                        score2 -= 500  # enlever 500 points au score
                     if score2 <= 500:
                         score2 -= score2
                 if bat.max_health == 0:
                     bat.max_health += 3
                     break
 
-            pygame.display.update()
+            pygame.display.update()  # mettre à jour la fenêtre
 
-        # Stop the game and show the "Game Over" screen.
+        # Terminer le jeu et montrer la fenêtre du "Game Over"
         show_gameover_screen()
 
 
-# START
+# Configurer les paramètres du jeu avant de le lancer
 scroll = 0
 Score = 0
 bat = Player(WINDOWWIDTH // 2, WINDOWHEIGHT - 50)
@@ -529,22 +526,23 @@ vaccine = Vaccine()
 hospital = Hospital()
 
 while True:
-    # Set up the start of the game.
+    # Configurer les paramètres du niveau 1
+    timer = 0
+    timer_x = 0
     hospitals = []
     viruss = []
     vaccines = []
-    timer = 0
-    timer_x = 0
-    moveLeft = moveRight = moveUp = moveDown = True
     virusaddcounter = 0
     vaccinaddcounter = 0
     hospaddcounter = 0
+    moveLeft = moveRight = moveUp = moveDown = True
 
+    # Configurer la musique du niveau 1
     menuSound.stop()
     pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.rewind()  # relancer directement la musique
 
-    while True:  # The game loop runs while the game part is playing.
+    while True:  # La boucle du jeu s'execute tant que le jeu n'est pas fini.
         game_state.main_game()
 
         # Background image settings
@@ -555,20 +553,20 @@ while True:
         if rel_x < WINDOWHEIGHT:
             windowSurface.blit(BACKGROUND, (0, rel_x))
 
-        windowSurface.blit(update_fps(), (100, 10))
 
-        # Enter in win mode
+        # Configurer les paramètres du fond d'écran
         if Score >= score_level:
             timer += 1
             if timer < 650:
                 scroll += 1
             win_mode()
-        # Add new baddies at the top of the screen, if needed.
+        # Définir la quantité de nouveaux éléments qui apparaissent
         else:
             virusaddcounter += 1
             vaccinaddcounter += 2
             hospaddcounter += 1
 
+        # Si la quantité de nouveaux virus est égale au taux d'ajout de virus, on définit un nouveau virus
         if virusaddcounter == virus.add_virus_rate:
             virusaddcounter = 0
             newvirus = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - virus.size), 0 - virus.size, virus.size,
@@ -578,6 +576,7 @@ while True:
                         }
             viruss.append(newvirus)
 
+        # Si la quantité de nouveaux vaccins est égale au taux d'ajout de vaccins, on définit un nouveau vaccins
         if vaccinaddcounter == vaccine.add_vaccine_rate:
             vaccinaddcounter = 0
             newvaccin = {
@@ -588,6 +587,7 @@ while True:
             }
             vaccines.append(newvaccin)
 
+        # Si la quantité de nouveaux hôpitaux est égale au taux d'ajout de hôpitaux, on définit un nouveau hôpital
         if hospaddcounter == hospital.add_hosp_rate:
             hospaddcounter = 0
             newhosp = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - hospital.rand_size), 0 - hospital.rand_size,
@@ -597,36 +597,36 @@ while True:
                        }
             hospitals.append(newhosp)
 
-        # Draw and move the virus. And delete the virus that have fallen past the bottom.
+        # Dessiner et bouger les virus
         for v in viruss:
             v['rect'].move_ip(0, v['speed'])
             windowSurface.blit(v['surface'], v['rect'])
-            if v['rect'].top > WINDOWHEIGHT:
+            if v['rect'].top > WINDOWHEIGHT:    # supprimer les viruss qui sortent de la fenêtre
                 viruss.remove(v)
 
-        # Draw and move the vaccines. And delete vaccines that have fallen past the bottom.
+        # Dessiner et bouger les vaccins
         for va in vaccines[:]:
             va['rect'].move_ip(0, va['speed'])
             windowSurface.blit(va['surface'], va['rect'])
-            if va['rect'].top > WINDOWHEIGHT:
+            if va['rect'].top > WINDOWHEIGHT:   # supprimer les vaccins qui sortent de la fenêtre
                 vaccines.remove(va)
 
-        # Draw and move the hospitals. And delete the hospitals that have fallen past the bottom.
+        # Dessiner et bouger les hôpitaux
         for h in hospitals[:]:
             h['rect'].move_ip(0, h['speed'])
             windowSurface.blit(h['surface'], h['rect'])
-            if h['rect'].top > WINDOWHEIGHT:
+            if h['rect'].top > WINDOWHEIGHT:    # supprimer les hôpitaux qui sortent de la fenêtre
                 hospitals.remove(h)
 
-        # Draw the player's rectangle.
+        # Dessiner le joueur
         windowSurface.blit(bat.image, bat.rect)
 
-        # Level 1
+        # Dessiner le score et les vies
         if Score < score_level:
             drawtext('Score: %s/4000' % Score, windowSurface, 10, 40, WHITE, 36)    # Dessine le score
             draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)   # Dessine les vies
 
-        # Check if any of the hospital have hit the player.
+        # Contrôler si le joueur a touché un hôpital
         if playerhashithospitals(bat.rect, hospitals):
             if Score < score_level:
                 breakSound.play()
@@ -639,19 +639,19 @@ while True:
                 Score = 0
                 break
 
-        # Check if any of the virus have hit the player.
+        # Contrôler si le joueur a touché un virus
         if playerhitvirus(bat.rect, viruss):
             if Score < score_level:
-                Score += 100  # add 100 to the topScore
+                Score += 100  # ajouter 100 points au score
                 pickupSound.play()
 
-        # Check if any of the vaccines have hit the player.
+        # Contrôler si le joueur a touché un vaccin
         if playerhitvaccine(bat.rect, vaccines):
             if Score < score_level:
                 bat.max_health -= 1
                 failSound.play()
                 if Score > 500:
-                    Score -= 500  # subtract 500 to the topScore
+                    Score -= 500  # enlever 500 points au score
                 if Score <= 500:
                     Score -= Score
             if bat.max_health == 0:
@@ -659,7 +659,7 @@ while True:
                 Score = 0
                 break
 
-        pygame.display.update()
+        pygame.display.update()   # mettre à jour la fenêtre
 
-    # Stop the game and show the "Game Over" screen.
+    # Terminer le jeu et montrer la fenêtre du "Game Over"
     show_gameover_screen()
