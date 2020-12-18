@@ -69,6 +69,7 @@ class GameState:
 
     def intro(self):  # Définir la page menu
         menu()
+        waitforplayertopresskey()
 
     def main_game(self):  # Définir la page de jeu
         pygame.mouse.set_visible(False)  # Rend le curseur de la souris invisible
@@ -120,16 +121,14 @@ class Button(GameState):
         self.height = height
         self.text = text
 
-    def draw(self, window, outline=None):  # Définition pour dessiner le button
-        if outline:
-            pygame.draw.rect(window, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
-
+    def draw(self, window, outline):  # Définition pour dessiner le bouton
+        pygame.draw.rect(window, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
         pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height))
 
-        if self.text != '':
-            font_button = pygame.font.SysFont('comicsans', 60)
-            text = font_button.render(self.text, 1, WHITE)
-            window.blit(text, (
+        #   Dessiner le texte dans le bouton
+        font_button = pygame.font.SysFont('comicsans', 60)
+        text = font_button.render(self.text, 1, WHITE)
+        window.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
     def isover(self, pos):  #
@@ -150,8 +149,6 @@ restart_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2) + 10, 70, "Restart")
 menu_button = Button(BLACK, 25, 25, 125, 50, "Menu")
 option_button = Button(BLACK, 360, 515, (WINDOWHEIGHT / 2) - 15, 45, "How to play")
 back_button = Button(BLACK, 25, 25, 125, 50, "Back")
-lvl_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
-nxt_button = Button(BLACK, 348, 428, (WINDOWHEIGHT / 2), 70, "Next level")
 
 
 # Menu
@@ -163,7 +160,6 @@ def menu():
     windowSurface.blit(pic, (0, 0))
     start_button.draw(windowSurface, WHITE)
     option_button.draw(windowSurface, WHITE)
-
     pygame.display.update()
 
 
@@ -196,10 +192,6 @@ def waitforplayertopresskey():  # Lancer le jeu ou le fermer
                     option()
             if event_Key.type == pygame.MOUSEBUTTONDOWN:
                 if back_button.isover(pos):
-                    buttonSound.play()
-                    menu()
-            if event_Key.type == pygame.MOUSEBUTTONDOWN:
-                if nxt_button.isover(pos):
                     buttonSound.play()
                     menu()
 
@@ -315,12 +307,19 @@ def update_fps():
     return fps_text
 
 
-# Background image
-BACKGROUND = pygame.image.load('fond.png').convert()  # fond
-BACKGROUND_2 = pygame.image.load('fond_2.png').convert()  # fond
-timer_x = 0
+# Définir les images de fond des 2 niveaux
+BACKGROUND = pygame.image.load('fond.png').convert()  # fond du niveau 1
+BACKGROUND_2 = pygame.image.load('fond_2.png').convert()  # fond du niveau 2
 
-# Set up sounds.
+# Images utilisées entre les niveaux et à la fin du jeu
+level1Image = pygame.image.load('Doni.png')
+level1Image = pygame.transform.scale(level1Image, (133, 100))
+world = pygame.image.load('covid_world.png')
+world = pygame.transform.scale(world, (800, 400))
+logo = pygame.image.load('logo_game.jpg')
+logo = pygame.transform.scale(logo, (150, 150))
+
+# Installer les sons du jeu
 menuSound = pygame.mixer.Sound('Open.wav')
 gameOverSound = pygame.mixer.Sound('Gover.wav')
 finalSound = pygame.mixer.music.load('Final.wav')
@@ -331,7 +330,7 @@ buttonSound = pygame.mixer.Sound('Button.wav')
 failSound = pygame.mixer.Sound('Fail.wav')
 breakSound = pygame.mixer.Sound('Break.wav')
 
-# Set up the volume.
+# Configurer le volume pour chaque sons
 menuSound.set_volume(0.2)
 gameOverSound.set_volume(0.5)
 pygame.mixer.music.set_volume(0.1)
@@ -342,23 +341,16 @@ buttonSound.set_volume(0.1)
 failSound.set_volume(100)
 breakSound.set_volume(0.2)
 
-# Show the "Start" screen.
-windowSurface.fill((0, 0, 0))
+# Lance le menu
 game_state = GameState()
 game_state.intro()
-level1Image = pygame.image.load('Doni.png')
-level1Image = pygame.transform.scale(level1Image, (133, 100))
-world = pygame.image.load('covid_world.png')
-world = pygame.transform.scale(world, (800, 400))
-logo = pygame.image.load('logo_game.jpg')
-logo = pygame.transform.scale(logo, (150, 150))
 
-
+# Définir la fonction pour le niveau 2
 def level2():
     winSound.stop()
 
     while True:
-        # Set up the start of the game.
+        # Configurer les paramètres du niveau 2
         timer2 = 0
         scroll2 = 0
         score2 = 0
@@ -371,19 +363,21 @@ def level2():
         vaccinaddcounter_2 = 0
         hospaddcounter_2 = 0
 
+        # Configurer la musique du niveau 2
         pygame.mixer.music.load('Level2.wav')
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.rewind()  # relancer directement la musique
         pygame.mixer.music.set_volume(0.05)
 
-        while True:  # The game loop runs while the game part is playing.
+        while True:  # La boucle du jeu s'execute tend que le jeu n'est pas fini.
             game_state.main_game()
 
-            # Background image settings
+            # Configurer les paramètres du fond d'écran
             if timer2 < 1600:
                 timer_x2 += 1
             rel_x2 = timer_x2 % BACKGROUND_2.get_rect().height
             windowSurface.blit(BACKGROUND_2, (0, rel_x2 - BACKGROUND_2.get_rect().height))
+            # Dessiner à nouveau le fond d'écran pour
             if rel_x2 < WINDOWHEIGHT:
                 windowSurface.blit(BACKGROUND_2, (0, rel_x2))
 
@@ -403,7 +397,6 @@ def level2():
                 if scroll2 > 1595:
                     b_special("Terminate", (WINDOWHEIGHT / 2) + 500, 500, 150, 50, BLACK, GREY)
 
-                pygame.mouse.set_visible(False)
                 drawtext('LEVEL COMPLETE', windowSurface, (WINDOWHEIGHT / 2) + 50, (-150 + scroll2), RED, 48)
                 windowSurface.blit(world, ((WINDOWHEIGHT / 2) - 200, - 550 + scroll2))
                 drawtext('YOU DID IT !', windowSurface, (WINDOWHEIGHT / 2) + 100, (-600 + scroll2), RED, 48)
@@ -488,9 +481,6 @@ def level2():
             # Level 1
             if score2 < score_level2:
                 drawtext('Score: %s/4000' % score2, windowSurface, 10, 40, WHITE, 36)
-
-            # Draw the lives
-            if score2 < score_level2:
                 draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
 
             # Check if any of the hospital have hit the player.
@@ -530,9 +520,6 @@ def level2():
         show_gameover_screen()
 
 
-# Draw the button on the menu
-pygame.display.update()
-waitforplayertopresskey()
 # START
 scroll = 0
 Score = 0
@@ -547,6 +534,7 @@ while True:
     viruss = []
     vaccines = []
     timer = 0
+    timer_x = 0
     moveLeft = moveRight = moveUp = moveDown = True
     virusaddcounter = 0
     vaccinaddcounter = 0
@@ -635,11 +623,8 @@ while True:
 
         # Level 1
         if Score < score_level:
-            drawtext('Score: %s/4000' % Score, windowSurface, 10, 40, WHITE, 36)
-
-        # Draw the lives
-        if Score < score_level:
-            draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)
+            drawtext('Score: %s/4000' % Score, windowSurface, 10, 40, WHITE, 36)    # Dessine le score
+            draw_lives(windowSurface, WINDOWWIDTH - 200, 5, bat.max_health, vies)   # Dessine les vies
 
         # Check if any of the hospital have hit the player.
         if playerhashithospitals(bat.rect, hospitals):
