@@ -16,7 +16,7 @@ WINDOWHEIGHT = 600
 FPS = 60  # Nombre d'images par secondes
 
 # Définition des scores à atteindre dans le jeu
-score_level = 4000
+score_level = 100
 score_level2 = 4000
 
 
@@ -341,6 +341,7 @@ breakSound.set_volume(0.2)
 game_state = GameState()
 game_state.intro()
 
+
 # Définition de la fonction pour le niveau 2
 def level2():
     winSound.stop()
@@ -460,8 +461,14 @@ def level2():
 
             # Dessiner et bouger les vaccins
             for va_2 in vaccines_2[:]:
-                va_2['rect'].move_ip(0, va_2['speed'])
                 windowSurface.blit(va_2['surface'], va_2['rect'])
+
+                # Les vaccins bougent en fonction de la position du joueur
+                if bat.rect < va_2['rect']:     # Tous les virus qui sont à droite du joueur
+                    va_2['rect'].move_ip(- 1, va_2['speed'])
+                if bat.rect > va_2['rect']:     # Tous les vaccins qui sont à gauche du joueur
+                    va_2['rect'].move_ip(1, va_2['speed'])
+
                 if va_2['rect'].top > WINDOWHEIGHT:  # supprimer les vaccins qui sortent de la fenêtre
                     vaccines_2.remove(va_2)
 
@@ -552,7 +559,6 @@ while True:
         windowSurface.blit(BACKGROUND, (0, rel_x - BACKGROUND.get_rect().height))
         if rel_x < WINDOWHEIGHT:
             windowSurface.blit(BACKGROUND, (0, rel_x))
-
 
         # Configurer les paramètres du fond d'écran
         if Score >= score_level:
