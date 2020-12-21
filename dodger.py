@@ -16,7 +16,7 @@ WINDOWHEIGHT = 600
 FPS = 60  # Nombre d'images par secondes
 
 # Définition des scores à atteindre dans le jeu
-score_level = 100
+score_level = 4000
 score_level2 = 4000
 
 
